@@ -17,14 +17,14 @@
 
 # if --tee was passed, write the output not only to the terminal, but
 # additionally to the file test-results/$BASENAME.out, too.
-case "$GIT_TEST_TEE_STARTED, $* " in
+case "$TEST_TEE_STARTED, $* " in
 done,*)
 	# do not redirect again
 	;;
 *' --tee '*|*' --va'*)
 	mkdir -p test-results
 	BASE=test-results/$(basename "$0" .sh)
-	(GIT_TEST_TEE_STARTED=done ${SHELL-sh} "$0" "$@" 2>&1;
+	(TEST_TEE_STARTED=done ${SHELL-sh} "$0" "$@" 2>&1;
 	 echo $? > $BASE.exit) | tee $BASE.out
 	test "$(cat $BASE.exit)" = 0
 	exit
@@ -75,7 +75,7 @@ do
 	-i|--i|--im|--imm|--imme|--immed|--immedi|--immedia|--immediat|--immediate)
 		immediate=t; shift ;;
 	-l|--l|--lo|--lon|--long|--long-|--long-t|--long-te|--long-tes|--long-test|--long-tests)
-		GIT_TEST_LONG=t; export GIT_TEST_LONG; shift ;;
+		TEST_LONG=t; export TEST_LONG; shift ;;
 	-h|--h|--he|--hel|--help)
 		help=t; shift ;;
 	-v|--v|--ve|--ver|--verb|--verbo|--verbos|--verbose)
@@ -128,7 +128,7 @@ fi
 
 error () {
 	say_color error "error: $*"
-	GIT_EXIT_OK=t
+	EXIT_OK=t
 	exit 1
 }
 
@@ -163,7 +163,7 @@ test_external_has_tap=0
 
 die () {
 	code=$?
-	if test -n "$GIT_EXIT_OK"
+	if test -n "$EXIT_OK"
 	then
 		exit $code
 	else
@@ -172,7 +172,7 @@ die () {
 	fi
 }
 
-GIT_EXIT_OK=
+EXIT_OK=
 trap 'die' EXIT
 
 # The semantics of the editor variables are that of invoking
@@ -340,7 +340,7 @@ test_failure_ () {
 	say_color error "not ok - $test_count $1"
 	shift
 	echo "$@" | sed -e 's/^/#	/'
-	test "$immediate" = "" || { GIT_EXIT_OK=t; exit 1; }
+	test "$immediate" = "" || { EXIT_OK=t; exit 1; }
 }
 
 test_known_broken_ok_ () {
@@ -371,7 +371,7 @@ test_run_ () {
 test_skip () {
 	test_count=$(($test_count+1))
 	to_skip=
-	for skp in $GIT_SKIP_TESTS
+	for skp in $SKIP_TESTS
 	do
 		case $this_test.$test_count in
 		$skp)
@@ -460,9 +460,9 @@ test_external () {
 		# Announce the script to reduce confusion about the
 		# test output that follows.
 		say_color "" "# run $test_count: $descr ($*)"
-		# Export TEST_DIRECTORY, TRASH_DIRECTORY and GIT_TEST_LONG
+		# Export TEST_DIRECTORY, TRASH_DIRECTORY and TEST_LONG
 		# to be able to use them in script
-		export TEST_DIRECTORY TRASH_DIRECTORY GIT_TEST_LONG
+		export TEST_DIRECTORY TRASH_DIRECTORY TEST_LONG
 		# Run command; redirect its stderr to &4 as in
 		# test_run_, but keep its stdout on our stdout even in
 		# non-verbose mode.
@@ -666,7 +666,7 @@ test_expect_code () {
 # - not all diff versions understand "-u"
 
 test_cmp() {
-	$GIT_TEST_CMP "$@"
+	$TEST_CMP "$@"
 }
 
 # This function can be used to schedule some commands to be run
@@ -695,7 +695,7 @@ test_when_finished () {
 }
 
 test_done () {
-	GIT_EXIT_OK=t
+	EXIT_OK=t
 
 	if test -z "$HARNESS_ACTIVE"; then
 		test_results_dir="$TEST_DIRECTORY/test-results"
@@ -757,27 +757,27 @@ then
 	# itself.
 	TEST_DIRECTORY=$(pwd)
 fi
-GIT_BUILD_DIR="$TEST_DIRECTORY"/..
+BUILD_DIR="$TEST_DIRECTORY"/..
 
 if test -n "$valgrind"
 then
 	error "valgrind not supported yet"
-elif test -n "$GIT_TEST_INSTALLED" ; then
-	PATH="$GIT_TEST_INSTALLED:$GIT_BUILD_DIR:$PATH"
+elif test -n "$TEST_INSTALLED" ; then
+	PATH="$TEST_INSTALLED:$BUILD_DIR:$PATH"
 else
-	PATH="$GIT_BUILD_DIR:$PATH"
+	PATH="$BUILD_DIR:$PATH"
 fi
 export PATH
 
 : ${DIFF:=diff}
 
-if test -z "$GIT_TEST_CMP"
+if test -z "$TEST_CMP"
 then
-	if test -n "$GIT_TEST_CMP_USE_COPIED_CONTEXT"
+	if test -n "$TEST_CMP_USE_COPIED_CONTEXT"
 	then
-		GIT_TEST_CMP="$DIFF -c"
+		TEST_CMP="$DIFF -c"
 	else
-		GIT_TEST_CMP="$DIFF -u"
+		TEST_CMP="$DIFF -u"
 	fi
 fi
 
@@ -790,7 +790,7 @@ case "$test" in
 esac
 test ! -z "$debug" || remove_trash=$TRASH_DIRECTORY
 rm -fr "$test" || {
-	GIT_EXIT_OK=t
+	EXIT_OK=t
 	echo >&5 "FATAL: Cannot prepare test area"
 	exit 1
 }
@@ -805,7 +805,7 @@ cd -P "$test" || exit 1
 
 this_test=${0##*/}
 this_test=${this_test%%-*}
-for skp in $GIT_SKIP_TESTS
+for skp in $SKIP_TESTS
 do
 	case "$this_test" in
 	$skp)
