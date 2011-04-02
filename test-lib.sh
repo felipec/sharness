@@ -84,8 +84,6 @@ do
 		# Ignore --quiet under a TAP::Harness. Saying how many tests
 		# passed without the ok/not ok details is always an error.
 		test -z "$HARNESS_ACTIVE" && quiet=t; shift ;;
-	--with-dashes)
-		with_dashes=t; shift ;;
 	--no-color)
 		color=; shift ;;
 	--va|--val|--valg|--valgr|--valgri|--valgrin|--valgrind)
