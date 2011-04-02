@@ -799,67 +799,7 @@ GIT_BUILD_DIR="$TEST_DIRECTORY"/..
 
 if test -n "$valgrind"
 then
-	make_symlink () {
-		test -h "$2" &&
-		test "$1" = "$(readlink "$2")" || {
-			# be super paranoid
-			if mkdir "$2".lock
-			then
-				rm -f "$2" &&
-				ln -s "$1" "$2" &&
-				rm -r "$2".lock
-			else
-				while test -d "$2".lock
-				do
-					say "Waiting for lock on $2."
-					sleep 1
-				done
-			fi
-		}
-	}
-
-	make_valgrind_symlink () {
-		# handle only executables
-		test -x "$1" || return
-
-		base=$(basename "$1")
-		symlink_target=$GIT_BUILD_DIR/$base
-		# do not override scripts
-		if test -x "$symlink_target" &&
-		    test ! -d "$symlink_target" &&
-		    test "#!" != "$(head -c 2 < "$symlink_target")"
-		then
-			symlink_target=../valgrind.sh
-		fi
-		case "$base" in
-		*.sh|*.perl)
-			symlink_target=../unprocessed-script
-		esac
-		# create the link, or replace it if it is out of date
-		make_symlink "$symlink_target" "$GIT_VALGRIND/bin/$base" || exit
-	}
-
-	# override all git executables in TEST_DIRECTORY/..
-	GIT_VALGRIND=$TEST_DIRECTORY/valgrind
-	mkdir -p "$GIT_VALGRIND"/bin
-	for file in $GIT_BUILD_DIR/git* $GIT_BUILD_DIR/test-*
-	do
-		make_valgrind_symlink $file
-	done
-	OLDIFS=$IFS
-	IFS=:
-	for path in $PATH
-	do
-		ls "$path"/git-* 2> /dev/null |
-		while read file
-		do
-			make_valgrind_symlink "$file"
-		done
-	done
-	IFS=$OLDIFS
-	PATH=$GIT_VALGRIND/bin:$PATH
-	GIT_EXEC_PATH=$GIT_VALGRIND/bin
-	export GIT_VALGRIND
+	error "valgrind not supported yet"
 elif test -n "$GIT_TEST_INSTALLED" ; then
 	GIT_EXEC_PATH=$($GIT_TEST_INSTALLED/git --exec-path)  ||
 	error "Cannot run git from $GIT_TEST_INSTALLED."
