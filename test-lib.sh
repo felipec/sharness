@@ -43,29 +43,6 @@ TERM=dumb
 export LANG LC_ALL PAGER TERM TZ
 EDITOR=:
 unset VISUAL
-unset EMAIL
-unset $(perl -e '
-	my @env = keys %ENV;
-	my $ok = join("|", qw(
-		TRACE
-		DEBUG
-		USE_LOOKUP
-		TEST
-		.*_TEST
-		PROVE
-		VALGRIND
-	));
-	my @vars = grep(/^GIT_/ && !/^GIT_($ok)/o, @env);
-	print join("\n", @vars);
-')
-GIT_AUTHOR_EMAIL=author@example.com
-GIT_AUTHOR_NAME='A U Thor'
-GIT_COMMITTER_EMAIL=committer@example.com
-GIT_COMMITTER_NAME='C O Mitter'
-GIT_MERGE_VERBOSITY=5
-export GIT_MERGE_VERBOSITY
-export GIT_AUTHOR_EMAIL GIT_AUTHOR_NAME
-export GIT_COMMITTER_EMAIL GIT_COMMITTER_NAME
 export EDITOR
 
 # Protect ourselves from common misconfiguration to export
@@ -73,21 +50,6 @@ export EDITOR
 unset CDPATH
 
 unset GREP_OPTIONS
-
-case $(echo $GIT_TRACE |tr "[A-Z]" "[a-z]") in
-	1|2|true)
-		echo "* warning: Some tests will not work if GIT_TRACE" \
-			"is set as to trace on STDERR ! *"
-		echo "* warning: Please set GIT_TRACE to something" \
-			"other than 1, 2 or true ! *"
-		;;
-esac
-
-# Convenience
-#
-# A regexp to match 5 and 40 hexdigits
-_x05='[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]'
-_x40="$_x05$_x05$_x05$_x05$_x05$_x05$_x05$_x05"
 
 # Each test should start with something like this, after copyright notices:
 #
@@ -801,18 +763,11 @@ if test -n "$valgrind"
 then
 	error "valgrind not supported yet"
 elif test -n "$GIT_TEST_INSTALLED" ; then
-	GIT_EXEC_PATH=$($GIT_TEST_INSTALLED/git --exec-path)  ||
-	error "Cannot run git from $GIT_TEST_INSTALLED."
-	PATH=$GIT_TEST_INSTALLED:$GIT_BUILD_DIR:$PATH
-	GIT_EXEC_PATH=${GIT_TEST_EXEC_PATH:-$GIT_EXEC_PATH}
+	PATH="$GIT_TEST_INSTALLED:$GIT_BUILD_DIR:$PATH"
 else
 	PATH="$GIT_BUILD_DIR:$PATH"
 fi
-GIT_TEMPLATE_DIR="$GIT_BUILD_DIR"/templates/blt
-unset GIT_CONFIG
-GIT_CONFIG_NOSYSTEM=1
-GIT_ATTR_NOSYSTEM=1
-export PATH GIT_EXEC_PATH GIT_TEMPLATE_DIR GIT_CONFIG_NOSYSTEM GIT_ATTR_NOSYSTEM
+export PATH
 
 : ${DIFF:=diff}
 
@@ -825,9 +780,6 @@ then
 		GIT_TEST_CMP="$DIFF -u"
 	fi
 fi
-
-GITPERLLIB="$GIT_BUILD_DIR"/perl/blib/lib:"$GIT_BUILD_DIR"/perl/blib/arch/auto/Git
-export GITPERLLIB
 
 # Test area
 test="trash directory.$(basename "$0" .sh)"
@@ -917,15 +869,6 @@ esac
 
 test -z "$NO_PERL" && test_set_prereq PERL
 test -z "$NO_PYTHON" && test_set_prereq PYTHON
-
-# Can we rely on git's output in the C locale?
-if test -n "$GETTEXT_POISON"
-then
-	GIT_GETTEXT_POISON=YesPlease
-	export GIT_GETTEXT_POISON
-else
-	test_set_prereq C_LOCALE_OUTPUT
-fi
 
 # test whether the filesystem supports symbolic links
 ln -s x y 2>/dev/null && test -h y 2>/dev/null && test_set_prereq SYMLINKS
