@@ -490,7 +490,7 @@ test_external_without_stderr () {
 	# The temporary file has no (and must have no) security
 	# implications.
 	tmp="$TMPDIR"; if [ -z "$tmp" ]; then tmp=/tmp; fi
-	stderr="$tmp/git-external-stderr.$$.tmp"
+	stderr="$tmp/test-external-stderr.$$.tmp"
 	test_external "$@" 4> "$stderr"
 	[ -f "$stderr" ] || error "Internal error: $stderr disappeared."
 	descr="no stderr: $1"
