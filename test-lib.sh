@@ -926,19 +926,8 @@ elif test -n "$GIT_TEST_INSTALLED" ; then
 	error "Cannot run git from $GIT_TEST_INSTALLED."
 	PATH=$GIT_TEST_INSTALLED:$GIT_BUILD_DIR:$PATH
 	GIT_EXEC_PATH=${GIT_TEST_EXEC_PATH:-$GIT_EXEC_PATH}
-else # normal case, use ../bin-wrappers only unless $with_dashes:
-	git_bin_dir="$GIT_BUILD_DIR/bin-wrappers"
-	if ! test -x "$git_bin_dir/git" ; then
-		if test -z "$with_dashes" ; then
-			say "$git_bin_dir/git is not executable; using GIT_EXEC_PATH"
-		fi
-		with_dashes=t
-	fi
-	PATH="$git_bin_dir:$PATH"
-	GIT_EXEC_PATH=$GIT_BUILD_DIR
-	if test -n "$with_dashes" ; then
-		PATH="$GIT_BUILD_DIR:$PATH"
-	fi
+else
+	PATH="$GIT_BUILD_DIR:$PATH"
 fi
 GIT_TEMPLATE_DIR="$GIT_BUILD_DIR"/templates/blt
 unset GIT_CONFIG
@@ -946,7 +935,7 @@ GIT_CONFIG_NOSYSTEM=1
 GIT_ATTR_NOSYSTEM=1
 export PATH GIT_EXEC_PATH GIT_TEMPLATE_DIR GIT_CONFIG_NOSYSTEM GIT_ATTR_NOSYSTEM
 
-. "$GIT_BUILD_DIR"/GIT-BUILD-OPTIONS
+: ${DIFF:=diff}
 
 if test -z "$GIT_TEST_CMP"
 then
@@ -960,26 +949,8 @@ fi
 
 GITPERLLIB="$GIT_BUILD_DIR"/perl/blib/lib:"$GIT_BUILD_DIR"/perl/blib/arch/auto/Git
 export GITPERLLIB
-test -d "$GIT_BUILD_DIR"/templates/blt || {
-	error "You haven't built things yet, have you?"
-}
 
-if test -z "$GIT_TEST_INSTALLED" && test -z "$NO_PYTHON"
-then
-	GITPYTHONLIB="$GIT_BUILD_DIR/git_remote_helpers/build/lib"
-	export GITPYTHONLIB
-	test -d "$GIT_BUILD_DIR"/git_remote_helpers/build || {
-		error "You haven't built git_remote_helpers yet, have you?"
-	}
-fi
-
-if ! test -x "$GIT_BUILD_DIR"/test-chmtime; then
-	echo >&2 'You need to build test-chmtime:'
-	echo >&2 'Run "make test-chmtime" in the source (toplevel) directory'
-	exit 1
-fi
-
-# Test repository
+# Test area
 test="trash directory.$(basename "$0" .sh)"
 test -n "$root" && test="$root/$test"
 case "$test" in
@@ -996,7 +967,7 @@ rm -fr "$test" || {
 HOME="$TRASH_DIRECTORY"
 export HOME
 
-test_create_repo "$test"
+mkdir -p "$test" || exit 1
 # Use -P to resolve symlinks in our working directory so that the cwd
 # in subprocesses like git equals our $PWD (for pathname comparisons).
 cd -P "$test" || exit 1
