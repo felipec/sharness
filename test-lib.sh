@@ -308,52 +308,6 @@ sane_unset () {
 	return 0
 }
 
-test_tick () {
-	if test -z "${test_tick+set}"
-	then
-		test_tick=1112911993
-	else
-		test_tick=$(($test_tick + 60))
-	fi
-	GIT_COMMITTER_DATE="$test_tick -0700"
-	GIT_AUTHOR_DATE="$test_tick -0700"
-	export GIT_COMMITTER_DATE GIT_AUTHOR_DATE
-}
-
-# Call test_commit with the arguments "<message> [<file> [<contents>]]"
-#
-# This will commit a file with the given contents and the given commit
-# message.  It will also add a tag with <message> as name.
-#
-# Both <file> and <contents> default to <message>.
-
-test_commit () {
-	file=${2:-"$1.t"}
-	echo "${3-$1}" > "$file" &&
-	git add "$file" &&
-	test_tick &&
-	git commit -m "$1" &&
-	git tag "$1"
-}
-
-# Call test_merge with the arguments "<message> <commit>", where <commit>
-# can be a tag pointing to the commit-to-merge.
-
-test_merge () {
-	test_tick &&
-	git merge -m "$1" "$2" &&
-	git tag "$1"
-}
-
-# This function helps systems where core.filemode=false is set.
-# Use it instead of plain 'chmod +x' to set or unset the executable bit
-# of a file in the working directory and add it to the index.
-
-test_chmod () {
-	chmod "$@" &&
-	git update-index --add "--chmod=$@"
-}
-
 # Use test_set_prereq to tell that a particular prerequisite is available.
 # The prerequisite can later be checked for in two ways:
 #
@@ -776,21 +730,6 @@ test_cmp() {
 test_when_finished () {
 	test_cleanup="{ $*
 		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
-}
-
-# Most tests can use the created repository, but some may need to create more.
-# Usage: test_create_repo <directory>
-test_create_repo () {
-	test "$#" = 1 ||
-	error "bug in the test script: not 1 parameter to test-create-repo"
-	repo="$1"
-	mkdir -p "$repo"
-	(
-		cd "$repo" || error "Cannot setup test environment"
-		"$GIT_EXEC_PATH/git-init" "--template=$GIT_BUILD_DIR/templates/blt/" >&3 2>&4 ||
-		error "cannot run git init -- have you built things yet?"
-		mv .git/hooks .git/hooks-disabled
-	) || exit
 }
 
 test_done () {
