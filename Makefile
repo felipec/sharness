@@ -1,6 +1,8 @@
 # Run tests
 #
-# Copyright (c) 2005 Junio C Hamano
+# Copyright (c) 2011 Mathias Lafeldt
+# Copyright (c) 2005-2011 Git project
+# Copyright (c) 2005-2011 Junio C Hamano
 #
 
 SHELL_PATH ?= $(SHELL)

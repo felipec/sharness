@@ -1,6 +1,8 @@
 #!/bin/sh
 #
-# Copyright (c) 2005 Junio C Hamano
+# Copyright (c) 2011 Mathias Lafeldt
+# Copyright (c) 2005-2011 Git project
+# Copyright (c) 2005-2011 Junio C Hamano
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
