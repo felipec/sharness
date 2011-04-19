@@ -14,8 +14,8 @@ Getopt::Long::Parser->new(
 TAP::Harness::Archive->new({
 	jobs             => $jobs,
 	archive          => $archive,
-	($ENV{GIT_TEST_OPTS}
-	 ? (test_args    => [ split /\s+/, $ENV{GIT_TEST_OPTS} ])
+	($ENV{TEST_OPTS}
+	 ? (test_args    => [ split /\s+/, $ENV{TEST_OPTS} ])
 	 : ()),
 	extra_properties => {},
 })->runtests(@ARGV);
