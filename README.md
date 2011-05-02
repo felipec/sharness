@@ -13,7 +13,7 @@ License
 -------
 
 Sharness is licensed under the terms of the GNU General Public License version
-2. See file COPYING for full license text.
+2 or higher. See file COPYING for full license text.
 
 
 Contact
