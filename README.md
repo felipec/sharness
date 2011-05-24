@@ -20,4 +20,4 @@ Contact
 -------
 
 * Web: <https://github.com/misfire/Sharness>
-* Mail: <misfire@debugon.org>
+* Mail: <mathias.lafeldt@gmail.com>
