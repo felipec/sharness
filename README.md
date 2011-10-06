@@ -19,5 +19,5 @@ Sharness is licensed under the terms of the GNU General Public License version
 Contact
 -------
 
-* Web: <https://github.com/misfire/Sharness>
+* Web: <https://github.com/mlafeldt/Sharness>
 * Mail: <mathias.lafeldt@gmail.com>
