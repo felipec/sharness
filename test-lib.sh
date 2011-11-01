@@ -89,6 +89,13 @@ esac
 _x05='[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]'
 _x40="$_x05$_x05$_x05$_x05$_x05$_x05$_x05$_x05"
 
+# Zero SHA-1
+_z40=0000000000000000000000000000000000000000
+
+# Line feed
+LF='
+'
+
 # Each test should start with something like this, after copyright notices:
 #
 # test_description='Description of this test...
@@ -354,6 +361,24 @@ test_chmod () {
 	git update-index --add "--chmod=$@"
 }
 
+# Unset a configuration variable, but don't fail if it doesn't exist.
+test_unconfig () {
+	git config --unset-all "$@"
+	config_status=$?
+	case "$config_status" in
+	5) # ok, nothing to unset
+		config_status=0
+		;;
+	esac
+	return $config_status
+}
+
+# Set git config, automatically unsetting it after the test is over.
+test_config () {
+	test_when_finished "test_unconfig '$1'" &&
+	git config "$@"
+}
+
 # Use test_set_prereq to tell that a particular prerequisite is available.
 # The prerequisite can later be checked for in two ways:
 #
@@ -441,15 +466,26 @@ test_debug () {
 	test "$debug" = "" || eval "$1"
 }
 
+test_eval_ () {
+	# This is a separate function because some tests use
+	# "return" to end a test_expect_success block early.
+	eval >&3 2>&4 "$*"
+}
+
 test_run_ () {
 	test_cleanup=:
-	eval >&3 2>&4 "$1"
+	expecting_failure=$2
+	test_eval_ "$1"
 	eval_ret=$?
-	eval >&3 2>&4 "$test_cleanup"
+
+	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"
+	then
+		test_eval_ "$test_cleanup"
+	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
 		echo ""
 	fi
-	return 0
+	return "$eval_ret"
 }
 
 test_skip () {
@@ -494,8 +530,7 @@ test_expect_failure () {
 	if ! test_skip "$@"
 	then
 		say >&3 "checking known breakage: $2"
-		test_run_ "$2"
-		if [ "$?" = 0 -a "$eval_ret" = 0 ]
+		if test_run_ "$2" expecting_failure
 		then
 			test_known_broken_ok_ "$1"
 		else
@@ -513,8 +548,7 @@ test_expect_success () {
 	if ! test_skip "$@"
 	then
 		say >&3 "expecting success: $2"
-		test_run_ "$2"
-		if [ "$?" = 0 -a "$eval_ret" = 0 ]
+		if test_run_ "$2"
 		then
 			test_ok_ "$1"
 		else
@@ -728,12 +762,11 @@ test_expect_code () {
 	exit_code=$?
 	if test $exit_code = $want_code
 	then
-		echo >&2 "test_expect_code: command exited with $exit_code: $*"
 		return 0
-	else
-		echo >&2 "test_expect_code: command exited with $exit_code, we wanted $want_code $*"
-		return 1
 	fi
+
+	echo >&2 "test_expect_code: command exited with $exit_code, we wanted $want_code $*"
+	return 1
 }
 
 # test_cmp is a helper function to compare actual and expected output.
@@ -772,6 +805,9 @@ test_cmp() {
 #
 # except that the greeting and config --unset must both succeed for
 # the test to pass.
+#
+# Note that under --immediate mode, no clean-up is done to help diagnose
+# what went wrong.
 
 test_when_finished () {
 	test_cleanup="{ $*
@@ -882,8 +918,13 @@ then
 	}
 
 	make_valgrind_symlink () {
-		# handle only executables
-		test -x "$1" || return
+		# handle only executables, unless they are shell libraries that
+		# need to be in the exec-path.  We will just use "#!" as a
+		# guess for a shell-script, since we have no idea what the user
+		# may have configured as the shell path.
+		test -x "$1" ||
+		test "#!" = "$(head -c 2 <"$1")" ||
+		return;
 
 		base=$(basename "$1")
 		symlink_target=$GIT_BUILD_DIR/$base
@@ -909,6 +950,8 @@ then
 	do
 		make_valgrind_symlink $file
 	done
+	# special-case the mergetools loadables
+	make_symlink "$GIT_BUILD_DIR"/mergetools "$GIT_VALGRIND/bin/mergetools"
 	OLDIFS=$IFS
 	IFS=:
 	for path in $PATH
@@ -1069,6 +1112,7 @@ esac
 
 test -z "$NO_PERL" && test_set_prereq PERL
 test -z "$NO_PYTHON" && test_set_prereq PYTHON
+test -n "$USE_LIBPCRE" && test_set_prereq LIBPCRE
 
 # Can we rely on git's output in the C locale?
 if test -n "$GETTEXT_POISON"
@@ -1078,6 +1122,32 @@ then
 else
 	test_set_prereq C_LOCALE_OUTPUT
 fi
+
+# Use this instead of test_cmp to compare files that contain expected and
+# actual output from git commands that can be translated.  When running
+# under GETTEXT_POISON this pretends that the command produced expected
+# results.
+test_i18ncmp () {
+	test -n "$GETTEXT_POISON" || test_cmp "$@"
+}
+
+# Use this instead of "grep expected-string actual" to see if the
+# output from a git command that can be translated either contains an
+# expected string, or does not contain an unwanted one.  When running
+# under GETTEXT_POISON this pretends that the command produced expected
+# results.
+test_i18ngrep () {
+	if test -n "$GETTEXT_POISON"
+	then
+	    : # pretend success
+	elif test "x!" = "x$1"
+	then
+		shift
+		! grep "$@"
+	else
+		grep "$@"
+	fi
+}
 
 # test whether the filesystem supports symbolic links
 ln -s x y 2>/dev/null && test -h y 2>/dev/null && test_set_prereq SYMLINKS
