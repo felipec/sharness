@@ -59,7 +59,7 @@ aggregate-results:
 	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
 
 valgrind:
-	TEST_OPTS=--valgrind $(MAKE)
+	$(MAKE) TEST_OPTS="$(TEST_OPTS) --valgrind"
 
 # Smoke testing targets
 test-results:

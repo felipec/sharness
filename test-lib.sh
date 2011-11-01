@@ -53,6 +53,10 @@ unset CDPATH
 
 unset GREP_OPTIONS
 
+# Line feed
+LF='
+'
+
 # Each test should start with something like this, after copyright notices:
 #
 # test_description='Description of this test...
@@ -357,15 +361,26 @@ test_debug () {
 	test "$debug" = "" || eval "$1"
 }
 
+test_eval_ () {
+	# This is a separate function because some tests use
+	# "return" to end a test_expect_success block early.
+	eval >&3 2>&4 "$*"
+}
+
 test_run_ () {
 	test_cleanup=:
-	eval >&3 2>&4 "$1"
+	expecting_failure=$2
+	test_eval_ "$1"
 	eval_ret=$?
-	eval >&3 2>&4 "$test_cleanup"
+
+	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"
+	then
+		test_eval_ "$test_cleanup"
+	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
 		echo ""
 	fi
-	return 0
+	return "$eval_ret"
 }
 
 test_skip () {
@@ -410,8 +425,7 @@ test_expect_failure () {
 	if ! test_skip "$@"
 	then
 		say >&3 "checking known breakage: $2"
-		test_run_ "$2"
-		if [ "$?" = 0 -a "$eval_ret" = 0 ]
+		if test_run_ "$2" expecting_failure
 		then
 			test_known_broken_ok_ "$1"
 		else
@@ -429,8 +443,7 @@ test_expect_success () {
 	if ! test_skip "$@"
 	then
 		say >&3 "expecting success: $2"
-		test_run_ "$2"
-		if [ "$?" = 0 -a "$eval_ret" = 0 ]
+		if test_run_ "$2"
 		then
 			test_ok_ "$1"
 		else
@@ -644,12 +657,11 @@ test_expect_code () {
 	exit_code=$?
 	if test $exit_code = $want_code
 	then
-		echo >&2 "test_expect_code: command exited with $exit_code: $*"
 		return 0
-	else
-		echo >&2 "test_expect_code: command exited with $exit_code, we wanted $want_code $*"
-		return 1
 	fi
+
+	echo >&2 "test_expect_code: command exited with $exit_code, we wanted $want_code $*"
+	return 1
 }
 
 # test_cmp is a helper function to compare actual and expected output.
@@ -688,6 +700,9 @@ test_cmp() {
 #
 # except that the greeting and config --unset must both succeed for
 # the test to pass.
+#
+# Note that under --immediate mode, no clean-up is done to help diagnose
+# what went wrong.
 
 test_when_finished () {
 	test_cleanup="{ $*
