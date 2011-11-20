@@ -76,8 +76,6 @@ do
 		test -z "$HARNESS_ACTIVE" && quiet=t; shift ;;
 	--no-color)
 		color=; shift ;;
-	--va|--val|--valg|--valgr|--valgri|--valgrin|--valgrind)
-		valgrind=t; verbose=t; shift ;;
 	--root=*)
 		root=$(expr "z$1" : 'z[^=]*=\(.*\)')
 		shift ;;
@@ -758,10 +756,7 @@ then
 fi
 BUILD_DIR="$TEST_DIRECTORY"/..
 
-if test -n "$valgrind"
-then
-	error "valgrind not supported yet"
-elif test -n "$TEST_INSTALLED" ; then
+if test -n "$TEST_INSTALLED" ; then
 	PATH="$TEST_INSTALLED:$BUILD_DIR:$PATH"
 else
 	PATH="$BUILD_DIR:$PATH"

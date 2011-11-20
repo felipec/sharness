@@ -34,7 +34,6 @@ pre-clean:
 
 clean:
 	$(RM) -r 'trash directory'.* test-results
-	$(RM) -r valgrind/bin
 	$(RM) .prove
 
 test-lint: test-lint-duplicates test-lint-executable
@@ -58,9 +57,6 @@ aggregate-results:
 		echo "$$f"; \
 	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
 
-valgrind:
-	$(MAKE) TEST_OPTS="$(TEST_OPTS) --valgrind"
-
 # Smoke testing targets
 test-results:
 	mkdir -p test-results
@@ -72,4 +68,4 @@ test-results/smoke.tar.gz: test-results
 
 smoke: test-results/smoke.tar.gz
 
-.PHONY: pre-clean $(T) aggregate-results clean valgrind smoke
+.PHONY: pre-clean $(T) aggregate-results clean smoke
