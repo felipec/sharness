@@ -7,7 +7,7 @@
 
 test_description='Test test harness library'
 
-. ./test-lib.sh
+. ./sharness.sh
 
 test_expect_success 'success is reported like this' '
     :
@@ -16,7 +16,7 @@ test_expect_failure 'pretend we have a known breakage' '
     false
 '
 
-test_expect_success 'pretend we have fixed a known breakage (run in sub test-lib)' "
+test_expect_success 'pretend we have fixed a known breakage (run in sub sharness)' "
     mkdir passing-todo &&
     (cd passing-todo &&
     cat >passing-todo.sh <<EOF &&
@@ -24,13 +24,13 @@ test_expect_success 'pretend we have fixed a known breakage (run in sub test-lib
 
 test_description='A passing TODO test
 
-This is run in a sub test-lib so that we do not get incorrect passing
+This is run in a sub sharness so that we do not get incorrect passing
 metrics
 '
 
-# Point to the t/test-lib.sh, which isn't in ../ as usual
+# Point to the t/sharness.sh, which isn't in ../ as usual
 TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/test-lib.sh
+. \"\$TEST_DIRECTORY\"/sharness.sh
 
 test_expect_failure 'pretend we have fixed a known breakage' '
     :
@@ -105,9 +105,9 @@ test_expect_success 'tests clean up even on failures' "
 
 test_description='Failing tests with cleanup commands'
 
-# Point to the t/test-lib.sh, which isn't in ../ as usual
+# Point to the t/sharness.sh, which isn't in ../ as usual
 TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/test-lib.sh
+. \"\$TEST_DIRECTORY\"/sharness.sh
 
 test_expect_success 'tests clean up even after a failure' '
     touch clean-after-failure &&
