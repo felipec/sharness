@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-# Keep the original TERM for say_color
 ORIGINAL_TERM=$TERM
 
 # For repeatability, reset the environment to known value.
@@ -30,11 +29,7 @@ export LANG LC_ALL PAGER TERM TZ
 EDITOR=:
 unset VISUAL
 export EDITOR
-
-# Protect ourselves from common misconfiguration to export
-# CDPATH into the environment
 unset CDPATH
-
 unset GREP_OPTIONS
 
 # Line feed
@@ -158,90 +153,6 @@ die () {
 
 EXIT_OK=
 trap 'die' EXIT
-
-# The semantics of the editor variables are that of invoking
-# sh -c "$EDITOR \"$@\"" files ...
-#
-# If our trash directory contains shell metacharacters, they will be
-# interpreted if we just set $EDITOR directly, so do a little dance with
-# environment variables to work around this.
-#
-# In particular, quoting isn't enough, as the path may contain the same quote
-# that we're using.
-test_set_editor () {
-	FAKE_EDITOR="$1"
-	export FAKE_EDITOR
-	EDITOR='"$FAKE_EDITOR"'
-	export EDITOR
-}
-
-test_decode_color () {
-	awk '
-		function name(n) {
-			if (n == 0) return "RESET";
-			if (n == 1) return "BOLD";
-			if (n == 30) return "BLACK";
-			if (n == 31) return "RED";
-			if (n == 32) return "GREEN";
-			if (n == 33) return "YELLOW";
-			if (n == 34) return "BLUE";
-			if (n == 35) return "MAGENTA";
-			if (n == 36) return "CYAN";
-			if (n == 37) return "WHITE";
-			if (n == 40) return "BLACK";
-			if (n == 41) return "BRED";
-			if (n == 42) return "BGREEN";
-			if (n == 43) return "BYELLOW";
-			if (n == 44) return "BBLUE";
-			if (n == 45) return "BMAGENTA";
-			if (n == 46) return "BCYAN";
-			if (n == 47) return "BWHITE";
-		}
-		{
-			while (match($0, /\033\[[0-9;]*m/) != 0) {
-				printf "%s<", substr($0, 1, RSTART-1);
-				codes = substr($0, RSTART+2, RLENGTH-3);
-				if (length(codes) == 0)
-					printf "%s", name(0)
-				else {
-					n = split(codes, ary, ";");
-					sep = "";
-					for (i = 1; i <= n; i++) {
-						printf "%s%s", sep, name(ary[i]);
-						sep = ";"
-					}
-				}
-				printf ">";
-				$0 = substr($0, RSTART + RLENGTH, length($0) - RSTART - RLENGTH + 1);
-			}
-			print
-		}
-	'
-}
-
-nul_to_q () {
-	perl -pe 'y/\000/Q/'
-}
-
-q_to_nul () {
-	perl -pe 'y/Q/\000/'
-}
-
-q_to_cr () {
-	tr Q '\015'
-}
-
-q_to_tab () {
-	tr Q '\011'
-}
-
-append_cr () {
-	sed -e 's/$/Q/' | tr Q '\015'
-}
-
-remove_cr () {
-	tr '\015' Q | sed -e 's/Q$//'
-}
 
 # In some bourne shell implementations, the "unset" builtin returns
 # nonzero status when a variable to be unset was not set in the first
