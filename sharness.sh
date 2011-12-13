@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
+export SHARNESS_VERSION="0.2.0"
+
 ORIGINAL_TERM=$TERM
 
 # For repeatability, reset the environment to known value.
