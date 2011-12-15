@@ -57,15 +57,4 @@ aggregate-results:
 		echo "$$f"; \
 	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
 
-# Smoke testing targets
-test-results:
-	mkdir -p test-results
-
-test-results/smoke.tar.gz: test-results
-	$(PERL_PATH) ./harness \
-		--archive="test-results/smoke.tar.gz" \
-		$(T)
-
-smoke: test-results/smoke.tar.gz
-
-.PHONY: pre-clean $(T) aggregate-results clean smoke
+.PHONY: pre-clean $(T) aggregate-results clean
