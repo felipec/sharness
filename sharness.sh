@@ -43,7 +43,7 @@ LF='
 # test_description='Description of this test...
 # This test checks if command xyzzy does the right thing...
 # '
-# . ./test-lib.sh
+# . ./sharness.sh
 [ "x$ORIGINAL_TERM" != "xdumb" ] && (
 		TERM=$ORIGINAL_TERM &&
 		export TERM &&
