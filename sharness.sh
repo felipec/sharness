@@ -81,7 +81,7 @@ while test "$#" -ne 0; do
 done
 
 if test -n "$color"; then
-	say_color () {
+	say_color() {
 		(
 		TERM=$ORIGINAL_TERM
 		export TERM
@@ -106,13 +106,13 @@ else
 	}
 fi
 
-error () {
+error() {
 	say_color error "error: $*"
 	EXIT_OK=t
 	exit 1
 }
 
-say () {
+say() {
 	say_color info "$*"
 }
 
@@ -137,7 +137,7 @@ test_fixed=0
 test_broken=0
 test_success=0
 
-die () {
+die() {
 	code=$?
 	if test -n "$EXIT_OK"; then
 		exit $code
@@ -156,7 +156,7 @@ trap 'die' EXIT
 #
 # Use sane_unset when that should not be considered an error.
 
-sane_unset () {
+sane_unset() {
 	unset "$@"
 	return 0
 }
@@ -172,12 +172,12 @@ sane_unset () {
 # The single parameter is the prerequisite tag (a simple word, in all
 # capital letters by convention).
 
-test_set_prereq () {
+test_set_prereq() {
 	satisfied="$satisfied$1 "
 }
 satisfied=" "
 
-test_have_prereq () {
+test_have_prereq() {
 	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
@@ -207,7 +207,7 @@ test_have_prereq () {
 	test $total_prereq = $ok_prereq
 }
 
-test_declared_prereq () {
+test_declared_prereq() {
 	case ",$test_prereq," in
 	*,$1,*)
 		return 0
@@ -219,12 +219,12 @@ test_declared_prereq () {
 # You are not expected to call test_ok_ and test_failure_ directly, use
 # the text_expect_* functions instead.
 
-test_ok_ () {
+test_ok_() {
 	test_success=$(($test_success + 1))
 	say_color "" "ok $test_count - $@"
 }
 
-test_failure_ () {
+test_failure_() {
 	test_failure=$(($test_failure + 1))
 	say_color error "not ok - $test_count $1"
 	shift
@@ -232,27 +232,27 @@ test_failure_ () {
 	test "$immediate" = "" || { EXIT_OK=t; exit 1; }
 }
 
-test_known_broken_ok_ () {
+test_known_broken_ok_() {
 	test_fixed=$(($test_fixed+1))
 	say_color "" "ok $test_count - $@ # TODO known breakage"
 }
 
-test_known_broken_failure_ () {
+test_known_broken_failure_() {
 	test_broken=$(($test_broken+1))
 	say_color skip "not ok $test_count - $@ # TODO known breakage"
 }
 
-test_debug () {
+test_debug() {
 	test "$debug" = "" || eval "$1"
 }
 
-test_eval_ () {
+test_eval_() {
 	# This is a separate function because some tests use
 	# "return" to end a test_expect_success block early.
 	eval >&3 2>&4 "$*"
 }
 
-test_run_ () {
+test_run_() {
 	test_cleanup=:
 	expecting_failure=$2
 	test_eval_ "$1"
@@ -267,7 +267,7 @@ test_run_ () {
 	return "$eval_ret"
 }
 
-test_skip () {
+test_skip() {
 	test_count=$(($test_count+1))
 	to_skip=
 	for skp in $SKIP_TESTS; do
@@ -297,7 +297,7 @@ test_skip () {
 	esac
 }
 
-test_expect_failure () {
+test_expect_failure() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
 	test "$#" = 2 ||
 	error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
@@ -313,7 +313,7 @@ test_expect_failure () {
 	echo >&3 ""
 }
 
-test_expect_success () {
+test_expect_success() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
 	test "$#" = 2 ||
 	error "bug in the test script: not 2 or 3 parameters to test_expect_success"
@@ -341,7 +341,7 @@ test_expect_success () {
 # Writing this as "! git checkout ../outerspace" is wrong, because
 # the failure could be due to a segv.  We want a controlled failure.
 
-test_must_fail () {
+test_must_fail() {
 	"$@"
 	exit_code=$?
 	if test $exit_code = 0; then
@@ -368,7 +368,7 @@ test_must_fail () {
 # Writing "git config --unset all.configuration || :" would be wrong,
 # because we want to notice if it fails due to segv.
 
-test_might_fail () {
+test_might_fail() {
 	"$@"
 	exit_code=$?
 	if test $exit_code -gt 129 -a $exit_code -le 192; then
@@ -388,7 +388,7 @@ test_might_fail () {
 #		test_expect_code 1 git merge "merge msg" B master
 #	'
 
-test_expect_code () {
+test_expect_code() {
 	want_code=$1
 	shift
 	"$@"
@@ -441,12 +441,12 @@ test_cmp() {
 # Note that under --immediate mode, no clean-up is done to help diagnose
 # what went wrong.
 
-test_when_finished () {
+test_when_finished() {
 	test_cleanup="{ $*
 		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
 }
 
-test_done () {
+test_done() {
 	EXIT_OK=t
 
 	if test -z "$HARNESS_ACTIVE"; then
