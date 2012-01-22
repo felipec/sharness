@@ -22,10 +22,8 @@ failed=0
 broken=0
 total=0
 
-while read file
-do
-	while read type value
-	do
+while read file; do
+	while read type value; do
 		case $type in
 		'')
 			continue ;;
@@ -35,8 +33,7 @@ do
 			success=$(($success + $value)) ;;
 		failed)
 			failed=$(($failed + $value))
-			if test $value != 0
-			then
+			if test $value != 0; then
 				testnum=$(expr "$file" : 'test-results/\(t[0-9]*\)-')
 				failed_tests="$failed_tests $testnum"
 			fi
@@ -49,8 +46,7 @@ do
 	done <"$file"
 done
 
-if test -n "$failed_tests"
-then
+if test -n "$failed_tests"; then
 	printf "\nfailed test(s):$failed_tests\n\n"
 fi
 

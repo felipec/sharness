@@ -54,8 +54,7 @@ LF='
 	) &&
 	color=t
 
-while test "$#" -ne 0
-do
+while test "$#" -ne 0; do
 	case "$1" in
 	-d|--d|--de|--deb|--debu|--debug)
 		debug=t; shift ;;
@@ -120,15 +119,13 @@ say () {
 test "${test_description}" != "" ||
 error "Test script did not set test_description."
 
-if test "$help" = "t"
-then
+if test "$help" = "t"; then
 	echo "$test_description"
 	exit 0
 fi
 
 exec 5>&1
-if test "$verbose" = "t"
-then
+if test "$verbose" = "t"; then
 	exec 4>&2 3>&1
 else
 	exec 4>/dev/null 3>/dev/null
@@ -142,8 +139,7 @@ test_success=0
 
 die () {
 	code=$?
-	if test -n "$EXIT_OK"
-	then
+	if test -n "$EXIT_OK"; then
 		exit $code
 	else
 		echo >&5 "FATAL: Unexpected exit with code $code"
@@ -192,8 +188,7 @@ test_have_prereq () {
 	ok_prereq=0
 	missing_prereq=
 
-	for prerequisite
-	do
+	for prerequisite; do
 		total_prereq=$(($total_prereq + 1))
 		case $satisfied in
 		*" $prerequisite "*)
@@ -201,8 +196,7 @@ test_have_prereq () {
 			;;
 		*)
 			# Keep a list of missing prerequisites
-			if test -z "$missing_prereq"
-			then
+			if test -z "$missing_prereq"; then
 				missing_prereq=$prerequisite
 			else
 				missing_prereq="$prerequisite,$missing_prereq"
@@ -264,8 +258,7 @@ test_run_ () {
 	test_eval_ "$1"
 	eval_ret=$?
 
-	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"
-	then
+	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"; then
 		test_eval_ "$test_cleanup"
 	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
@@ -277,24 +270,20 @@ test_run_ () {
 test_skip () {
 	test_count=$(($test_count+1))
 	to_skip=
-	for skp in $SKIP_TESTS
-	do
+	for skp in $SKIP_TESTS; do
 		case $this_test.$test_count in
 		$skp)
 			to_skip=t
 			break
 		esac
 	done
-	if test -z "$to_skip" && test -n "$test_prereq" &&
-	   ! test_have_prereq "$test_prereq"
-	then
+	if test -z "$to_skip" && test -n "$test_prereq" && ! test_have_prereq "$test_prereq"; then
 		to_skip=t
 	fi
 	case "$to_skip" in
 	t)
 		of_prereq=
-		if test "$missing_prereq" != "$test_prereq"
-		then
+		if test "$missing_prereq" != "$test_prereq"; then
 			of_prereq=" of $test_prereq"
 		fi
 
@@ -313,11 +302,9 @@ test_expect_failure () {
 	test "$#" = 2 ||
 	error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
 	export test_prereq
-	if ! test_skip "$@"
-	then
+	if ! test_skip "$@"; then
 		say >&3 "checking known breakage: $2"
-		if test_run_ "$2" expecting_failure
-		then
+		if test_run_ "$2" expecting_failure; then
 			test_known_broken_ok_ "$1"
 		else
 			test_known_broken_failure_ "$1"
@@ -331,11 +318,9 @@ test_expect_success () {
 	test "$#" = 2 ||
 	error "bug in the test script: not 2 or 3 parameters to test_expect_success"
 	export test_prereq
-	if ! test_skip "$@"
-	then
+	if ! test_skip "$@"; then
 		say >&3 "expecting success: $2"
-		if test_run_ "$2"
-		then
+		if test_run_ "$2"; then
 			test_ok_ "$1"
 		else
 			test_failure_ "$@"
@@ -408,8 +393,7 @@ test_expect_code () {
 	shift
 	"$@"
 	exit_code=$?
-	if test $exit_code = $want_code
-	then
+	if test $exit_code = $want_code; then
 		return 0
 	fi
 
@@ -480,12 +464,10 @@ test_done () {
 		EOF
 	fi
 
-	if test "$test_fixed" != 0
-	then
+	if test "$test_fixed" != 0; then
 		say_color pass "# fixed $test_fixed known breakage(s)"
 	fi
-	if test "$test_broken" != 0
-	then
+	if test "$test_broken" != 0; then
 		say_color error "# still have $test_broken known breakage(s)"
 		msg="remaining $(($test_count-$test_broken)) test(s)"
 	else
@@ -516,8 +498,7 @@ test_done () {
 
 # Test the binaries we have just built.  The tests are kept in
 # t/ subdirectory and are run in 'trash directory' subdirectory.
-if test -z "$TEST_DIRECTORY"
-then
+if test -z "$TEST_DIRECTORY"; then
 	# We allow tests to override this, in case they want to run tests
 	# outside of t/, e.g. for running tests on the test library
 	# itself.
@@ -525,7 +506,7 @@ then
 fi
 BUILD_DIR="$TEST_DIRECTORY"/..
 
-if test -n "$TEST_INSTALLED" ; then
+if test -n "$TEST_INSTALLED"; then
 	PATH="$TEST_INSTALLED:$BUILD_DIR:$PATH"
 else
 	PATH="$BUILD_DIR:$PATH"
@@ -534,10 +515,8 @@ export PATH
 
 : ${DIFF:=diff}
 
-if test -z "$TEST_CMP"
-then
-	if test -n "$TEST_CMP_USE_COPIED_CONTEXT"
-	then
+if test -z "$TEST_CMP"; then
+	if test -n "$TEST_CMP_USE_COPIED_CONTEXT"; then
 		TEST_CMP="$DIFF -c"
 	else
 		TEST_CMP="$DIFF -u"
@@ -568,8 +547,7 @@ cd -P "$test" || exit 1
 
 this_test=${0##*/}
 this_test=${this_test%%-*}
-for skp in $SKIP_TESTS
-do
+for skp in $SKIP_TESTS; do
 	case "$this_test" in
 	$skp)
 		say_color skip >&3 "skipping test $this_test altogether"

@@ -71,8 +71,7 @@ donthaveit=yes
 test_expect_success DONTHAVEIT 'unmet prerequisite causes test to be skipped' '
     donthaveit=no
 '
-if test $haveit$donthaveit != yesyes
-then
+if test $haveit$donthaveit != yesyes; then
 	say "bug in test framework: prerequisite tags do not work reliably"
 	exit 1
 fi
@@ -92,8 +91,7 @@ donthaveiteither=yes
 test_expect_success DONTHAVEIT,HAVEIT 'unmet prerequisites causes test to be skipped' '
     donthaveiteither=no
 '
-if test $haveit$donthaveit$donthaveiteither != yesyesyes
-then
+if test $haveit$donthaveit$donthaveiteither != yesyesyes; then
 	say "bug in test framework: multiple prerequisite tags do not work reliably"
 	exit 1
 fi
@@ -103,8 +101,7 @@ test_expect_success 'tests clean up after themselves' '
     test_when_finished clean=yes
 '
 
-if test $clean != yes
-then
+if test $clean != yes; then
 	say "bug in test framework: basic cleanup command does not work reliably"
 	exit 1
 fi
