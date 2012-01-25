@@ -500,15 +500,15 @@ if test -z "$TEST_CMP"; then
 	fi
 fi
 
-# Test area
-test="trash directory.$(basename "$0" .sh)"
-test -n "$root" && test="$root/$test"
-case "$test" in
-/*) TRASH_DIRECTORY="$test" ;;
- *) TRASH_DIRECTORY="$TEST_DIRECTORY/$test" ;;
+# Prepare test area
+test_dir="trash directory.$(basename "$0" .sh)"
+test -n "$root" && test_dir="$root/$test_dir"
+case "$test_dir" in
+/*) TRASH_DIRECTORY="$test_dir" ;;
+ *) TRASH_DIRECTORY="$TEST_DIRECTORY/$test_dir" ;;
 esac
-test ! -z "$debug" || remove_trash=$TRASH_DIRECTORY
-rm -fr "$test" || {
+test "$debug" = "t" || remove_trash="$TRASH_DIRECTORY"
+rm -rf "$test_dir" || {
 	EXIT_OK=t
 	echo >&5 "FATAL: Cannot prepare test area"
 	exit 1
@@ -517,10 +517,10 @@ rm -fr "$test" || {
 HOME="$TRASH_DIRECTORY"
 export HOME
 
-mkdir -p "$test" || exit 1
+mkdir -p "$test_dir" || exit 1
 # Use -P to resolve symlinks in our working directory so that the cwd
 # in subprocesses like git equals our $PWD (for pathname comparisons).
-cd -P "$test" || exit 1
+cd -P "$test_dir" || exit 1
 
 this_test=${0##*/}
 this_test=${this_test%%-*}
