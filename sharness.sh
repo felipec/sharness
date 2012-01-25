@@ -392,7 +392,7 @@ test_expect_code() {
 # - not all diff versions understand "-u"
 
 test_cmp() {
-	$TEST_CMP "$@"
+	${TEST_CMP:-diff -u} "$@"
 }
 
 # This function can be used to schedule some commands to be run
@@ -489,16 +489,6 @@ else
 	PATH="$BUILD_DIR:$PATH"
 fi
 export PATH
-
-: ${DIFF:=diff}
-
-if test -z "$TEST_CMP"; then
-	if test -n "$TEST_CMP_USE_COPIED_CONTEXT"; then
-		TEST_CMP="$DIFF -c"
-	else
-		TEST_CMP="$DIFF -u"
-	fi
-fi
 
 # Prepare test area
 test_dir="trash directory.$(basename "$0" .sh)"
