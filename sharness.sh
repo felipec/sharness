@@ -116,8 +116,7 @@ say() {
 	say_color info "$*"
 }
 
-test "${test_description}" != "" ||
-error "Test script did not set test_description."
+test -n "$test_description" || error "Test script did not set test_description."
 
 if test "$help" = "t"; then
 	echo "$test_description"
@@ -299,8 +298,7 @@ test_skip() {
 
 test_expect_failure() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
-	test "$#" = 2 ||
-	error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
 	export test_prereq
 	if ! test_skip "$@"; then
 		say >&3 "checking known breakage: $2"
@@ -315,8 +313,7 @@ test_expect_failure() {
 
 test_expect_success() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
-	test "$#" = 2 ||
-	error "bug in the test script: not 2 or 3 parameters to test_expect_success"
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_success"
 	export test_prereq
 	if ! test_skip "$@"; then
 		say >&3 "expecting success: $2"
