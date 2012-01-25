@@ -149,17 +149,6 @@ die() {
 EXIT_OK=
 trap 'die' EXIT
 
-# In some bourne shell implementations, the "unset" builtin returns
-# nonzero status when a variable to be unset was not set in the first
-# place.
-#
-# Use sane_unset when that should not be considered an error.
-
-sane_unset() {
-	unset "$@"
-	return 0
-}
-
 # Use test_set_prereq to tell that a particular prerequisite is available.
 # The prerequisite can later be checked for in two ways:
 #
@@ -204,15 +193,6 @@ test_have_prereq() {
 	done
 
 	test $total_prereq = $ok_prereq
-}
-
-test_declared_prereq() {
-	case ",$test_prereq," in
-	*,$1,*)
-		return 0
-		;;
-	esac
-	return 1
 }
 
 # You are not expected to call test_ok_ and test_failure_ directly, use
