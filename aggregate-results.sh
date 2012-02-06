@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2008-2011 Git project
+# Copyright (c) 2008-2012 Git project
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
