@@ -424,6 +424,26 @@ test_when_finished() {
 		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
 }
 
+# Public: Summarize test results and exit with an appropriate error code.
+#
+# Must be called at the end of each test script.
+#
+# Can also be used to stop tests early and skip all remaining tests. For this,
+# set skip_all to a string explaining why the tests were skipped before calling
+# test_done.
+#
+# Examples
+#
+#   # Each test script must call test_done at the end.
+#   test_done
+#
+#   # Skip all remaining tests if prerequisite is not set.
+#   if ! test_have_prereq PERL; then
+#       skip_all='skipping perl interface tests, perl not available'
+#       test_done
+#   fi
+#
+# Returns 0 if all tests passed or 1 if there was a failure.
 test_done() {
 	EXIT_OK=t
 
@@ -453,7 +473,6 @@ test_done() {
 	fi
 	case "$test_failure" in
 	0)
-		# Maybe print SKIP message
 		[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
 
 		say_color pass "# passed all $msg"
