@@ -292,6 +292,39 @@ test_expect_failure() {
 	echo >&3 ""
 }
 
+# Public: Run test commands and expect them to succeed.
+#
+# When the test passed, an "ok" message is printed and the number of successful
+# tests is incremented. When it failed, a "not ok" message is printed and the
+# number of failed tests is incremented.
+#
+# With --immediate, exit test immediately upon the first failed test.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Examples
+#
+#   test_expect_success \
+#       'git-write-tree should be able to write an empty tree.' \
+#       'tree=$(git-write-tree)'
+#
+#   # Test depending on one prerequisite.
+#   test_expect_success TTY 'git --paginate rev-list uses a pager' \
+#       ' ... '
+#
+#   # Multiple prerequisites are separated by a comma.
+#   test_expect_success PERL,PYTHON 'yo dawg' \
+#       ' test $(perl -E 'print eval "1 +" . qx[python -c "print 2"]') == "4" '
+#
+# Returns nothing.
 test_expect_success() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
 	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_success"
