@@ -172,8 +172,24 @@ test_set_prereq() {
 }
 satisfied=" "
 
+# Public: Check if one or more test prerequisites are defined.
+#
+# The prerequisites must have previously been set with test_set_prereq.
+# The most common use of this is to skip all the tests if some essential
+# prerequisite is missing.
+#
+# $1 - Comma-separated list of test prerequisites.
+#
+# Examples
+#
+#   # Skip all remaining tests if prerequisite is not set.
+#   if ! test_have_prereq PERL; then
+#       skip_all='skipping perl interface tests, perl not available'
+#       test_done
+#   fi
+#
+# Returns 0 if all prerequisites are defined or 1 otherwise.
 test_have_prereq() {
-	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
 	set -- $*
@@ -190,7 +206,6 @@ test_have_prereq() {
 			ok_prereq=$(($ok_prereq + 1))
 			;;
 		*)
-			# Keep a list of missing prerequisites
 			if test -z "$missing_prereq"; then
 				missing_prereq=$prerequisite
 			else
