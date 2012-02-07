@@ -150,17 +150,23 @@ die() {
 EXIT_OK=
 trap 'die' EXIT
 
-# Use test_set_prereq to tell that a particular prerequisite is available.
-# The prerequisite can later be checked for in two ways:
+# Public: Define that a test prerequisite is available.
 #
-# - Explicitly using test_have_prereq.
+# The prerequisite can later be checked explicitly using test_have_prereq or
+# implicitly by specifying the prerequisite name in calls to test_expect_success
+# or test_expect_failure.
 #
-# - Implicitly by specifying the prerequisite tag in the calls to
-#   test_expect_{success,failure,code}.
+# $1 - Name of prerequiste (a simple word, in all capital letters by convention)
 #
-# The single parameter is the prerequisite tag (a simple word, in all
-# capital letters by convention).
-
+# Examples
+#
+#   # Set PYTHON prerequisite if interpreter is available.
+#   command -v python >/dev/null && test_set_prereq PYTHON
+#
+#   # Set prerequisite depending on some variable.
+#   test -z "$NO_GETTEXT" && test_set_prereq GETTEXT
+#
+# Returns nothing.
 test_set_prereq() {
 	satisfied="$satisfied$1 "
 }
