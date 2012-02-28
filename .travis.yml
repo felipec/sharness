@@ -1,0 +1,7 @@
+language: erlang # no C/shell language support; use least-loaded worker(s)
+
+env:
+  - TEST_OPTS=-v
+  - DEFAULT_TEST_TARGET=prove
+
+script: make -C test
