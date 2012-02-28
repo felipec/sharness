@@ -398,18 +398,29 @@ test_expect_success() {
 	echo >&3 ""
 }
 
-# This is not among top-level (test_expect_success | test_expect_failure)
-# but is a prefix that can be used in the test script, like:
+# Public: Run command and ensure that it fails in a controlled way.
 #
-#	test_expect_success 'complain and die' '
-#           do something &&
-#           do something else &&
-#	    test_must_fail git checkout ../outerspace
-#	'
+# Use it instead of "! <command>". For example, when <command> dies due to a
+# segfault, test_must_fail diagnoses it as an error, while "! <command>" would
+# mistakenly be treated as just another expected failure.
 #
-# Writing this as "! git checkout ../outerspace" is wrong, because
-# the failure could be due to a segv.  We want a controlled failure.
-
+# This is one of the prefix functions to be used inside test_expect_success or
+# test_expect_failure.
+#
+# $1.. - Command to be executed.
+#
+# Examples
+#
+#   test_expect_success 'complain and die' '
+#       do something &&
+#       do something else &&
+#       test_must_fail git checkout ../outerspace
+#   '
+#
+# Returns 1 if the command succeeded (exit code 0).
+# Returns 1 if the command died by signal (exit codes 130-192)
+# Returns 1 if the command could not be found (exit code 127).
+# Returns 0 otherwise.
 test_must_fail() {
 	"$@"
 	exit_code=$?
