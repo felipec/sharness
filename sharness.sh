@@ -450,13 +450,21 @@ test_might_fail() {
 	return 0
 }
 
-# Similar to test_must_fail and test_might_fail, but check that a
-# given command exited with a given exit code. Meant to be used as:
+# Public: Run command and ensure it exits with a given exit code.
 #
-#	test_expect_success 'Merge with d/f conflicts' '
-#		test_expect_code 1 git merge "merge msg" B master
-#	'
-
+# This is one of the prefix functions to be used inside test_expect_success or
+# test_expect_failure.
+#
+# $1   - Expected exit code.
+# $2.. - Command to be executed.
+#
+# Examples
+#
+#   test_expect_success 'Merge with d/f conflicts' '
+#       test_expect_code 1 git merge "merge msg" B master
+#   '
+#
+# Returns 0 if the expected exit code is returned or 1 otherwise.
 test_expect_code() {
 	want_code=$1
 	shift
