@@ -437,17 +437,26 @@ test_must_fail() {
 	return 0
 }
 
-# Similar to test_must_fail, but tolerates success, too.  This is
-# meant to be used in contexts like:
+# Public: Run command and ensure that it succeeds or fails in a controlled way.
 #
-#	test_expect_success 'some command works without configuration' '
-#		test_might_fail git config --unset all.configuration &&
-#		do something
-#	'
+# Similar to test_must_fail, but tolerates success too. Use it instead of
+# "<command> || :" to catch failures caused by a segfault, for instance.
 #
-# Writing "git config --unset all.configuration || :" would be wrong,
-# because we want to notice if it fails due to segv.
-
+# This is one of the prefix functions to be used inside test_expect_success or
+# test_expect_failure.
+#
+# $1.. - Command to be executed.
+#
+# Examples
+#
+#   test_expect_success 'some command works without configuration' '
+#       test_might_fail git config --unset all.configuration &&
+#       do something
+#   '
+#
+# Returns 1 if the command died by signal (exit codes 130-192)
+# Returns 1 if the command could not be found (exit code 127).
+# Returns 0 otherwise.
 test_might_fail() {
 	"$@"
 	exit_code=$?
