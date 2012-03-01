@@ -1,6 +1,18 @@
 History
 =======
 
+0.2.1 (2012-03-01)
+------------------
+
+* Fix: Redirect stdin of tests (by @peff).
+* Unify coding style across all shell scripts.
+* Remove superfluous functions `sane_unset` and `test_declared_prereq`.
+* Get rid of variables `DIFF` and `TEST_CMP_USE_COPIED_CONTEXT`.
+* Remove dysfunctional smoke testing targets from `test/Makefile`.
+* Add Travis CI config.
+* Add top-level Makefile to say `make test`.
+* Add GPL header to all files from Git.
+
 0.2.0 (2011-12-13)
 ------------------
 
