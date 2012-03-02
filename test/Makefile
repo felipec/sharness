@@ -18,23 +18,19 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 SHELL_PATH ?= $(SHELL)
-PERL_PATH ?= /usr/bin/perl
-TAR ?= $(TAR)
+SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
 PROVE ?= prove
 DEFAULT_TEST_TARGET ?= test
-
-# Shell quote;
-SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 
 T = $(wildcard t[0-9][0-9][0-9][0-9]-*.sh)
 
 all: $(DEFAULT_TEST_TARGET)
 
-test: pre-clean $(TEST_LINT)
+test: pre-clean
 	$(MAKE) aggregate-results-and-cleanup
 
-prove: pre-clean $(TEST_LINT)
+prove: pre-clean
 	@echo "*** prove ***"; $(PROVE) --exec '$(SHELL_PATH_SQ)' $(PROVE_OPTS) $(T) :: $(TEST_OPTS)
 	$(MAKE) clean
 
@@ -47,18 +43,6 @@ pre-clean:
 clean:
 	$(RM) -r 'trash directory'.* test-results
 	$(RM) .prove
-
-test-lint: test-lint-duplicates test-lint-executable
-
-test-lint-duplicates:
-	@dups=`echo $(T) | tr ' ' '\n' | sed 's/-.*//' | sort | uniq -d` && \
-		test -z "$$dups" || { \
-		echo >&2 "duplicate test numbers:" $$dups; exit 1; }
-
-test-lint-executable:
-	@bad=`for i in $(T); do test -x "$$i" || echo $$i; done` && \
-		test -z "$$bad" || { \
-		echo >&2 "non-executable tests:" $$bad; exit 1; }
 
 aggregate-results-and-cleanup: $(T)
 	$(MAKE) aggregate-results
