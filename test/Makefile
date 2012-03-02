@@ -23,7 +23,7 @@ RM ?= rm -f
 PROVE ?= prove
 DEFAULT_TEST_TARGET ?= test
 
-T = $(wildcard t[0-9][0-9][0-9][0-9]-*.sh)
+T = $(wildcard *.t)
 
 all: $(DEFAULT_TEST_TARGET)
 
@@ -49,7 +49,7 @@ aggregate-results-and-cleanup: $(T)
 	$(MAKE) clean
 
 aggregate-results:
-	for f in test-results/t*-*.counts; do \
+	for f in test-results/*.counts; do \
 		echo "$$f"; \
 	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
 
