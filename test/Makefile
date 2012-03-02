@@ -69,4 +69,5 @@ aggregate-results:
 		echo "$$f"; \
 	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
 
-.PHONY: pre-clean $(T) aggregate-results clean
+.PHONY: all test prove $(T) pre-clean clean
+.PHONY: aggregate-results-and-cleanup aggregate-results
