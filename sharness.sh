@@ -247,7 +247,7 @@ test_run_() {
 	return "$eval_ret"
 }
 
-test_skip() {
+test_skip_() {
 	test_count=$(($test_count + 1))
 	to_skip=
 	for skp in $SKIP_TESTS; do
@@ -281,7 +281,7 @@ test_expect_failure() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
 	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
 	export test_prereq
-	if ! test_skip "$@"; then
+	if ! test_skip_ "$@"; then
 		say >&3 "checking known breakage: $2"
 		if test_run_ "$2" expecting_failure; then
 			test_known_broken_ok_ "$1"
@@ -296,7 +296,7 @@ test_expect_success() {
 	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
 	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_success"
 	export test_prereq
-	if ! test_skip "$@"; then
+	if ! test_skip_ "$@"; then
 		say >&3 "expecting success: $2"
 		if test_run_ "$2"; then
 			test_ok_ "$1"
