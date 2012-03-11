@@ -498,19 +498,27 @@ test_expect_code() {
 	return 1
 }
 
-# test_cmp is a helper function to compare actual and expected output.
-# You can use it like:
+# Public: Compare two files to see if expected output matches actual output.
 #
-#	test_expect_success 'foo works' '
-#		echo expected >expected &&
-#		foo >actual &&
-#		test_cmp expected actual
-#	'
+# The TEST_CMP variable defines the command used for the comparision; it
+# defaults to "diff -u". Only when the test script was started with --verbose,
+# will the command's output, the diff, be printed to the standard output.
 #
-# This could be written as either "cmp" or "diff -u", but:
-# - cmp's output is not nearly as easy to read as diff -u
-# - not all diff versions understand "-u"
-
+# This is one of the prefix functions to be used inside test_expect_success or
+# test_expect_failure.
+#
+# $1 - Path to file with expected output.
+# $2 - Path to file with actual output.
+#
+# Examples
+#
+#   test_expect_success 'foo works' '
+#       echo expected >expected &&
+#       foo >actual &&
+#       test_cmp expected actual
+#   '
+#
+# Returns the exit code of the command set by TEST_CMP.
 test_cmp() {
 	${TEST_CMP:-diff -u} "$@"
 }
