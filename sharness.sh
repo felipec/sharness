@@ -523,29 +523,26 @@ test_cmp() {
 	${TEST_CMP:-diff -u} "$@"
 }
 
-# This function can be used to schedule some commands to be run
-# unconditionally at the end of the test to restore sanity:
+# Public: Schedule cleanup commands to be run unconditionally at the end of a
+# test.
 #
-#	test_expect_success 'test core.capslock' '
-#		git config core.capslock true &&
-#		test_when_finished "git config --unset core.capslock" &&
-#		hello world
-#	'
+# If some cleanup command fails, the test will not pass. With --immediate, no
+# cleanup is done to help diagnose what went wrong.
 #
-# That would be roughly equivalent to
+# This is one of the prefix functions to be used inside test_expect_success or
+# test_expect_failure.
 #
-#	test_expect_success 'test core.capslock' '
-#		git config core.capslock true &&
-#		hello world
-#		git config --unset core.capslock
-#	'
+# $1.. - Commands to prepend to the list of cleanup commands.
 #
-# except that the greeting and config --unset must both succeed for
-# the test to pass.
+# Examples
 #
-# Note that under --immediate mode, no clean-up is done to help diagnose
-# what went wrong.
-
+#   test_expect_success 'test core.capslock' '
+#       git config core.capslock true &&
+#       test_when_finished "git config --unset core.capslock" &&
+#       do_something
+#   '
+#
+# Returns the exit code of the last cleanup command executed.
 test_when_finished() {
 	test_cleanup="{ $*
 		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
