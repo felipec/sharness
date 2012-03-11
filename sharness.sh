@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
+# Public: Current version of Sharness.
 export SHARNESS_VERSION="0.2.1"
 
 ORIGINAL_TERM=$TERM
