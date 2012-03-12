@@ -22,7 +22,7 @@ export SHARNESS_VERSION="0.2.1"
 
 ORIGINAL_TERM=$TERM
 
-# For repeatability, reset the environment to known value.
+# For repeatability, reset the environment to a known state.
 LANG=C
 LC_ALL=C
 PAGER=cat
@@ -39,12 +39,6 @@ unset GREP_OPTIONS
 LF='
 '
 
-# Each test should start with something like this, after copyright notices:
-#
-# test_description='Description of this test...
-# This test checks if command xyzzy does the right thing...
-# '
-# . ./sharness.sh
 [ "x$ORIGINAL_TERM" != "xdumb" ] && (
 		TERM=$ORIGINAL_TERM &&
 		export TERM &&
@@ -618,14 +612,8 @@ test_done() {
 	esac
 }
 
-# Test the binaries we have just built.  The tests are kept in
-# t/ subdirectory and are run in 'trash directory' subdirectory.
-if test -z "$TEST_DIRECTORY"; then
-	# We allow tests to override this, in case they want to run tests
-	# outside of t/, e.g. for running tests on the test library
-	# itself.
-	TEST_DIRECTORY=$(pwd)
-fi
+# Tests can override TEST_DIRECTORY, e.g. for running tests on Sharness itself.
+: ${TEST_DIRECTORY:=$(pwd)}
 BUILD_DIR="$TEST_DIRECTORY"/..
 
 if test -n "$TEST_INSTALLED"; then
@@ -635,7 +623,7 @@ else
 fi
 export PATH
 
-# Prepare test area
+# Prepare test area.
 test_dir="trash directory.$(basename "$0" .sh)"
 test -n "$root" && test_dir="$root/$test_dir"
 case "$test_dir" in
