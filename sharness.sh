@@ -307,44 +307,6 @@ test_skip_() {
 	esac
 }
 
-# Public: Run test commands and expect them to fail. Used to demonstrate a known
-# breakage.
-#
-# This is NOT the opposite of test_expect_success, but rather used to mark a
-# test that demonstrates a known breakage.
-#
-# When the test passed, an "ok" message is printed and the number of fixed tests
-# is incremented. When it failed, a "not ok" message is printed and the number
-# of tests still broken is incremented.
-#
-# Failures from these tests won't cause --immediate to stop.
-#
-# Usually takes two arguments:
-# $1 - Test description
-# $2 - Commands to be executed.
-#
-# With three arguments, the first will be taken to be a prerequisite:
-# $1 - Comma-separated list of test prerequisites. The test will be skipped if
-#      not all of the given prerequisites are set.
-# $2 - Test description
-# $3 - Commands to be executed.
-#
-# Returns nothing.
-test_expect_failure() {
-	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
-	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
-	export test_prereq
-	if ! test_skip_ "$@"; then
-		say >&3 "checking known breakage: $2"
-		if test_run_ "$2" expecting_failure; then
-			test_known_broken_ok_ "$1"
-		else
-			test_known_broken_failure_ "$1"
-		fi
-	fi
-	echo >&3 ""
-}
-
 # Public: Run test commands and expect them to succeed.
 #
 # When the test passed, an "ok" message is printed and the number of successful
@@ -388,6 +350,44 @@ test_expect_success() {
 			test_ok_ "$1"
 		else
 			test_failure_ "$@"
+		fi
+	fi
+	echo >&3 ""
+}
+
+# Public: Run test commands and expect them to fail. Used to demonstrate a known
+# breakage.
+#
+# This is NOT the opposite of test_expect_success, but rather used to mark a
+# test that demonstrates a known breakage.
+#
+# When the test passed, an "ok" message is printed and the number of fixed tests
+# is incremented. When it failed, a "not ok" message is printed and the number
+# of tests still broken is incremented.
+#
+# Failures from these tests won't cause --immediate to stop.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Returns nothing.
+test_expect_failure() {
+	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
+	export test_prereq
+	if ! test_skip_ "$@"; then
+		say >&3 "checking known breakage: $2"
+		if test_run_ "$2" expecting_failure; then
+			test_known_broken_ok_ "$1"
+		else
+			test_known_broken_failure_ "$1"
 		fi
 	fi
 	echo >&3 ""
