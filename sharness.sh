@@ -18,7 +18,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 # Public: Current version of Sharness.
-export SHARNESS_VERSION="0.2.1"
+export SHARNESS_VERSION="0.2.2"
 
 ORIGINAL_TERM=$TERM
 

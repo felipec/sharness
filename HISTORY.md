@@ -1,6 +1,18 @@
 History
 =======
 
+0.2.2 (2012-04-27)
+------------------
+
+* Document all public API functions using [TomDoc] and let [tomdoc.sh] generate
+  documentation in markdown format from it, see `API.md`.
+* Rename `test_skip` to `test_skip_` as it is internal.
+* Clean up `test/Makefile`.
+* Sync Git README with upstream.
+
+[TomDoc]: http://tomdoc.org/
+[tomdoc.sh]: https://github.com/mlafeldt/tomdoc.sh
+
 0.2.1 (2012-03-01)
 ------------------
 
