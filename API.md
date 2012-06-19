@@ -4,6 +4,10 @@
 
     Public: Current version of Sharness.
 
+### SHARNESS_TEST_EXTENSION
+
+    Public: The file extension for tests.
+
 ### test_set_prereq()
 
     Public: Define that a test prerequisite is available.

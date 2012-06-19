@@ -19,6 +19,8 @@
 
 # Public: Current version of Sharness.
 export SHARNESS_VERSION="0.2.2"
+
+# Public: The file extension for tests.
 export SHARNESS_TEST_EXTENSION="t"
 
 ORIGINAL_TERM=$TERM
