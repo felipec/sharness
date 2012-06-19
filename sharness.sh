@@ -18,7 +18,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 # Public: Current version of Sharness.
-export SHARNESS_VERSION="0.2.2"
+export SHARNESS_VERSION="0.2.3"
 
 # Public: The file extension for tests.
 export SHARNESS_TEST_EXTENSION="t"
