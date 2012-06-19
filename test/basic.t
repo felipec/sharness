@@ -41,8 +41,8 @@ metrics
 '
 
 # Point to the t/sharness.sh, which isn't in ../ as usual
-TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/sharness.sh
+SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+. \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_failure 'pretend we have fixed a known breakage' '
     :
@@ -115,8 +115,8 @@ test_expect_success 'tests clean up even on failures' "
 test_description='Failing tests with cleanup commands'
 
 # Point to the t/sharness.sh, which isn't in ../ as usual
-TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/sharness.sh
+SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+. \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_success 'tests clean up even after a failure' '
     touch clean-after-failure &&
