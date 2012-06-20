@@ -19,6 +19,8 @@
 
 # Public: Current version of Sharness.
 export SHARNESS_VERSION="0.2.2"
+
+# Public: The file extension for tests.
 export SHARNESS_TEST_EXTENSION="t"
 
 ORIGINAL_TERM=$TERM
@@ -568,7 +570,7 @@ test_done() {
 	EXIT_OK=t
 
 	if test -z "$HARNESS_ACTIVE"; then
-		test_results_dir="$TEST_DIRECTORY/test-results"
+		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
 		mkdir -p "$test_results_dir"
 		test_results_path="$test_results_dir/${0%.$SHARNESS_TEST_EXTENSION}.$$.counts"
 
@@ -613,14 +615,21 @@ test_done() {
 	esac
 }
 
-# Tests can override TEST_DIRECTORY, e.g. for running tests on Sharness itself.
-: ${TEST_DIRECTORY:=$(pwd)}
-BUILD_DIR="$TEST_DIRECTORY"/..
+# Public: Root directory containing tests. Tests can override this variable,
+# e.g. for testing Sharness itself.
+: ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
+export SHARNESS_TEST_DIRECTORY
 
+# Public: Build directory that will be added to PATH. By default, it is set to
+# the parent directory of SHARNESS_TEST_DIRECTORY.
+: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+export SHARNESS_BUILD_DIRECTORY
+
+# XXX really need TEST_INSTALLED?
 if test -n "$TEST_INSTALLED"; then
-	PATH="$TEST_INSTALLED:$BUILD_DIR:$PATH"
+	PATH="$TEST_INSTALLED:$SHARNESS_BUILD_DIRECTORY:$PATH"
 else
-	PATH="$BUILD_DIR:$PATH"
+	PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 fi
 export PATH
 
@@ -628,17 +637,21 @@ export PATH
 test_dir="trash directory.$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
 test -n "$root" && test_dir="$root/$test_dir"
 case "$test_dir" in
-/*) TRASH_DIRECTORY="$test_dir" ;;
- *) TRASH_DIRECTORY="$TEST_DIRECTORY/$test_dir" ;;
+/*) SHARNESS_TRASH_DIRECTORY="$test_dir" ;;
+ *) SHARNESS_TRASH_DIRECTORY="$SHARNESS_TEST_DIRECTORY/$test_dir" ;;
 esac
-test "$debug" = "t" || remove_trash="$TRASH_DIRECTORY"
+test "$debug" = "t" || remove_trash="$SHARNESS_TRASH_DIRECTORY"
 rm -rf "$test_dir" || {
 	EXIT_OK=t
 	echo >&5 "FATAL: Cannot prepare test area"
 	exit 1
 }
 
-HOME="$TRASH_DIRECTORY"
+# Public: Empty trash directory, the test area, provided for each test. The HOME
+# variable is set to that directory too.
+export SHARNESS_TRASH_DIRECTORY
+
+HOME="$SHARNESS_TRASH_DIRECTORY"
 export HOME
 
 mkdir -p "$test_dir" || exit 1
