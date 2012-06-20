@@ -31,7 +31,7 @@ test_expect_failure 'pretend we have a known breakage' '
 test_expect_success 'pretend we have fixed a known breakage (run in sub sharness)' "
     mkdir passing-todo &&
     (cd passing-todo &&
-    cat >passing-todo.sh <<EOF &&
+    cat >.passing-todo.t <<EOF &&
 #!$SHELL_PATH
 
 test_description='A passing TODO test
@@ -41,8 +41,8 @@ metrics
 '
 
 # Point to the t/sharness.sh, which isn't in ../ as usual
-TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/sharness.sh
+SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+. \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_failure 'pretend we have fixed a known breakage' '
     :
@@ -50,8 +50,8 @@ test_expect_failure 'pretend we have fixed a known breakage' '
 
 test_done
 EOF
-    chmod +x passing-todo.sh &&
-    ./passing-todo.sh >out 2>err &&
+    chmod +x .passing-todo.t &&
+    ./.passing-todo.t >out 2>err &&
     ! test -s err &&
 sed -e 's/^> //' >expect <<EOF &&
 > ok 1 - pretend we have fixed a known breakage # TODO known breakage
@@ -109,14 +109,14 @@ fi
 test_expect_success 'tests clean up even on failures' "
     mkdir failing-cleanup &&
     (cd failing-cleanup &&
-    cat >failing-cleanup.sh <<EOF &&
+    cat >.failing-cleanup.t <<EOF &&
 #!$SHELL_PATH
 
 test_description='Failing tests with cleanup commands'
 
 # Point to the t/sharness.sh, which isn't in ../ as usual
-TEST_DIRECTORY=\"$TEST_DIRECTORY\"
-. \"\$TEST_DIRECTORY\"/sharness.sh
+SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+. \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_success 'tests clean up even after a failure' '
     touch clean-after-failure &&
@@ -130,8 +130,8 @@ test_expect_success 'failure to clean up causes the test to fail' '
 
 test_done
 EOF
-    chmod +x failing-cleanup.sh &&
-    test_must_fail ./failing-cleanup.sh >out 2>err &&
+    chmod +x .failing-cleanup.t &&
+    test_must_fail ./.failing-cleanup.t >out 2>err &&
     ! test -s err &&
     ! test -f \"trash directory.failing-cleanup/clean-after-failure\" &&
 sed -e 's/Z$//' -e 's/^> //' >expect <<\EOF &&

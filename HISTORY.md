@@ -1,6 +1,16 @@
 History
 =======
 
+0.2.3 (2012-06-20)
+------------------
+
+* Make `.t` the new test file extension, which is the default extension used by
+  `prove(1)`. (You can still use the `t????-*` scheme, but you need to rename
+  the `.sh` ending of all tests.)
+* Rename, export, and document public variables `SHARNESS_TEST_DIRECTORY`,
+  `SHARNESS_BUILD_DIRECTORY`, and `SHARNESS_TRASH_DIRECTORY`.
+* TomDoc `SHARNESS_TEST_EXTENSION`.
+
 0.2.2 (2012-04-27)
 ------------------
 
