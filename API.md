@@ -274,6 +274,10 @@
     Public: Build directory that will be added to PATH. By default, it is set to
     the parent directory of SHARNESS_TEST_DIRECTORY.
 
+### SHARNESS_TEST_FILE
+
+    Public: Path to test script currently executed.
+
 ### SHARNESS_TRASH_DIRECTORY
 
     Public: Empty trash directory, the test area, provided for each test. The HOME
