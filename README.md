@@ -101,7 +101,7 @@ Sharness is licensed under the terms of the GNU General Public License version
 Contact
 -------
 
-* Web: <https://github.com/mlafeldt/Sharness>
+* Web: <http://mlafeldt.github.com/sharness>
 * Mail: <mathias.lafeldt@gmail.com>
 * Twitter: [@mlafeldt](https://twitter.com/mlafeldt)
 
