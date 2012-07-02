@@ -88,7 +88,7 @@ See how Sharness is used in real-world projects:
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 * [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test)
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
-* [Sharness itself](https://github.com/mlafeldt/Sharness/blob/master/test)
+* [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
 
 
 License
@@ -106,9 +106,9 @@ Contact
 * Twitter: [@mlafeldt](https://twitter.com/mlafeldt)
 
 
-[API documentation]: https://github.com/mlafeldt/Sharness/blob/master/API.md
-[COPYING]: https://github.com/mlafeldt/Sharness/blob/master/COPYING
+[API documentation]: https://github.com/mlafeldt/sharness/blob/master/API.md
+[COPYING]: https://github.com/mlafeldt/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
-[README.git]: https://github.com/mlafeldt/Sharness/blob/master/README.git
+[README.git]: https://github.com/mlafeldt/sharness/blob/master/README.git
 [Test Anything Protocol]: http://testanything.org/
 [prove(1)]: http://linux.die.net/man/1/prove
