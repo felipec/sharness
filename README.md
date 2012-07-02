@@ -85,9 +85,10 @@ Projects using Sharness
 
 See how Sharness is used in real-world projects:
 
-* [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
-* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test)
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
+* [dabba](https://github.com/eroullit/dabba)
+* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test)
+* [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 * [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
 
 
