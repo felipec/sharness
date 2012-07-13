@@ -152,3 +152,5 @@ EOF
 "
 
 test_done
+
+# vi: set ft=sh :

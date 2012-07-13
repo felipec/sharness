@@ -18,7 +18,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 # Public: Current version of Sharness.
-export SHARNESS_VERSION="0.2.3"
+export SHARNESS_VERSION="0.2.4"
 
 # Public: The file extension for tests.
 export SHARNESS_TEST_EXTENSION="t"
@@ -572,7 +572,7 @@ test_done() {
 	if test -z "$HARNESS_ACTIVE"; then
 		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
 		mkdir -p "$test_results_dir"
-		test_results_path="$test_results_dir/${0%.$SHARNESS_TEST_EXTENSION}.$$.counts"
+		test_results_path="$test_results_dir/${SHARNESS_TEST_FILE%.$SHARNESS_TEST_EXTENSION}.$$.counts"
 
 		cat >>"$test_results_path" <<-EOF
 		total $test_count
@@ -633,8 +633,12 @@ else
 fi
 export PATH
 
+# Public: Path to test script currently executed.
+SHARNESS_TEST_FILE="$0"
+export SHARNESS_TEST_FILE
+
 # Prepare test area.
-test_dir="trash directory.$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
+test_dir="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
 test -n "$root" && test_dir="$root/$test_dir"
 case "$test_dir" in
 /*) SHARNESS_TRASH_DIRECTORY="$test_dir" ;;
@@ -659,7 +663,7 @@ mkdir -p "$test_dir" || exit 1
 # in subprocesses like git equals our $PWD (for pathname comparisons).
 cd -P "$test_dir" || exit 1
 
-this_test=${0##*/}
+this_test=${SHARNESS_TEST_FILE##*/}
 this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
 for skp in $SKIP_TESTS; do
 	case "$this_test" in
