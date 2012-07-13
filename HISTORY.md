@@ -1,6 +1,16 @@
 History
 =======
 
+0.2.4 (2012-07-13)
+------------------
+
+* Add `simple.t` to tests and README.
+* Provide `SHARNESS_TEST_FILE` which is the path to the test script currently
+  being executed.
+* Add [dabba] to the list of projects using Sharness.
+
+[dabba]: https://github.com/eroullit/dabba
+
 0.2.3 (2012-06-20)
 ------------------
 
