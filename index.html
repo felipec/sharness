@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Sharness by mlafeldt</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Sharness</h1>
+        <p class="header">Shell-based Test Harness Library</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mlafeldt/sharness/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mlafeldt/sharness/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mlafeldt/sharness">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mlafeldt">mlafeldt</a></p>
+
+
+      </header>
+      <section>
+        <h1>Sharness</h1>
+
+<p>Sharness is a portable shell library to write, run, and analyze automated tests
+for Unix programs. Since all tests output TAP, the <a href="http://testanything.org/">Test Anything Protocol</a>, they
+can be run with any TAP harness.</p>
+
+<p>Each test is written as a shell script, for example:</p>
+
+<div class="highlight">
+<pre><span class="c">#!/bin/sh</span>
+
+<span class="nv">test_description</span><span class="o">=</span><span class="s2">"Show basic features of Sharness"</span>
+
+. ./sharness.sh
+
+test_expect_success <span class="s2">"Success is reported like this"</span> <span class="s2">"</span>
+<span class="s2">    echo hello world | grep hello</span>
+<span class="s2">"</span>
+
+test_expect_success <span class="s2">"Commands are chained this way"</span> <span class="s2">"</span>
+<span class="s2">    test x = 'x' &amp;&amp;</span>
+<span class="s2">    test 2 -gt 1 &amp;&amp;</span>
+<span class="s2">    echo success</span>
+<span class="s2">"</span>
+
+return_42<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">"Will return soon"</span>
+    <span class="k">return </span>42
+<span class="o">}</span>
+
+test_expect_success <span class="s2">"You can test for a specific exit code"</span> <span class="s2">"</span>
+<span class="s2">    test_expect_code 42 return_42</span>
+<span class="s2">"</span>
+
+test_expect_failure <span class="s2">"We expect this to fail"</span> <span class="s2">"</span>
+<span class="s2">    test 1 = 2</span>
+<span class="s2">"</span>
+
+test_done
+</pre>
+</div>
+
+
+<p>Running the above test script returns the following (TAP) output:</p>
+
+<pre><code>$ ./simple.t
+ok 1 - Success is reported like this
+ok 2 - Commands are chained this way
+ok 3 - You can test for a specific exit code
+not ok 4 - We expect this to fail # TODO known breakage
+# still have 1 known breakage(s)
+# passed all remaining 3 test(s)
+1..4
+</code></pre>
+
+<p>Alternatively, you can run the test through <a href="http://linux.die.net/man/1/prove">prove(1)</a>:</p>
+
+<pre><code>$ prove simple.t
+simple.t .. ok
+All tests successful.
+Files=1, Tests=4,  0 wallclock secs ( 0.02 usr +  0.00 sys =  0.02 CPU)
+Result: PASS
+</code></pre>
+
+<p>Sharness was derived from the <a href="http://git-scm.com/">Git</a> project - see <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> for the original
+documentation.</p>
+
+<h2>Usage</h2>
+
+<p>The following files are essential to using Sharness:</p>
+
+<ul>
+<li>
+<code>sharness.sh</code> - core shell library providing test functionality, see separate
+<a href="https://github.com/mlafeldt/sharness/blob/master/API.md">API documentation</a>
+</li>
+<li>
+<code>aggregate-results.sh</code> - helper script to aggregate test results</li>
+<li>
+<code>Makefile</code> - test driver</li>
+</ul><p>Copy them to the project you want to write automated tests for, e.g. to a folder
+named <code>test</code>.</p>
+
+<p>To learn how to write and run actual test scripts based on <code>sharness.sh</code>, please
+read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> until I come up with more documentation myself.</p>
+
+<h2>Projects using Sharness</h2>
+
+<p>See how Sharness is used in real-world projects:</p>
+
+<ul>
+<li><a href="https://github.com/mlafeldt/cb2util/tree/master/test">cb2util</a></li>
+<li><a href="https://github.com/eroullit/dabba">dabba</a></li>
+<li><a href="https://github.com/mlafeldt/rdd.py/tree/master/test">rdd.py</a></li>
+<li><a href="https://github.com/mlafeldt/tomdoc.sh/tree/master/test">tomdoc.sh</a></li>
+<li><a href="https://github.com/mlafeldt/sharness/blob/master/test">Sharness itself</a></li>
+</ul><h2>License</h2>
+
+<p>Sharness is licensed under the terms of the GNU General Public License version
+2 or higher. See file <a href="https://github.com/mlafeldt/sharness/blob/master/COPYING">COPYING</a> for full license text.</p>
+
+<h2>Contact</h2>
+
+<ul>
+<li>Web: <a href="http://mlafeldt.github.com/sharness">http://mlafeldt.github.com/sharness</a>
+</li>
+<li>Mail: <a href="mailto:mathias.lafeldt@gmail.com">mathias.lafeldt@gmail.com</a>
+</li>
+<li>Twitter: <a href="https://twitter.com/mlafeldt">@mlafeldt</a>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+		
+  </body>
+</html>
