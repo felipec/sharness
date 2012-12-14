@@ -93,6 +93,14 @@ See how Sharness is used in real-world projects:
 * [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
 
 
+Alternatives
+------------
+
+* [Bats](https://github.com/sstephenson/bats)
+* [roundup](https://github.com/bmizerany/roundup)
+* [testlib.sh](https://gist.github.com/3877539)
+
+
 License
 -------
 
