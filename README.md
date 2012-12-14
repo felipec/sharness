@@ -87,9 +87,18 @@ See how Sharness is used in real-world projects:
 
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
 * [dabba](https://github.com/eroullit/dabba)
-* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test)
+* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
+* [timedb](http://git.cryptoism.org/cgit.cgi/timedb.git)
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 * [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
+
+
+Alternatives
+------------
+
+* [Bats](https://github.com/sstephenson/bats)
+* [roundup](https://github.com/bmizerany/roundup)
+* [testlib.sh](https://gist.github.com/3877539)
 
 
 License
