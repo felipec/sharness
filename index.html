@@ -38,8 +38,7 @@ can be run with any TAP harness.</p>
 
 <p>Each test is written as a shell script, for example:</p>
 
-<div class="highlight">
-<pre><span class="c">#!/bin/sh</span>
+<div class="highlight"><pre><span class="c">#!/bin/sh</span>
 
 <span class="nv">test_description</span><span class="o">=</span><span class="s2">"Show basic features of Sharness"</span>
 
@@ -69,9 +68,7 @@ test_expect_failure <span class="s2">"We expect this to fail"</span> <span class
 <span class="s2">"</span>
 
 test_done
-</pre>
-</div>
-
+</pre></div>
 
 <p>Running the above test script returns the following (TAP) output:</p>
 
@@ -123,9 +120,16 @@ read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">READM
 <ul>
 <li><a href="https://github.com/mlafeldt/cb2util/tree/master/test">cb2util</a></li>
 <li><a href="https://github.com/eroullit/dabba">dabba</a></li>
-<li><a href="https://github.com/mlafeldt/rdd.py/tree/master/test">rdd.py</a></li>
+<li><a href="https://github.com/mlafeldt/rdd.py/tree/master/test/integration">rdd.py</a></li>
+<li><a href="http://git.cryptoism.org/cgit.cgi/timedb.git">timedb</a></li>
 <li><a href="https://github.com/mlafeldt/tomdoc.sh/tree/master/test">tomdoc.sh</a></li>
 <li><a href="https://github.com/mlafeldt/sharness/blob/master/test">Sharness itself</a></li>
+</ul><h2>Alternatives</h2>
+
+<ul>
+<li><a href="https://github.com/sstephenson/bats">Bats</a></li>
+<li><a href="https://github.com/bmizerany/roundup">roundup</a></li>
+<li><a href="https://gist.github.com/3877539">testlib.sh</a></li>
 </ul><h2>License</h2>
 
 <p>Sharness is licensed under the terms of the GNU General Public License version
@@ -146,7 +150,7 @@ read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">READM
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 		
   </body>
 </html>
