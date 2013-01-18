@@ -98,6 +98,7 @@ Alternatives
 
 * [Bats](https://github.com/sstephenson/bats)
 * [roundup](https://github.com/bmizerany/roundup)
+* [shUnit2](https://code.google.com/p/shunit2/)
 * [testlib.sh](https://gist.github.com/3877539)
 
 
