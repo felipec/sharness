@@ -1,6 +1,27 @@
-TOMDOCSH := tomdoc.sh
+prefix = $(HOME)
+
+INSTALL_DIR = $(prefix)/share/sharness
+DOC_DIR = $(prefix)/share/doc/sharness
+EXAMPLE_DIR = $(DOC_DIR)/examples
+
+INSTALL_FILES = aggregate-results.sh sharness.sh
+DOC_FILES = API.md COPYING HISTORY.md README.git README.md
+EXAMPLE_FILES = test/Makefile test/simple.t
+
+INSTALL = install
+RM = rm -f
+TOMDOCSH = tomdoc.sh
 
 all:
+
+install: all
+	$(INSTALL) -d -m 755 $(INSTALL_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
+	$(INSTALL) -m 644 $(INSTALL_FILES) $(INSTALL_DIR)
+	$(INSTALL) -m 644 $(DOC_FILES) $(DOC_DIR)
+	$(INSTALL) -m 644 $(EXAMPLE_FILES) $(EXAMPLE_DIR)
+
+uninstall:
+	$(RM) -r $(INSTALL_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
 
 doc: all
 	{ printf "# Sharness API\n\n"; \
@@ -10,4 +31,4 @@ doc: all
 test: all
 	$(MAKE) -C test
 
-.PHONY: all doc test
+.PHONY: all install uninstall doc test
