@@ -21,8 +21,8 @@
 SHARNESS_VERSION="0.2.4"
 export SHARNESS_VERSION
 
-# Public: The file extension for tests.
-SHARNESS_TEST_EXTENSION="t"
+# Public: The file extension for tests.  By default, it is set to "t".
+: ${SHARNESS_TEST_EXTENSION:=t}
 export SHARNESS_TEST_EXTENSION
 
 ORIGINAL_TERM=$TERM
