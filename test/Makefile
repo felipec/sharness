@@ -21,6 +21,7 @@ SHELL_PATH ?= $(SHELL)
 SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
 PROVE ?= prove
+AGGREGATE_SCRIPT ?= aggregate-results.sh
 DEFAULT_TEST_TARGET ?= test
 
 T = $(wildcard *.t)
@@ -51,7 +52,7 @@ aggregate-results-and-cleanup: $(T)
 aggregate-results:
 	for f in test-results/*.counts; do \
 		echo "$$f"; \
-	done | '$(SHELL_PATH_SQ)' ./aggregate-results.sh
+	done | '$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
 
 .PHONY: all test prove $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
