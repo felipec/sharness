@@ -33,8 +33,8 @@
         <h1>Sharness</h1>
 
 <p>Sharness is a portable shell library to write, run, and analyze automated tests
-for Unix programs. Since all tests output TAP, the <a href="http://testanything.org/">Test Anything Protocol</a>, they
-can be run with any TAP harness.</p>
+for Unix programs. Since all tests output TAP, the <a href="http://testanything.org/">Test Anything Protocol</a>,
+they can be run with any TAP harness.</p>
 
 <p>Each test is written as a shell script, for example:</p>
 
@@ -94,6 +94,42 @@ Result: PASS
 <p>Sharness was derived from the <a href="http://git-scm.com/">Git</a> project - see <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> for the original
 documentation.</p>
 
+<h2>Installation</h2>
+
+<p>First, clone the Git repository:</p>
+
+<pre><code>$ git clone git://github.com/mlafeldt/sharness.git
+</code></pre>
+
+<p>Then choose an installation method that works best for you:</p>
+
+<h3>Per-project installation</h3>
+
+<p>If you like to add Sharness to the sources of a project you want to use it for,
+simply copy the files <code>sharness.sh</code>, <code>aggregate-results.sh</code>, and <code>test/Makefile</code>
+to a folder named <code>test</code> inside that project.</p>
+
+<h3>Per-user installation</h3>
+
+<pre><code>$ cd sharness
+$ make install
+</code></pre>
+
+<p>This will install Sharness to <code>$HOME/share/sharness</code>, and its documentation and
+examples to <code>$HOME/share/doc/sharness</code>.</p>
+
+<h3>System-wide installation</h3>
+
+<pre><code>$ cd sharness
+# make install prefix=/usr/local
+</code></pre>
+
+<p>This will install Sharness to <code>/usr/local/share/sharness</code>, and its documentation
+and examples to <code>/usr/local/share/doc/sharness</code>.</p>
+
+<p>Of course, you can change the <em>prefix</em> parameter to install Sharness to any
+other location.</p>
+
 <h2>Usage</h2>
 
 <p>The following files are essential to using Sharness:</p>
@@ -106,11 +142,8 @@ documentation.</p>
 <li>
 <code>aggregate-results.sh</code> - helper script to aggregate test results</li>
 <li>
-<code>Makefile</code> - test driver</li>
-</ul><p>Copy them to the project you want to write automated tests for, e.g. to a folder
-named <code>test</code>.</p>
-
-<p>To learn how to write and run actual test scripts based on <code>sharness.sh</code>, please
+<code>test/Makefile</code> - test driver</li>
+</ul><p>To learn how to write and run actual test scripts based on <code>sharness.sh</code>, please
 read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> until I come up with more documentation myself.</p>
 
 <h2>Projects using Sharness</h2>
