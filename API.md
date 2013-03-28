@@ -6,7 +6,7 @@
 
 ### SHARNESS_TEST_EXTENSION
 
-    Public: The file extension for tests.
+    Public: The file extension for tests.  By default, it is set to "t".
 
 ### test_set_prereq()
 
