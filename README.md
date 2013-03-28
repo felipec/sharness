@@ -2,8 +2,8 @@ Sharness
 ========
 
 Sharness is a portable shell library to write, run, and analyze automated tests
-for Unix programs. Since all tests output TAP, the [Test Anything Protocol], they
-can be run with any TAP harness.
+for Unix programs. Since all tests output TAP, the [Test Anything Protocol],
+they can be run with any TAP harness.
 
 Each test is written as a shell script, for example:
 
@@ -63,6 +63,41 @@ Sharness was derived from the [Git] project - see [README.git] for the original
 documentation.
 
 
+Installation
+------------
+
+First, clone the Git repository:
+
+    $ git clone git://github.com/mlafeldt/sharness.git
+
+Then choose an installation method that works best for you:
+
+### Per-project installation
+
+If you like to add Sharness to the sources of a project you want to use it for,
+simply copy the files `sharness.sh`, `aggregate-results.sh`, and `test/Makefile`
+to a folder named `test` inside that project.
+
+### Per-user installation
+
+    $ cd sharness
+    $ make install
+
+This will install Sharness to `$HOME/share/sharness`, and its documentation and
+examples to `$HOME/share/doc/sharness`.
+
+### System-wide installation
+
+    $ cd sharness
+    # make install prefix=/usr/local
+
+This will install Sharness to `/usr/local/share/sharness`, and its documentation
+and examples to `/usr/local/share/doc/sharness`.
+
+Of course, you can change the _prefix_ parameter to install Sharness to any
+other location.
+
+
 Usage
 -----
 
@@ -71,10 +106,7 @@ The following files are essential to using Sharness:
 * `sharness.sh` - core shell library providing test functionality, see separate
    [API documentation]
 * `aggregate-results.sh` - helper script to aggregate test results
-* `Makefile` - test driver
-
-Copy them to the project you want to write automated tests for, e.g. to a folder
-named `test`.
+* `test/Makefile` - test driver
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
 read [README.git] until I come up with more documentation myself.
