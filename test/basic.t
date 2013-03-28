@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
+# FIXME: Sync with https://github.com/git/git/blob/master/t/t0000-basic.sh
+
 test_description='Test test harness library'
 
 . ./sharness.sh
@@ -40,8 +42,7 @@ This is run in a sub sharness so that we do not get incorrect passing
 metrics
 '
 
-# Point to the t/sharness.sh, which isn't in ../ as usual
-SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+# Point to test/sharness.sh, which isn't in ../ as usual
 . \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_failure 'pretend we have fixed a known breakage' '
@@ -114,8 +115,7 @@ test_expect_success 'tests clean up even on failures' "
 
 test_description='Failing tests with cleanup commands'
 
-# Point to the t/sharness.sh, which isn't in ../ as usual
-SHARNESS_TEST_DIRECTORY=\"$SHARNESS_TEST_DIRECTORY\"
+# Point to test/sharness.sh, which isn't in ../ as usual
 . \"\$SHARNESS_TEST_DIRECTORY\"/sharness.sh
 
 test_expect_success 'tests clean up even after a failure' '

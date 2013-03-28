@@ -4,4 +4,9 @@ env:
   - TEST_OPTS=-v
   - DEFAULT_TEST_TARGET=prove
 
-script: make test
+install:
+  - sudo make install prefix=/usr/local
+
+script:
+  - make test
+  - sudo make -C /usr/local/share/doc/sharness/examples
