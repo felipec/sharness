@@ -607,6 +607,10 @@ test_done() {
 
 	case "$test_failure" in
 	0)
+		# Maybe print SKIP message
+		if test -n "$skip_all" && test $test_count -gt 0; then
+			error "Can't use skip_all after running some tests"
+		fi
 		[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
 
 		if test $test_remaining -gt 0; then
