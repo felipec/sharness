@@ -173,9 +173,9 @@ trap 'die' EXIT
 #
 # Returns nothing.
 test_set_prereq() {
-	satisfied="$satisfied$1 "
+	satisfied_prereq="$satisfied_prereq$1 "
 }
-satisfied=" "
+satisfied_prereq=" "
 
 # Public: Check if one or more test prerequisites are defined.
 #
@@ -206,7 +206,7 @@ test_have_prereq() {
 
 	for prerequisite; do
 		total_prereq=$(($total_prereq + 1))
-		case $satisfied in
+		case $satisfied_prereq in
 		*" $prerequisite "*)
 			ok_prereq=$(($ok_prereq + 1))
 			;;
