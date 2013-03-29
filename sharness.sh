@@ -25,6 +25,7 @@ export SHARNESS_VERSION
 : ${SHARNESS_TEST_EXTENSION:=t}
 export SHARNESS_TEST_EXTENSION
 
+# Keep the original TERM for say_color
 ORIGINAL_TERM=$TERM
 
 # For repeatability, reset the environment to a known state.
@@ -33,12 +34,9 @@ LC_ALL=C
 PAGER=cat
 TZ=UTC
 TERM=dumb
-export LANG LC_ALL PAGER TERM TZ
 EDITOR=:
-unset VISUAL
-export EDITOR
-unset CDPATH
-unset GREP_OPTIONS
+export LANG LC_ALL PAGER TZ TERM EDITOR
+unset VISUAL CDPATH GREP_OPTIONS
 
 # Line feed
 LF='
