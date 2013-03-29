@@ -625,15 +625,8 @@ export SHARNESS_TEST_DIRECTORY
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
 : ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
-export SHARNESS_BUILD_DIRECTORY
-
-# XXX really need TEST_INSTALLED?
-if test -n "$TEST_INSTALLED"; then
-	PATH="$TEST_INSTALLED:$SHARNESS_BUILD_DIRECTORY:$PATH"
-else
-	PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
-fi
-export PATH
+PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
+export PATH SHARNESS_BUILD_DIRECTORY
 
 # Public: Path to test script currently executed.
 SHARNESS_TEST_FILE="$0"
