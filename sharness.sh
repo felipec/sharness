@@ -195,6 +195,7 @@ satisfied_prereq=" "
 #
 # Returns 0 if all prerequisites are defined or 1 otherwise.
 test_have_prereq() {
+	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
 	set -- $*
@@ -205,12 +206,32 @@ test_have_prereq() {
 	missing_prereq=
 
 	for prerequisite; do
+		case "$prerequisite" in
+		!*)
+			negative_prereq=t
+			prerequisite=${prerequisite#!}
+			;;
+		*)
+			negative_prereq=
+		esac
+
 		total_prereq=$(($total_prereq + 1))
-		case $satisfied_prereq in
+		case "$satisfied_prereq" in
 		*" $prerequisite "*)
+			satisfied_this_prereq=t
+			;;
+		*)
+			satisfied_this_prereq=
+		esac
+
+		case "$satisfied_this_prereq,$negative_prereq" in
+		t,|,t)
 			ok_prereq=$(($ok_prereq + 1))
 			;;
 		*)
+			# Keep a list of missing prerequisites; restore
+			# the negative marker if necessary.
+			prerequisite=${negative_prereq:+!}$prerequisite
 			if test -z "$missing_prereq"; then
 				missing_prereq=$prerequisite
 			else
