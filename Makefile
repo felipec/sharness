@@ -5,7 +5,7 @@ DOC_DIR = $(prefix)/share/doc/sharness
 EXAMPLE_DIR = $(DOC_DIR)/examples
 
 INSTALL_FILES = aggregate-results.sh sharness.sh
-DOC_FILES = API.md COPYING HISTORY.md README.git README.md
+DOC_FILES = API.md CHANGELOG.md COPYING README.git README.md
 EXAMPLE_FILES = test/Makefile test/simple.t
 
 INSTALL = install
