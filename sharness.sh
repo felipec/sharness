@@ -675,3 +675,5 @@ for skp in $SKIP_TESTS; do
 		test_done
 	esac
 done
+
+# vi: set ts=4 sw=4 noet :
