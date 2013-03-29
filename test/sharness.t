@@ -1,27 +1,26 @@
 #!/bin/sh
 #
-# Copyright (c) 2005 Junio C Hamano
+# Copyright (c) 2011-2013 Mathias Lafeldt
+# Copyright (c) 2005-2013 Git project
+# Copyright (c) 2005-2013 Junio C Hamano
 #
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-test_description='Test the very basics part #1.
-
-The rest of the test suite does not check the basic operation of git
-plumbing commands to work very carefully.  Their job is to concentrate
-on tricky features that caused bugs in the past to detect regression.
-
-This test runs very basic features, like registering things in cache,
-writing tree, etc.
-
-Note that this test *deliberately* hard-codes many expected object
-IDs.  When object ID computation changes, like in the previous case of
-swapping compression and hashing order, the person who is making the
-modification *should* take notice and update the test vectors here.
-'
+test_description='Test Sharness itself'
 
 . ./sharness.sh
 
-################################################################
-# Test harness
 test_expect_success 'success is reported like this' '
 	:
 '
@@ -277,3 +276,5 @@ test_expect_success 'tests clean up even on failures' "
 "
 
 test_done
+
+# vi: set ft=sh :
