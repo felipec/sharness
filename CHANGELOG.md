@@ -1,5 +1,22 @@
-History
-=======
+0.2.5 (2013-03-29)
+------------------
+
+* Allow to install Sharness via `make install` and to uninstall it via
+  `make uninstall`. See brand-new installation instructions in README. ([GH-5])
+* Allow users to override the test extension via `SHARNESS_TEST_EXTENSION` if
+  they wish to. ([GH-6])
+* Don't set a variable and export it at the same time. ([GH-6])
+* Remove `TEST_INSTALLED` -- use `SHARNESS_BUILD_DIRECTORY` instead.
+* Add vi modeline to `sharness.sh`.
+* Add `AGGREGATE_SCRIPT` variable to `test/Makefile`.
+* Remove superfluous `SHARNESS_TEST_DIRECTORY` assignments from `test/basic.t`.
+* Add [timedb] to the list of projects using Sharness.
+* Add Sharness alternatives to README.
+* Rename HISTORY.md to CHANGELOG.md.
+
+[GH-5]: https://github.com/mlafeldt/sharness/pull/5
+[GH-6]: https://github.com/mlafeldt/sharness/pull/6
+[timedb]: http://git.cryptoism.org/cgit.cgi/timedb.git
 
 0.2.4 (2012-07-13)
 ------------------
