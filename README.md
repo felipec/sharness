@@ -133,6 +133,8 @@ number of tests.
 Alternatives
 ------------
 
+Here is a list of other shell testing libraries (sorted alphabetically):
+
 * [Bats](https://github.com/sstephenson/bats)
 * [roundup](https://github.com/bmizerany/roundup)
 * [shUnit2](https://code.google.com/p/shunit2/)
