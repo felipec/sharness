@@ -119,6 +119,7 @@ See how Sharness is used in real-world projects:
 
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
 * [dabba](https://github.com/eroullit/dabba)
+* [git-integration](https://github.com/johnkeeping/git-integration/tree/master/t)
 * [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
 * [timedb](http://git.cryptoism.org/cgit.cgi/timedb.git)
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
