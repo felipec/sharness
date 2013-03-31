@@ -125,6 +125,10 @@ See how Sharness is used in real-world projects:
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 * [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
 
+Furthermore, as Sharness was derived from Git, [Git's test suite](https://github.com/git/git/tree/master/t)
+is worth examining as well, especially if you're interested in managing a big
+number of tests.
+
 
 Alternatives
 ------------
