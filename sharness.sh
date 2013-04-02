@@ -352,7 +352,8 @@ test_skip_() {
 #
 # With three arguments, the first will be taken to be a prerequisite:
 # $1 - Comma-separated list of test prerequisites. The test will be skipped if
-#      not all of the given prerequisites are set.
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
 # $2 - Test description
 # $3 - Commands to be executed.
 #
@@ -404,7 +405,8 @@ test_expect_success() {
 #
 # With three arguments, the first will be taken to be a prerequisite:
 # $1 - Comma-separated list of test prerequisites. The test will be skipped if
-#      not all of the given prerequisites are set.
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
 # $2 - Test description
 # $3 - Commands to be executed.
 #
