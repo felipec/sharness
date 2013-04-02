@@ -10,3 +10,7 @@ install:
 script:
   - make test
   - sudo make -C /usr/local/share/doc/sharness/examples
+
+branches:
+  only:
+    - master
