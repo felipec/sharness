@@ -33,7 +33,7 @@ test: pre-clean
 
 prove: pre-clean
 	@echo "*** prove ***"; $(PROVE) --exec '$(SHELL_PATH_SQ)' $(PROVE_OPTS) $(T) :: $(TEST_OPTS)
-	$(MAKE) clean
+	$(MAKE) clean-except-prove-cache
 
 $(T):
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
@@ -41,8 +41,10 @@ $(T):
 pre-clean:
 	$(RM) -r test-results
 
-clean:
+clean-except-prove-cache:
 	$(RM) -r 'trash directory'.* test-results
+
+clean: clean-except-prove-cache
 	$(RM) .prove
 
 aggregate-results-and-cleanup: $(T)
