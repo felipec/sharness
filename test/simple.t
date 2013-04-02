@@ -4,11 +4,11 @@ test_description="Show basic features of Sharness"
 
 . ./sharness.sh
 
-test_expect_success "Success is reported like this" "
+it "reports success" "
     echo hello world | grep hello
 "
 
-test_expect_success "Commands are chained this way" "
+it "lets you chain commands" "
     test x = 'x' &&
     test 2 -gt 1 &&
     echo success
@@ -19,11 +19,11 @@ return_42() {
     return 42
 }
 
-test_expect_success "You can test for a specific exit code" "
+it "tests for a specific exit code" "
     test_expect_code 42 return_42
 "
 
-test_expect_failure "We expect this to fail" "
+xit "expects this to fail" "
     test 1 = 2
 "
 
