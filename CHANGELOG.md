@@ -1,3 +1,24 @@
+0.3.0 (WIP)
+-----------
+
+Merged upstream changes from Git ([GH-7]):
+
+* Make test number come first in `not ok $count - $message`.
+* Paint known breakages in yellow.
+* Paint unexpectedly fixed known breakages in bold red.
+* Paint skipped tests in blue.
+* Change info messages from yellow/brown to cyan.
+* Fix `say_color()` to not interpret `\a\b\c` in the message.
+* Add check for invalid use of `skip_all` facility.
+* Rename `$satisfied` to `$satisfied_prereq`.
+* Allow negation of prerequisites with "!".
+* Retain cache file `test/.prove` across prove runs.
+* Replace `basic.t` with `sharness.t` which is an adapted version of
+  `t0000-basic.sh` from upstream.
+* Update `README.git` with upstream changes.
+
+[GH-7]: https://github.com/mlafeldt/sharness/pull/7
+
 0.2.5 (2013-03-29)
 ------------------
 

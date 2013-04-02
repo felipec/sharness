@@ -84,11 +84,18 @@ if test -n "$color"; then
 		TERM=$ORIGINAL_TERM
 		export TERM
 		case "$1" in
-			error) tput bold; tput setaf 1;; # bold red
-			skip)  tput bold; tput setaf 2;; # bold green
-			pass)  tput setaf 2;;            # green
-			info)  tput setaf 3;;            # brown
-			*) test -n "$quiet" && return;;
+		error)
+			tput bold; tput setaf 1;; # bold red
+		skip)
+			tput setaf 4;; # blue
+		warn)
+			tput setaf 3;; # brown/yellow
+		pass)
+			tput setaf 2;; # green
+		info)
+			tput setaf 6;; # cyan
+		*)
+			test -n "$quiet" && return;;
 		esac
 		shift
 		printf "%s" "$*"
@@ -100,7 +107,7 @@ else
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
 		shift
-		echo "$*"
+		printf "%s\n" "$*"
 	}
 fi
 
@@ -166,9 +173,9 @@ trap 'die' EXIT
 #
 # Returns nothing.
 test_set_prereq() {
-	satisfied="$satisfied$1 "
+	satisfied_prereq="$satisfied_prereq$1 "
 }
-satisfied=" "
+satisfied_prereq=" "
 
 # Public: Check if one or more test prerequisites are defined.
 #
@@ -188,6 +195,7 @@ satisfied=" "
 #
 # Returns 0 if all prerequisites are defined or 1 otherwise.
 test_have_prereq() {
+	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
 	set -- $*
@@ -198,12 +206,32 @@ test_have_prereq() {
 	missing_prereq=
 
 	for prerequisite; do
+		case "$prerequisite" in
+		!*)
+			negative_prereq=t
+			prerequisite=${prerequisite#!}
+			;;
+		*)
+			negative_prereq=
+		esac
+
 		total_prereq=$(($total_prereq + 1))
-		case $satisfied in
+		case "$satisfied_prereq" in
 		*" $prerequisite "*)
+			satisfied_this_prereq=t
+			;;
+		*)
+			satisfied_this_prereq=
+		esac
+
+		case "$satisfied_this_prereq,$negative_prereq" in
+		t,|,t)
 			ok_prereq=$(($ok_prereq + 1))
 			;;
 		*)
+			# Keep a list of missing prerequisites; restore
+			# the negative marker if necessary.
+			prerequisite=${negative_prereq:+!}$prerequisite
 			if test -z "$missing_prereq"; then
 				missing_prereq=$prerequisite
 			else
@@ -225,7 +253,7 @@ test_ok_() {
 
 test_failure_() {
 	test_failure=$(($test_failure + 1))
-	say_color error "not ok - $test_count $1"
+	say_color error "not ok $test_count - $1"
 	shift
 	echo "$@" | sed -e 's/^/#	/'
 	test "$immediate" = "" || { EXIT_OK=t; exit 1; }
@@ -233,12 +261,12 @@ test_failure_() {
 
 test_known_broken_ok_() {
 	test_fixed=$(($test_fixed + 1))
-	say_color "" "ok $test_count - $@ # TODO known breakage"
+	say_color error "ok $test_count - $@ # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
 	test_broken=$(($test_broken + 1))
-	say_color skip "not ok $test_count - $@ # TODO known breakage"
+	say_color warn "not ok $test_count - $@ # TODO known breakage"
 }
 
 # Public: Execute commands in debug mode.
@@ -324,7 +352,8 @@ test_skip_() {
 #
 # With three arguments, the first will be taken to be a prerequisite:
 # $1 - Comma-separated list of test prerequisites. The test will be skipped if
-#      not all of the given prerequisites are set.
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
 # $2 - Test description
 # $3 - Commands to be executed.
 #
@@ -376,7 +405,8 @@ test_expect_success() {
 #
 # With three arguments, the first will be taken to be a prerequisite:
 # $1 - Comma-separated list of test prerequisites. The test will be skipped if
-#      not all of the given prerequisites are set.
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
 # $2 - Test description
 # $3 - Commands to be executed.
 #
@@ -585,19 +615,30 @@ test_done() {
 	fi
 
 	if test "$test_fixed" != 0; then
-		say_color pass "# fixed $test_fixed known breakage(s)"
+		say_color error "# $test_fixed known breakage(s) vanished; please update test(s)"
 	fi
 	if test "$test_broken" != 0; then
-		say_color error "# still have $test_broken known breakage(s)"
-		msg="remaining $(($test_count - $test_broken)) test(s)"
+		say_color warn "# still have $test_broken known breakage(s)"
+	fi
+	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
+		test_remaining=$(( $test_count - $test_broken - $test_fixed ))
+		msg="remaining $test_remaining test(s)"
 	else
+		test_remaining=$test_count
 		msg="$test_count test(s)"
 	fi
+
 	case "$test_failure" in
 	0)
+		# Maybe print SKIP message
+		if test -n "$skip_all" && test $test_count -gt 0; then
+			error "Can't use skip_all after running some tests"
+		fi
 		[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
 
-		say_color pass "# passed all $msg"
+		if test $test_remaining -gt 0; then
+			say_color pass "# passed all $msg"
+		fi
 		say "1..$test_count$skip_all"
 
 		test -d "$remove_trash" &&
@@ -661,7 +702,7 @@ this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
 for skp in $SKIP_TESTS; do
 	case "$this_test" in
 	$skp)
-		say_color skip >&3 "skipping test $this_test altogether"
+		say_color info >&3 "skipping test $this_test altogether"
 		skip_all="skip all tests in $this_test"
 		test_done
 	esac
