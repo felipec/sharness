@@ -1,7 +1,10 @@
-v0.3.0 (WIP)
-------------
+v0.3.0 (2013-04-03)
+-------------------
 
-Merged upstream changes from Git ([GH-7]):
+This release is all about bringing upstream fixes and improvements from Git to
+Sharness ([GH-7]).
+
+List of merged upstream changes:
 
 * Make test number come first in `not ok $count - $message`.
 * Paint known breakages in yellow.
@@ -17,7 +20,14 @@ Merged upstream changes from Git ([GH-7]):
   `t0000-basic.sh` from upstream.
 * Update `README.git` with upstream changes.
 
+Other changes:
+
+* Add [git-integration] to the list of projects using Sharness. Also pay tribute
+  to Git's test suite.
+* Let Travis only test the master branch (and pull requests).
+
 [GH-7]: https://github.com/mlafeldt/sharness/pull/7
+[git-integration]: https://github.com/johnkeeping/git-integration
 
 v0.2.5 (2013-03-29)
 -------------------
