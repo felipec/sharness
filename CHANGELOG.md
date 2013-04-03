@@ -1,5 +1,5 @@
-0.3.0 (WIP)
------------
+v0.3.0 (WIP)
+------------
 
 Merged upstream changes from Git ([GH-7]):
 
@@ -19,8 +19,8 @@ Merged upstream changes from Git ([GH-7]):
 
 [GH-7]: https://github.com/mlafeldt/sharness/pull/7
 
-0.2.5 (2013-03-29)
-------------------
+v0.2.5 (2013-03-29)
+-------------------
 
 * Allow to install Sharness via `make install` and to uninstall it via
   `make uninstall`. See brand-new installation instructions in README. ([GH-5])
@@ -39,8 +39,8 @@ Merged upstream changes from Git ([GH-7]):
 [GH-6]: https://github.com/mlafeldt/sharness/pull/6
 [timedb]: http://git.cryptoism.org/cgit.cgi/timedb.git
 
-0.2.4 (2012-07-13)
-------------------
+v0.2.4 (2012-07-13)
+-------------------
 
 * Add `simple.t` to tests and README.
 * Provide `SHARNESS_TEST_FILE` which is the path to the test script currently
@@ -49,8 +49,8 @@ Merged upstream changes from Git ([GH-7]):
 
 [dabba]: https://github.com/eroullit/dabba
 
-0.2.3 (2012-06-20)
-------------------
+v0.2.3 (2012-06-20)
+-------------------
 
 * Make `.t` the new test file extension, which is the default extension used by
   `prove(1)`. (You can still use the `t????-*` scheme, but you need to rename
@@ -59,8 +59,8 @@ Merged upstream changes from Git ([GH-7]):
   `SHARNESS_BUILD_DIRECTORY`, and `SHARNESS_TRASH_DIRECTORY`.
 * TomDoc `SHARNESS_TEST_EXTENSION`.
 
-0.2.2 (2012-04-27)
-------------------
+v0.2.2 (2012-04-27)
+-------------------
 
 * Document all public API functions using [TomDoc] and let [tomdoc.sh] generate
   documentation in markdown format from it, see `API.md`.
@@ -71,8 +71,8 @@ Merged upstream changes from Git ([GH-7]):
 [TomDoc]: http://tomdoc.org/
 [tomdoc.sh]: https://github.com/mlafeldt/tomdoc.sh
 
-0.2.1 (2012-03-01)
-------------------
+v0.2.1 (2012-03-01)
+-------------------
 
 * Fix: Redirect stdin of tests (by @peff).
 * Unify coding style across all shell scripts.
@@ -83,8 +83,8 @@ Merged upstream changes from Git ([GH-7]):
 * Add top-level Makefile to say `make test`.
 * Add GPL header to all files from Git.
 
-0.2.0 (2011-12-13)
-------------------
+v0.2.0 (2011-12-13)
+-------------------
 
 * Rename `test-lib.sh` to `sharness.sh`.
 * Strip more Git-specific functionality.
@@ -93,13 +93,13 @@ Merged upstream changes from Git ([GH-7]):
 * Update README.
 * Add this history file.
 
-0.1.1 (2011-11-02)
-------------------
+v0.1.1 (2011-11-02)
+-------------------
 
 * Merge changes to test harness library from Git v1.7.8-rc0
 
-0.1.0 (2011-05-02)
-------------------
+v0.1.0 (2011-05-02)
+-------------------
 
 * First version based on test harness library from Git v1.7.5
 * Remove Git-specific functions, variables, prerequisites, make targets, etc.
