@@ -30,7 +30,8 @@
 
       </header>
       <section>
-        <h1>Sharness</h1>
+        <h1>
+<a name="sharness" class="anchor" href="#sharness"><span class="octicon octicon-link"></span></a>Sharness</h1>
 
 <p>Sharness is a portable shell library to write, run, and analyze automated tests
 for Unix programs. Since all tests output TAP, the <a href="http://testanything.org/">Test Anything Protocol</a>,
@@ -94,7 +95,8 @@ Result: PASS
 <p>Sharness was derived from the <a href="http://git-scm.com/">Git</a> project - see <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> for the original
 documentation.</p>
 
-<h2>Installation</h2>
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>First, clone the Git repository:</p>
 
@@ -103,7 +105,8 @@ documentation.</p>
 
 <p>Then choose an installation method that works best for you:</p>
 
-<h3>Per-project installation</h3>
+<h3>
+<a name="per-project-installation" class="anchor" href="#per-project-installation"><span class="octicon octicon-link"></span></a>Per-project installation</h3>
 
 <p>If you like to add Sharness to the sources of a project you want to use it for,
 simply copy the files <code>sharness.sh</code>, <code>aggregate-results.sh</code>, and <code>test/Makefile</code>
@@ -111,7 +114,8 @@ to a folder named <code>test</code> inside that project.</p>
 
 <p>Alternatively, you can also add Sharness as a Git submodule to your project.</p>
 
-<h3>Per-user installation</h3>
+<h3>
+<a name="per-user-installation" class="anchor" href="#per-user-installation"><span class="octicon octicon-link"></span></a>Per-user installation</h3>
 
 <pre><code>$ cd sharness
 $ make install
@@ -120,7 +124,8 @@ $ make install
 <p>This will install Sharness to <code>$HOME/share/sharness</code>, and its documentation and
 examples to <code>$HOME/share/doc/sharness</code>.</p>
 
-<h3>System-wide installation</h3>
+<h3>
+<a name="system-wide-installation" class="anchor" href="#system-wide-installation"><span class="octicon octicon-link"></span></a>System-wide installation</h3>
 
 <pre><code>$ cd sharness
 # make install prefix=/usr/local
@@ -132,7 +137,14 @@ and examples to <code>/usr/local/share/doc/sharness</code>.</p>
 <p>Of course, you can change the <em>prefix</em> parameter to install Sharness to any
 other location.</p>
 
-<h2>Usage</h2>
+<h3>
+<a name="installation-via-chef" class="anchor" href="#installation-via-chef"><span class="octicon octicon-link"></span></a>Installation via Chef</h3>
+
+<p>If you want to install Sharness with Opscode Chef, the <a href="https://github.com/mlafeldt/sharness-cookbook">Sharness cookbook</a> is
+for you.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>The following files are essential to using Sharness:</p>
 
@@ -148,7 +160,8 @@ other location.</p>
 </ul><p>To learn how to write and run actual test scripts based on <code>sharness.sh</code>, please
 read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">README.git</a> until I come up with more documentation myself.</p>
 
-<h2>Projects using Sharness</h2>
+<h2>
+<a name="projects-using-sharness" class="anchor" href="#projects-using-sharness"><span class="octicon octicon-link"></span></a>Projects using Sharness</h2>
 
 <p>See how Sharness is used in real-world projects:</p>
 
@@ -164,7 +177,8 @@ read <a href="https://github.com/mlafeldt/sharness/blob/master/README.git">READM
 is worth examining as well, especially if you're interested in managing a big
 number of tests.</p>
 
-<h2>Alternatives</h2>
+<h2>
+<a name="alternatives" class="anchor" href="#alternatives"><span class="octicon octicon-link"></span></a>Alternatives</h2>
 
 <p>Here is a list of other shell testing libraries (sorted alphabetically):</p>
 
@@ -174,12 +188,15 @@ number of tests.</p>
 <li><a href="https://code.google.com/p/shunit2/">shUnit2</a></li>
 <li><a href="https://github.com/shpec/shpec">shspec</a></li>
 <li><a href="https://gist.github.com/3877539">testlib.sh</a></li>
-</ul><h2>License</h2>
+<li><a href="https://github.com/thinkerbot/ts">ts</a></li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Sharness is licensed under the terms of the GNU General Public License version
 2 or higher. See file <a href="https://github.com/mlafeldt/sharness/blob/master/COPYING">COPYING</a> for full license text.</p>
 
-<h2>Contact</h2>
+<h2>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
 
 <ul>
 <li>Web: <a href="http://mlafeldt.github.com/sharness">http://mlafeldt.github.com/sharness</a>
