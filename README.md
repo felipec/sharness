@@ -99,6 +99,11 @@ and examples to `/usr/local/share/doc/sharness`.
 Of course, you can change the _prefix_ parameter to install Sharness to any
 other location.
 
+### Installation via Chef
+
+If you want to install Sharness with Opscode Chef, the [Sharness cookbook] is
+for you.
+
 
 Usage
 -----
@@ -163,5 +168,6 @@ Contact
 [COPYING]: https://github.com/mlafeldt/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
 [README.git]: https://github.com/mlafeldt/sharness/blob/master/README.git
+[Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
 [prove(1)]: http://linux.die.net/man/1/prove
