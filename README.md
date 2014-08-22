@@ -143,6 +143,7 @@ Alternatives
 Here is a list of other shell testing libraries (sorted alphabetically):
 
 * [Bats](https://github.com/sstephenson/bats)
+* [Cram](https://bitheap.org/cram)
 * [rnt](https://github.com/roman-neuhauser/rnt)
 * [roundup](https://github.com/bmizerany/roundup)
 * [shUnit2](https://code.google.com/p/shunit2/)
