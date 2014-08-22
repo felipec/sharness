@@ -39,7 +39,7 @@ they can be run with any TAP harness.</p>
 
 <p>Each test is written as a shell script, for example:</p>
 
-<div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<div class="highlight highlight-sh"><pre><span class="c">#!/bin/sh</span>
 
 <span class="nv">test_description</span><span class="o">=</span><span class="s2">"Show basic features of Sharness"</span>
 
@@ -57,7 +57,7 @@ test_expect_success <span class="s2">"Commands are chained this way"</span> <spa
 
 return_42<span class="o">()</span> <span class="o">{</span>
     <span class="nb">echo</span> <span class="s2">"Will return soon"</span>
-    <span class="k">return </span>42
+    <span class="k">return</span> 42
 <span class="o">}</span>
 
 test_expect_success <span class="s2">"You can test for a specific exit code"</span> <span class="s2">"</span>
@@ -184,6 +184,8 @@ number of tests.</p>
 
 <ul>
 <li><a href="https://github.com/sstephenson/bats">Bats</a></li>
+<li><a href="https://bitheap.org/cram">Cram</a></li>
+<li><a href="https://github.com/roman-neuhauser/rnt">rnt</a></li>
 <li><a href="https://github.com/bmizerany/roundup">roundup</a></li>
 <li><a href="https://code.google.com/p/shunit2/">shUnit2</a></li>
 <li><a href="https://github.com/shpec/shpec">shspec</a></li>
@@ -208,7 +210,7 @@ number of tests.</p>
 </ul>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
