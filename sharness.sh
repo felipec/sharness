@@ -601,7 +601,7 @@ test_done() {
 
 	if test -z "$HARNESS_ACTIVE"; then
 		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
-		mkdir -p "$test_results_dir"
+		mkdir -p $(dirname "$test_results_dir/$SHARNESS_TEST_FILE")
 		test_results_path="$test_results_dir/${SHARNESS_TEST_FILE%.$SHARNESS_TEST_EXTENSION}.$$.counts"
 
 		cat >>"$test_results_path" <<-EOF

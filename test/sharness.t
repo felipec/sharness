@@ -48,7 +48,8 @@ run_sub_test_lib_test () {
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_DIRECTORY &&
-		./".$name.t" >out 2>err
+                cd .. &&
+		./"$name/.$name.t" >"$name/out" 2>"$name/err"
 	)
 }
 
