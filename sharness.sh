@@ -576,6 +576,23 @@ test_when_finished() {
 		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
 }
 
+# Public: Schedule cleanup commands to be run unconditionally when all tests
+# have run.
+#
+# This can be used to clean up things like test databases. It is not needed to
+# clean up temporary files, as test_done already does that.
+#
+# Examples:
+#
+#   cleanup mysql -e "DROP DATABASE mytest"
+#
+# Returns the exit code of the last cleanup command executed.
+final_cleanup=
+cleanup() {
+	final_cleanup="{ $*
+		} && (exit \"\$eval_ret\"); eval_ret=\$?; $final_cleanup"
+}
+
 # Public: Summarize test results and exit with an appropriate error code.
 #
 # Must be called at the end of each test script.
@@ -640,6 +657,8 @@ test_done() {
 			say_color pass "# passed all $msg"
 		fi
 		say "1..$test_count$skip_all"
+
+		test_eval_ "$final_cleanup"
 
 		test -d "$remove_trash" &&
 		cd "$(dirname "$remove_trash")" &&
