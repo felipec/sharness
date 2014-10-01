@@ -266,6 +266,20 @@
 
     Returns 0 if all tests passed or 1 if there was a failure.
 
+### cleanup()
+
+    Public: Schedule cleanup commands to be run unconditionally when all tests
+    have run.
+
+    This can be used to clean up things like test databases. It is not needed to
+    clean up temporary files, as test_done already does that.
+
+    Examples:
+
+      cleanup mysql -e "DROP DATABASE mytest"
+
+    Returns the exit code of the last cleanup command executed.
+
 ### SHARNESS_TEST_DIRECTORY
 
     Public: Root directory containing tests. Tests can override this variable,
