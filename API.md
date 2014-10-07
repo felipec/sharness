@@ -322,6 +322,12 @@
     Public: Root directory containing tests. Tests can override this variable,
     e.g. for testing Sharness itself.
 
+### SHARNESS_TEST_SRCDIR
+
+    Public: Source directory of test code and sharness library.
+     This directory may be different from the directory in which tests are
+     being run.
+
 ### SHARNESS_BUILD_DIRECTORY
 
     Public: Build directory that will be added to PATH. By default, it is set to
