@@ -691,6 +691,12 @@ test_done() {
 : ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
 export SHARNESS_TEST_DIRECTORY
 
+#
+# Public: Source directory of test code and sharness library.
+#  This directory may be different from the directory in which tests are
+#  being run.
+: ${SHARNESS_TEST_SRCDIR:=$(cd `dirname $0` && pwd)}
+
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
 : ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}

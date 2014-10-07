@@ -43,11 +43,11 @@ run_sub_test_lib_test () {
 		'
 
 		# Point to the test/sharness.sh, which isn't in ../ as usual
-		. "\$SHARNESS_TEST_DIRECTORY"/sharness.sh
+		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
 		EOF
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
-		export SHARNESS_TEST_DIRECTORY &&
+		export SHARNESS_TEST_SRCDIR &&
 		./".$name.t" --chain-lint >out 2>err
 	)
 }
