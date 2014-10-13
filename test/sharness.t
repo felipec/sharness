@@ -297,6 +297,40 @@ test_expect_success 'We detect broken && chains' "
 	EOF
 "
 
+test_expect_success 'tests can be run from an alternate directory' '
+	# Act as if we have an installation of sharness in current dir:
+	ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+	export working_path="$(pwd)" &&
+	cat >test.t <<-EOF &&
+	test_description="test run of script from alternate dir"
+	. \$(dirname \$0)/sharness.sh
+	test_expect_success "success" "
+		true
+	"
+	test_expect_success "trash dir is subdir of working path" "
+		test \"\$(cd .. && pwd)\" = \"\$working_path/test-rundir\"
+	"
+	test_done
+	EOF
+        (
+          # unset SHARNESS variables before sub-test
+	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+	  # unset HARNESS_ACTIVE so we get a test-results dir
+	  unset HARNESS_ACTIVE &&
+	  chmod +x test.t &&
+	  mkdir test-rundir &&
+	  cd test-rundir &&
+	  ../test.t >output 2>err &&
+	  cat >expected <<-EOF &&
+	ok 1 - success
+	ok 2 - trash dir is subdir of working path
+	# passed all 2 test(s)
+	1..2
+	EOF
+	  test_cmp expected output &&
+	  test -d test-results
+	)
+'
 test_done
 
 # vi: set ft=sh :
