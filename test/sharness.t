@@ -315,6 +315,8 @@ test_expect_success 'tests can be run from an alternate directory' '
         (
           # unset SHARNESS variables before sub-test
 	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+	  # unset HARNESS_ACTIVE so we get a test-results dir
+	  unset HARNESS_ACTIVE &&
 	  chmod +x test.t &&
 	  mkdir test-rundir &&
 	  cd test-rundir &&
