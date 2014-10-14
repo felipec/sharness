@@ -329,6 +329,32 @@ test_expect_success 'tests can be run from an alternate directory' '
 	  test -d test-results
 	)
 '
+
+test_expect_success 'loading sharness extensions works' '
+	mkdir sharness.d &&
+	cat >sharness.d/test.sh <<-EOF &&
+	this_is_a_test() {
+		return 0
+	}
+	EOF
+	ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+	cat >test-extension.t <<-EOF &&
+	test_description="test sharness extensions"
+	. ./sharness.sh
+	test_expect_success "extension function is present" "
+		this_is_a_test
+	"
+	test_done
+	EOF
+	chmod +x ./test-extension.t &&
+	./test-extension.t >out 2>err &&
+	cat >expected <<-EOF &&
+	ok 1 - extension function is present
+	# passed all 1 test(s)
+	1..1
+	EOF
+	test_cmp expected out
+'
 test_done
 
 # vi: set ft=sh :
