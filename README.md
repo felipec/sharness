@@ -1,5 +1,4 @@
-Sharness
-========
+# Sharness
 
 Sharness is a portable shell library to write, run, and analyze automated tests
 for Unix programs. Since all tests output TAP, the [Test Anything Protocol],
@@ -62,9 +61,7 @@ Alternatively, you can run the test through [prove(1)]:
 Sharness was derived from the [Git] project - see [README.git] for the original
 documentation.
 
-
-Installation
-------------
+## Installation
 
 First, clone the Git repository:
 
@@ -104,9 +101,7 @@ other location.
 If you want to install Sharness with Opscode Chef, the [Sharness cookbook] is
 for you.
 
-
-Usage
------
+## Usage
 
 The following files are essential to using Sharness:
 
@@ -118,9 +113,7 @@ The following files are essential to using Sharness:
 To learn how to write and run actual test scripts based on `sharness.sh`, please
 read [README.git] until I come up with more documentation myself.
 
-
-Projects using Sharness
------------------------
+## Projects using Sharness
 
 See how Sharness is used in real-world projects:
 
@@ -137,9 +130,7 @@ Furthermore, as Sharness was derived from Git, [Git's test suite](https://github
 is worth examining as well, especially if you're interested in managing a big
 number of tests.
 
-
-Alternatives
-------------
+## Alternatives
 
 Here is a list of other shell testing libraries (sorted alphabetically):
 
@@ -152,15 +143,12 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 * [testlib.sh](https://gist.github.com/3877539)
 * [ts](https://github.com/thinkerbot/ts)
 
-License
--------
+## License
 
 Sharness is licensed under the terms of the GNU General Public License version
 2 or higher. See file [COPYING] for full license text.
 
-
-Contact
--------
+## Contact
 
 * Web: <http://mlafeldt.github.com/sharness>
 * Mail: <mathias.lafeldt@gmail.com>
