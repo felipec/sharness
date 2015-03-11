@@ -148,17 +148,17 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 Sharness is licensed under the terms of the GNU General Public License version
 2 or higher. See file [COPYING] for full license text.
 
-## Contact
+## Author
 
-* Web: <http://mlafeldt.github.com/sharness>
-* Mail: <mathias.lafeldt@gmail.com>
-* Twitter: [@mlafeldt](https://twitter.com/mlafeldt)
+Sharness is being developed by [Mathias Lafeldt][twitter]. The library was
+derived from the [Git] project.
 
 
 [API documentation]: https://github.com/mlafeldt/sharness/blob/master/API.md
 [COPYING]: https://github.com/mlafeldt/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
+[prove(1)]: http://linux.die.net/man/1/prove
 [README.git]: https://github.com/mlafeldt/sharness/blob/master/README.git
 [Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
-[prove(1)]: http://linux.die.net/man/1/prove
+[twitter]: https://twitter.com/mlafeldt
