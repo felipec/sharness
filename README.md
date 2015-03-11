@@ -125,14 +125,13 @@ Projects using Sharness
 See how Sharness is used in real-world projects:
 
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
-* [dabba](https://github.com/eroullit/dabba)
+* [dabba](https://github.com/eroullit/dabba/tree/master/dabba/test)
 * [git-integration](https://github.com/johnkeeping/git-integration/tree/master/t)
-* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
-* [timedb](http://git.cryptoism.org/cgit.cgi/timedb.git)
-* [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 * [go-ipfs](https://github.com/jbenet/go-ipfs/tree/master/test/sharness)
 * [go-multihash](https://github.com/jbenet/go-multihash/tree/master/test/sharness)
-* [Sharness itself](https://github.com/mlafeldt/sharness/blob/master/test)
+* [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
+* [Sharness itself](/test)
+* [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
 
 Furthermore, as Sharness was derived from Git, [Git's test suite](https://github.com/git/git/tree/master/t)
 is worth examining as well, especially if you're interested in managing a big
