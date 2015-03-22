@@ -606,6 +606,21 @@ test_seq() {
 	done
 }
 
+# Public: Check if the file expected to be empty is indeed empty, and barfs
+# otherwise.
+#
+# $1 - File to check for emptyness.
+#
+# Returns 0 if file is empty, 1 otherwise.
+test_must_be_empty() {
+	if test -s "$1"
+	then
+		echo "'$1' is not empty, it contains:"
+		cat "$1"
+		return 1
+	fi
+}
+
 # Public: Schedule cleanup commands to be run unconditionally at the end of a
 # test.
 #
