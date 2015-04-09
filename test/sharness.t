@@ -48,7 +48,7 @@ run_sub_test_lib_test () {
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_DIRECTORY &&
-		./".$name.t" >out 2>err
+		./".$name.t" --chain-lint >out 2>err
 	)
 }
 
@@ -283,6 +283,17 @@ test_expect_success 'cleanup functions tun at the end of the test' "
 	check_sub_test_lib_test cleanup-function <<-\\EOF
 	1..0
 	cleanup-function-called
+	EOF
+"
+
+test_expect_success 'We detect broken && chains' "
+	test_must_fail run_sub_test_lib_test \
+		broken-chain 'Broken && chain' <<-\\EOF
+	test_expect_success 'Cannot fail' '
+		true
+		true
+	'
+	test_done
 	EOF
 "
 

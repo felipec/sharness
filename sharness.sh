@@ -68,6 +68,10 @@ while test "$#" -ne 0; do
 		# Ignore --quiet under a TAP::Harness. Saying how many tests
 		# passed without the ok/not ok details is always an error.
 		test -z "$HARNESS_ACTIVE" && quiet=t; shift ;;
+	--chain-lint)
+		chain_lint=t; shift ;;
+	--no-chain-lint)
+		chain_lint=; shift ;;
 	--no-color)
 		color=; shift ;;
 	--root=*)
@@ -298,6 +302,13 @@ test_run_() {
 	expecting_failure=$2
 	test_eval_ "$1"
 	eval_ret=$?
+
+	if test "$chain_lint" = "t"; then
+		test_eval_ "(exit 117) && $1"
+		if test "$?" != 117; then
+			error "bug in the test script: broken &&-chain: $1"
+		fi
+	fi
 
 	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"; then
 		test_eval_ "$test_cleanup"
