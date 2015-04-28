@@ -562,6 +562,17 @@ test_cmp() {
 	${TEST_CMP:-diff -u} "$@"
 }
 
+# Public: Check if the file expected to be empty is indeed empty, and barfs
+# otherwise.
+test_must_be_empty() {
+	if test -s "$1"
+	then
+		echo "'$1' is not empty, it contains:"
+		cat "$1"
+		return 1
+	fi
+}
+
 # Public: Schedule cleanup commands to be run unconditionally at the end of a
 # test.
 #
