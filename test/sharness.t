@@ -34,7 +34,7 @@ run_sub_test_lib_test () {
 	(
 		cd "$name" &&
 		cat >".$name.t" <<-EOF &&
-		#!$SHELL_PATH
+		#!$SHELL
 
 		test_description='$descr (run in sub sharness)
 
