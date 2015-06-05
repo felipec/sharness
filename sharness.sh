@@ -562,6 +562,34 @@ test_cmp() {
 	${TEST_CMP:-diff -u} "$@"
 }
 
+# Public: portably print a sequence of numbers.
+#
+# seq is not in POSIX and GNU seq might not be available everywhere,
+# so it is nice to have a seq implementation, even a very simple one.
+#
+# $1 - Starting number.
+# $2 - Ending number.
+#
+# Examples
+#
+#   test_expect_success 'foo works 10 times' '
+#       for i in $(test_seq 1 10)
+#       do
+#           foo || return
+#       done
+#   '
+#
+# Returns 0 if all the specified numbers can be displayed.
+test_seq() {
+	i="$1"
+	j="$2"
+	while test "$i" -le "$j"
+	do
+		echo "$i" || return
+		i=$(expr "$i" + 1)
+	done
+}
+
 # Public: Schedule cleanup commands to be run unconditionally at the end of a
 # test.
 #
