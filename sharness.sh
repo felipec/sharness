@@ -28,6 +28,10 @@ export SHARNESS_TEST_EXTENSION
 # Keep the original TERM for say_color
 ORIGINAL_TERM=$TERM
 
+# Export SHELL_PATH
+: ${SHELL_PATH:=$SHELL}
+export SHELL_PATH
+
 # For repeatability, reset the environment to a known state.
 LANG=C
 LC_ALL=C
