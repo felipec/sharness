@@ -295,6 +295,18 @@ test_debug() {
 	test "$debug" = "" || eval "$1"
 }
 
+# Public: Stop execution and start a shell.
+#
+# This is useful for debugging tests and only makes sense together with "-v".
+# Be sure to remove all invocations of this command before submitting.
+test_pause() {
+	if test "$verbose" = t; then
+		"$SHELL_PATH" <&6 >&3 2>&4
+	else
+		error >&5 "test_pause requires --verbose"
+	fi
+}
+
 test_eval_() {
 	# This is a separate function because some tests use
 	# "return" to end a test_expect_success block early.

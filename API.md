@@ -65,6 +65,13 @@
     Returns the exit code of the last command executed in debug mode or 0
       otherwise.
 
+### test_pause()
+
+    Public: Stop execution and start a shell.
+
+    This is useful for debugging tests and only makes sense together with "-v".
+    Be sure to remove all invocations of this command before submitting.
+
 ### test_expect_success()
 
     Public: Run test commands and expect them to succeed.
