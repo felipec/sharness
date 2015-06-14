@@ -248,6 +248,15 @@
 
     Returns 0 if all the specified numbers can be displayed.
 
+### test_must_be_empty()
+
+    Public: Check if the file expected to be empty is indeed empty, and barfs
+    otherwise.
+
+    $1 - File to check for emptyness.
+
+    Returns 0 if file is empty, 1 otherwise.
+
 ### test_when_finished()
 
     Public: Schedule cleanup commands to be run unconditionally at the end of a
