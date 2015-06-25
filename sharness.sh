@@ -688,7 +688,7 @@ test_done() {
 	if test -z "$HARNESS_ACTIVE"; then
 		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
 		mkdir -p "$test_results_dir"
-		test_results_path="$test_results_dir/${SHARNESS_TEST_FILE%.$SHARNESS_TEST_EXTENSION}.$$.counts"
+		test_results_path="$test_results_dir/${SHARNESS_TEST_NAME}.$$.counts"
 
 		cat >>"$test_results_path" <<-EOF
 		total $test_count
@@ -749,6 +749,12 @@ test_done() {
 : ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
 export SHARNESS_TEST_DIRECTORY
 
+#
+# Public: Source directory of test code and sharness library.
+#  This directory may be different from the directory in which tests are
+#  being run.
+: ${SHARNESS_TEST_SRCDIR:=$(cd `dirname $0` && pwd)}
+
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
 : ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
@@ -759,8 +765,11 @@ export PATH SHARNESS_BUILD_DIRECTORY
 SHARNESS_TEST_FILE="$0"
 export SHARNESS_TEST_FILE
 
+SHARNESS_TEST_NAME=${SHARNESS_TEST_FILE##*/}
+SHARNESS_TEST_NAME=${SHARNESS_TEST_NAME%.${SHARNESS_TEST_EXTENSION}}
+
 # Prepare test area.
-test_dir="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
+test_dir="trash directory.$SHARNESS_TEST_NAME"
 test -n "$root" && test_dir="$root/$test_dir"
 case "$test_dir" in
 /*) SHARNESS_TRASH_DIRECTORY="$test_dir" ;;
@@ -772,6 +781,23 @@ rm -rf "$test_dir" || {
 	echo >&5 "FATAL: Cannot prepare test area"
 	exit 1
 }
+
+
+#
+#  Load any extensions in $srcdir/sharness.d/*.sh
+#
+if test -d "${SHARNESS_TEST_SRCDIR}/sharness.d"; then
+	for file in "${SHARNESS_TEST_SRCDIR}"/sharness.d/*.sh; do
+		if test -n "$debug"; then
+			echo 2>&1 "Attempting to load ${file}"
+		fi
+		. "${file}"
+		if test $? != 0; then
+			echo 2>&1 "sharness: Error loading ${file}. Aborting."
+			exit 1
+		fi
+	done
+fi
 
 # Public: Empty trash directory, the test area, provided for each test. The HOME
 # variable is set to that directory too.
@@ -785,10 +811,8 @@ mkdir -p "$test_dir" || exit 1
 # in subprocesses like git equals our $PWD (for pathname comparisons).
 cd -P "$test_dir" || exit 1
 
-this_test=${SHARNESS_TEST_FILE##*/}
-this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
 for skp in $SKIP_TESTS; do
-	case "$this_test" in
+	case "$SHARNESS_TEST_NAME" in
 	$skp)
 		say_color info >&3 "skipping test $this_test altogether"
 		skip_all="skip all tests in $this_test"
