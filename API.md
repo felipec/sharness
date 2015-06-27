@@ -8,6 +8,10 @@
 
     Public: The file extension for tests.  By default, it is set to "t".
 
+### SHARNESS_ORIG_TERM
+
+    Public: The unsanitized TERM under which sharness is originally run
+
 ### test_set_prereq()
 
     Public: Define that a test prerequisite is available.
