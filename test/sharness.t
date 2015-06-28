@@ -331,6 +331,19 @@ test_expect_success 'tests can be run from an alternate directory' '
 	  test -d test-results
 	)
 '
+
+test_expect_success 'SHARNESS_ORIG_TERM propagated to sub-sharness' "
+	(
+	  export TERM=foo &&
+	  unset SHARNESS_ORIG_TERM &&
+	  run_sub_test_lib_test orig-term 'check original term' <<-\\EOF
+	test_expect_success 'SHARNESS_ORIG_TERM is foo' '
+		test \"x\$SHARNESS_ORIG_TERM\" = \"xfoo\" '
+	test_done
+	EOF
+	)
+"
+
 test_done
 
 # vi: set ft=sh :
