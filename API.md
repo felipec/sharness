@@ -325,8 +325,8 @@
 ### SHARNESS_TEST_SRCDIR
 
     Public: Source directory of test code and sharness library.
-     This directory may be different from the directory in which tests are
-     being run.
+    This directory may be different from the directory in which tests are
+    being run.
 
 ### SHARNESS_BUILD_DIRECTORY
 
