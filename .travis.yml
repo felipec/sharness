@@ -4,6 +4,9 @@ env:
   - TEST_OPTS=-v
   - DEFAULT_TEST_TARGET=prove
 
+before_install:
+  - sudo apt-get install libio-pty-perl # for test-terminal.perl
+
 install:
   - sudo make install prefix=/usr/local
 
