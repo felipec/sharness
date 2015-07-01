@@ -28,6 +28,10 @@ test_expect_failure 'pretend we have a known breakage' '
 	false
 '
 
+test_terminal () {
+	perl "$SHARNESS_TEST_DIRECTORY"/test-terminal.perl "$@"
+}
+
 run_sub_test_lib_test () {
 	name="$1" descr="$2" # stdin is the body of the test code
 	mkdir "$name" &&
