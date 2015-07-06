@@ -155,6 +155,7 @@ derived from the [Git] project.
 
 
 [API documentation]: https://github.com/mlafeldt/sharness/blob/master/API.md
+[CONTRIBUTING]: https://github.com/mlafeldt/sharness/blob/master/CONTRIBUTING.md
 [COPYING]: https://github.com/mlafeldt/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
 [prove(1)]: http://linux.die.net/man/1/prove
