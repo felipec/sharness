@@ -148,6 +148,10 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 Sharness is licensed under the terms of the GNU General Public License version
 2 or higher. See file [COPYING] for full license text.
 
+## Contributing
+
+Contributions are welcome, see file [CONTRIBUTING] for details.
+
 ## Author
 
 Sharness is being developed by [Mathias Lafeldt][twitter]. The library was
