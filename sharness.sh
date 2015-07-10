@@ -773,7 +773,7 @@ case "$test_dir" in
  *) SHARNESS_TRASH_DIRECTORY="$SHARNESS_TEST_DIRECTORY/$test_dir" ;;
 esac
 test "$debug" = "t" || remove_trash="$SHARNESS_TRASH_DIRECTORY"
-rm -rf "$test_dir" || {
+rm -rf "$SHARNESS_TRASH_DIRECTORY" || {
 	EXIT_OK=t
 	echo >&5 "FATAL: Cannot prepare test area"
 	exit 1
@@ -786,10 +786,10 @@ export SHARNESS_TRASH_DIRECTORY
 HOME="$SHARNESS_TRASH_DIRECTORY"
 export HOME
 
-mkdir -p "$test_dir" || exit 1
+mkdir -p "$SHARNESS_TRASH_DIRECTORY" || exit 1
 # Use -P to resolve symlinks in our working directory so that the cwd
 # in subprocesses like git equals our $PWD (for pathname comparisons).
-cd -P "$test_dir" || exit 1
+cd -P "$SHARNESS_TRASH_DIRECTORY" || exit 1
 
 this_test=${SHARNESS_TEST_FILE##*/}
 this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
