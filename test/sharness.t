@@ -32,6 +32,10 @@ test_terminal () {
 	perl "$SHARNESS_TEST_DIRECTORY"/test-terminal.perl "$@"
 }
 
+# If test_terminal works, then set a PERL_AND_TTY prereq for future tests:
+# (PERL and TTY prereqs may later be split if needed separately)
+test_terminal sh -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
+
 run_sub_test_lib_test () {
 	name="$1" descr="$2" # stdin is the body of the test code
 	mkdir "$name" &&
