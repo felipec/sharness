@@ -28,8 +28,17 @@ test_expect_failure 'pretend we have a known breakage' '
 	false
 '
 
+test_terminal () {
+	perl "$SHARNESS_TEST_DIRECTORY"/test-terminal.perl "$@"
+}
+
+# If test_terminal works, then set a PERL_AND_TTY prereq for future tests:
+# (PERL and TTY prereqs may later be split if needed separately)
+test_terminal sh -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
+
 run_sub_test_lib_test () {
 	name="$1" descr="$2" # stdin is the body of the test code
+	prefix="$3"          # optionally run sub-test under command
 	mkdir "$name" &&
 	(
 		cd "$name" &&
@@ -48,7 +57,7 @@ run_sub_test_lib_test () {
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_SRCDIR &&
-		./".$name.t" --chain-lint >out 2>err
+		$prefix ./".$name.t" --chain-lint >out 2>err
 	)
 }
 
@@ -331,6 +340,30 @@ test_expect_success 'tests can be run from an alternate directory' '
 	  test -d test-results
 	)
 '
+
+test_expect_success 'SHARNESS_ORIG_TERM propagated to sub-sharness' "
+	(
+	  export TERM=foo &&
+	  unset SHARNESS_ORIG_TERM &&
+	  run_sub_test_lib_test orig-term 'check original term' <<-\\EOF
+	test_expect_success 'SHARNESS_ORIG_TERM is foo' '
+		test \"x\$SHARNESS_ORIG_TERM\" = \"xfoo\" '
+	test_done
+	EOF
+	)
+"
+
+[ -z "$color" ] || test_set_prereq COLOR
+test_expect_success COLOR,PERL_AND_TTY 'sub-sharness still has color' "
+	run_sub_test_lib_test \
+	  test-color \
+	  'sub-sharness color check' \
+	  test_terminal <<-\\EOF
+	test_expect_success 'color is enabled' '[ -n \"\$color\" ]'
+	test_done
+	EOF
+"
+
 test_done
 
 # vi: set ft=sh :
