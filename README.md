@@ -75,6 +75,8 @@ If you like to add Sharness to the sources of a project you want to use it for,
 simply copy the files `sharness.sh`, `aggregate-results.sh`, and `test/Makefile`
 to a folder named `test` inside that project.
 
+Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
+
 Alternatively, you can also add Sharness as a Git submodule to your project.
 
 ### Per-user installation
