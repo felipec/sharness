@@ -39,6 +39,7 @@ test_terminal sh -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
 run_sub_test_lib_test () {
 	name="$1" descr="$2" # stdin is the body of the test code
 	prefix="$3"          # optionally run sub-test under command
+	opt="$4"             # optionally call the script with extra option(s)
 	mkdir "$name" &&
 	(
 		cd "$name" &&
@@ -57,7 +58,7 @@ run_sub_test_lib_test () {
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_SRCDIR &&
-		$prefix ./".$name.t" --chain-lint >out 2>err
+		$prefix ./".$name.t" $opt --chain-lint >out 2>err
 	)
 }
 
@@ -361,6 +362,34 @@ test_expect_success COLOR,PERL_AND_TTY 'sub-sharness still has color' "
 	  test_terminal <<-\\EOF
 	test_expect_success 'color is enabled' '[ -n \"\$color\" ]'
 	test_done
+	EOF
+"
+
+test_expect_success 'EXPENSIVE prereq not activated by default' "
+	run_sub_test_lib_test no-long 'long test' <<-\\EOF &&
+	test_expect_success 'passing test' 'true'
+	test_expect_success EXPENSIVE 'passing suposedly long test' 'true'
+	test_done
+	EOF
+	check_sub_test_lib_test no-long <<-\\EOF
+	> ok 1 - passing test
+	> ok 2 # skip passing suposedly long test (missing EXPENSIVE)
+	> # passed all 2 test(s)
+	> 1..2
+	EOF
+"
+
+test_expect_success 'EXPENSIVE prereq is activated by --long' "
+	run_sub_test_lib_test long 'long test' '' '--long' <<-\\EOF &&
+	test_expect_success 'passing test' 'true'
+	test_expect_success EXPENSIVE 'passing suposedly long test' 'true'
+	test_done
+	EOF
+	check_sub_test_lib_test long <<-\\EOF
+	> ok 1 - passing test
+	> ok 2 - passing suposedly long test
+	> # passed all 2 test(s)
+	> 1..2
 	EOF
 "
 
