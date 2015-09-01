@@ -1,18 +1,20 @@
-language: erlang # no shell language support; use least-loaded worker(s)
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - libio-pty-perl # for test-terminal.perl
 
 env:
   - TEST_OPTS=-v
   - DEFAULT_TEST_TARGET=prove
 
-before_install:
-  - sudo apt-get install libio-pty-perl # for test-terminal.perl
-
 install:
-  - sudo make install prefix=/usr/local
+  - make install prefix=$HOME/local
 
 script:
   - make test
-  - sudo make -C /usr/local/share/doc/sharness/examples
+  - make -C $HOME/local/share/doc/sharness/examples
 
 branches:
   only:
