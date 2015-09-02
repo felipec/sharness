@@ -108,12 +108,27 @@ for you.
 The following files are essential to using Sharness:
 
 * `sharness.sh` - core shell library providing test functionality, see separate
-   [API documentation]
+   [API documentation]. Meant to be sourced from test scripts, but not executed.
 * `aggregate-results.sh` - helper script to aggregate test results
-* `test/Makefile` - test driver
+* `test/Makefile` - test driver. The default target runs the complete testsuite.
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
 read [README.git] until I come up with more documentation myself.
+
+### Command-line options
+
+The `*.t` test scripts have the following options (again, read
+[README.git] for details) :
+
+* `--debug`, `-d`: helps debugging
+* `--immediate`, `-i`: stop execution after the first failing test
+* `--long-tests`, `-l`: run tests marked with prereq EXPENSIVE
+* `--help`, `-h`: show test description
+* `--verbose`, `-v`: show additional debug output
+* `--quiet`, `-q`: show less output
+* `--chain-lint`/`--no-chain-lint`: check &&-chains in scripts
+* `--no-color`: don't color the output
+* `--root=<dir>`: create trash directories in `<dir>` instead of current directory.
 
 ## Projects using Sharness
 

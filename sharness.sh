@@ -809,4 +809,6 @@ for skp in $SKIP_TESTS; do
 	esac
 done
 
+test -n "$TEST_LONG" && test_set_prereq EXPENSIVE
+
 # vi: set ts=4 sw=4 noet :
