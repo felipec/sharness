@@ -79,6 +79,11 @@ Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
 
 Alternatively, you can also add Sharness as a Git submodule to your project.
 
+In per-project installation, Sharness will optionally load extensions from
+`sharness.d/*.sh` if a `sharness.d` directory is found in the same directory
+as `sharness.sh`. This allows per-project extensions and enhancements to
+be added to the test library without requiring modification of `sharness.sh`.
+
 ### Per-user installation
 
     $ cd sharness

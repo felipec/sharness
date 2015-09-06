@@ -786,6 +786,30 @@ rm -rf "$SHARNESS_TRASH_DIRECTORY" || {
 	exit 1
 }
 
+
+#
+#  Load any extensions in $srcdir/sharness.d/*.sh
+#
+if test -d "${SHARNESS_TEST_SRCDIR}/sharness.d"
+then
+	for file in "${SHARNESS_TEST_SRCDIR}"/sharness.d/*.sh
+	do
+		# Ensure glob was not an empty match:
+		test -e "${file}" || break
+
+		if test -n "$debug"
+		then
+			echo >&5 "sharness: loading extensions from ${file}"
+		fi
+		. "${file}"
+		if test $? != 0
+		then
+			echo >&5 "sharness: Error loading ${file}. Aborting."
+			exit 1
+		fi
+	done
+fi
+
 # Public: Empty trash directory, the test area, provided for each test. The HOME
 # variable is set to that directory too.
 export SHARNESS_TRASH_DIRECTORY
