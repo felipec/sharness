@@ -128,6 +128,7 @@ The `*.t` test scripts have the following options (again, read
 * `--debug`, `-d`: helps debugging
 * `--immediate`, `-i`: stop execution after the first failing test
 * `--long-tests`, `-l`: run tests marked with prereq EXPENSIVE
+* `--interactive-tests`: run tests marked with prereq INTERACTIVE
 * `--help`, `-h`: show test description
 * `--verbose`, `-v`: show additional debug output
 * `--quiet`, `-q`: show less output
