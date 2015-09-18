@@ -139,10 +139,12 @@ The `*.t` test scripts have the following options (again, read
 
 See how Sharness is used in real-world projects:
 
+* [azuki](https://github.com/seveas/azuki/tree/master/test)
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
 * [dabba](https://github.com/eroullit/dabba/tree/master/dabba/test)
 * [git-integration](https://github.com/johnkeeping/git-integration/tree/master/t)
 * [git-multimail](https://github.com/git-multimail/git-multimail/tree/master/t)
+* [git-spindle](https://github.com/seveas/git-spindle/tree/master/test)
 * [git-svn-fast-import](https://github.com/satori/git-svn-fast-import/tree/master/t)
 * [go-ipfs](https://github.com/ipfs/go-ipfs/tree/master/test/sharness)
 * [go-multihash](https://github.com/jbenet/go-multihash/tree/master/test/sharness)
