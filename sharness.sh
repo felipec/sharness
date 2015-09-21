@@ -811,7 +811,7 @@ done
 
 test -z "$TEST_LONG" || test_set_prereq EXPENSIVE
 
-# If you change something around here, be careful to make sure
-# that this script will end with code 0 under normal conditions.
+# Make sure this script ends with code 0
+:
 
 # vi: set ts=4 sw=4 noet :
