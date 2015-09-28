@@ -21,6 +21,12 @@ test_description='Test Sharness itself'
 
 . ./sharness.sh
 
+ret="$?"
+
+test_expect_success 'sourcing sharness succeeds' '
+	test "$ret" = 0
+'
+
 test_expect_success 'success is reported like this' '
 	:
 '
