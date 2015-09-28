@@ -833,7 +833,10 @@ for skp in $SKIP_TESTS; do
 	esac
 done
 
-test -n "$TEST_LONG" && test_set_prereq EXPENSIVE
+test -z "$TEST_LONG" || test_set_prereq EXPENSIVE
+
+# Make sure this script ends with code 0
+:
 
 # Make sure this script ends with code 0
 :
