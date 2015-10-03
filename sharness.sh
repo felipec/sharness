@@ -66,6 +66,8 @@ while test "$#" -ne 0; do
 		immediate=t; shift ;;
 	-l|--l|--lo|--lon|--long|--long-|--long-t|--long-te|--long-tes|--long-test|--long-tests)
 		TEST_LONG=t; export TEST_LONG; shift ;;
+	--in|--int|--inte|--inter|--intera|--interac|--interact|--interacti|--interactiv|--interactive|--interactive-|--interactive-t|--interactive-te|--interactive-tes|--interactive-test|--interactive-tests):
+		TEST_INTERACTIVE=t; export TEST_INTERACTIVE; verbose=t; shift ;;
 	-h|--h|--he|--hel|--help)
 		help=t; shift ;;
 	-v|--v|--ve|--ver|--verb|--verbo|--verbos|--verbose)
@@ -316,7 +318,14 @@ test_pause() {
 test_eval_() {
 	# This is a separate function because some tests use
 	# "return" to end a test_expect_success block early.
-	eval </dev/null >&3 2>&4 "$*"
+	case ",$test_prereq," in
+	*,INTERACTIVE,*)
+		eval "$*"
+		;;
+	*)
+		eval </dev/null >&3 2>&4 "$*"
+		;;
+	esac
 }
 
 test_run_() {
@@ -834,6 +843,7 @@ for skp in $SKIP_TESTS; do
 done
 
 test -n "$TEST_LONG" && test_set_prereq EXPENSIVE
+test -n "$TEST_INTERACTIVE" && test_set_prereq INTERACTIVE
 
 # Make sure this script ends with code 0
 :

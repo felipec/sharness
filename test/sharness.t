@@ -462,6 +462,12 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 	)
 '
 
+test_expect_success INTERACTIVE 'Interactive tests work' '
+    echo -n "Please type yes and hit enter " &&
+    read -r var &&
+    test "$var" = "yes"
+'
+
 test_done
 
 # vi: set ft=sh :
