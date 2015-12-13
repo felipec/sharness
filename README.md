@@ -149,6 +149,7 @@ See how Sharness is used in real-world projects:
 * [git-svn-fast-import](https://github.com/satori/git-svn-fast-import/tree/master/t)
 * [go-ipfs](https://github.com/ipfs/go-ipfs/tree/master/test/sharness)
 * [go-multihash](https://github.com/jbenet/go-multihash/tree/master/test/sharness)
+* [ipfs-update](https://github.com/ipfs/ipfs-update/tree/master/sharness)
 * [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
 * [Sharness itself](/test)
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
