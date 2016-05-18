@@ -1,3 +1,61 @@
+v1.0.0 (2016-06-14)
+-------------------
+
+These notes describe changes since the previous v0.3.0 version from
+April 3 2013.
+
+The new v1.0.0 version contains both many upstream fixes and
+improvements from Git and a lot of specific user contributed features.
+
+We think that Sharness is used and supported by enough projects and
+developers, and stable enough, now to be ready for a v1.0.0 version.
+
+Externally visible features:
+
+* Add a 'cleanup' api to register cleanup actions, thanks to Dennis
+  Kaarsemaker.
+* Add simple test_seq(), thanks to Christian Couder.
+* Add test_pause() from Git, thanks to Christian Couder.
+* Add test_must_be_empty(), thanks to Konstantin Koroviev.
+* Add SHARNESS_TEST_SRCDIR to run tests from a different directory,
+  thanks to Mark A. Grondona.
+* Implement --long-tests to run EXPENSIVE tests, thanks to Matthieu
+  Moy.
+* Support extensions in a sharness.d directory, thanks to Mark
+  A. Grondona.
+* Interactive tests, thanks to Dennis Kaarsemaker.
+
+Internal improvements and bug fixes:
+
+* Add a linter that detects broken && chains, thanks to Dennis
+  Kaarsemaker.
+* Export SHELL_PATH, thanks to Christian Couder.
+* Fix color support when tput needs ~/.terminfo, thanks to Richard
+  Hansen.
+* Fix pathname of test-results/*.counts file, thanks to Richard
+  Hansen.
+* Sort test scripts before running them, thanks to Richard Hansen.
+* Use SHARNESS_TRASH_DIRECTORY to enter the trash directory and drop
+  the test_dir internal variable, thanks to Alexander Sulfrian.
+* A lot of new TTY and sub sharness related tests, thanks to Mark
+  A. Grondona.
+* Build on Travis-CI using a container based build infrastructure,
+  thanks to Mark A. Grondona.
+
+Documentation improvements:
+
+* Mention the Sharness Cookbook in the README, thanks to Mathias
+  Lafeldt.
+* Add alternatives to Sharness like Cram, rnt and ts to the README,
+  thanks to Roman Neuhauser and Simon Chiang.
+* Consistent Markdown headings, thanks to Mathias Lafeldt.
+* Replace Contact with Author section, thanks to Mathias Lafeldt.
+* New CONTRIBUTING.md document, thanks to Christian Couder.
+* Mention Sharnessify a new installation tool, thanks to
+  Christian Couder.
+* Usage clarifications, thanks to Matthieu Moy.
+* Improved flag descriptions in the README, thanks to Matthieu Moy.
+
 v0.3.0 (2013-04-03)
 -------------------
 
