@@ -65,7 +65,7 @@ documentation.
 
 First, clone the Git repository:
 
-    $ git clone git://github.com/mlafeldt/sharness.git
+    $ git clone git://github.com/chriscool/sharness.git
 
 Then choose an installation method that works best for you:
 
