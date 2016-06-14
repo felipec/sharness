@@ -56,6 +56,18 @@ Documentation improvements:
 * Usage clarifications, thanks to Matthieu Moy.
 * Improved flag descriptions in the README, thanks to Matthieu Moy.
 
+Maintainer and project changes:
+
+* Mathias Lafeldt, who created Sharness by extracting it from the
+  Git codebase in April 2011, decided to step down and pass on the
+  maintainership to Christian Couder. Thanks a lot, Mathias, for
+  creating Sharness and maintaining it during all these years!
+
+* Following the above point, Mathias transfered the Sharness
+  GitHub repository to Christian, so the project can now be found on:
+  https://github.com/chriscool/sharness and its web page is now:
+  http://chriscool.github.io/sharness/
+
 v0.3.0 (2013-04-03)
 -------------------
 
