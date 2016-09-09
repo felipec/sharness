@@ -180,18 +180,27 @@ Sharness is licensed under the terms of the GNU General Public License version
 
 Contributions are welcome, see file [CONTRIBUTING] for details.
 
-## Author
+## Authors
 
-Sharness is being developed by [Mathias Lafeldt][twitter]. The library was
-derived from the [Git] project.
+Sharness was created in April 2011 and maintained until June 2016 by
+[Mathias Lafeldt][twitter]. The library is derived from the
+[Git project]'s test-lib.sh. It is currently maintained by
+[Christian Couder][chriscool].
 
+See [Github's "contributors" page][contributors] for a list of
+developers.
 
-[API documentation]: https://github.com/mlafeldt/sharness/blob/master/API.md
-[CONTRIBUTING]: https://github.com/mlafeldt/sharness/blob/master/CONTRIBUTING.md
-[COPYING]: https://github.com/mlafeldt/sharness/blob/master/COPYING
+A complete list of authors should include Git contributors to
+test-lib.sh too.
+
+[API documentation]: https://github.com/chriscool/sharness/blob/master/API.md
+[chriscool]: https://github.com/chriscool
+[CONTRIBUTING]: https://github.com/chriscool/sharness/blob/master/CONTRIBUTING.md
+[contributors]: https://github.com/chriscool/sharness/graphs/contributors
+[COPYING]: https://github.com/chriscool/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
 [prove(1)]: http://linux.die.net/man/1/prove
-[README.git]: https://github.com/mlafeldt/sharness/blob/master/README.git
+[README.git]: https://github.com/chriscool/sharness/blob/master/README.git
 [Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
 [twitter]: https://twitter.com/mlafeldt
