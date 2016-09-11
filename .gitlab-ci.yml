@@ -1,0 +1,15 @@
+before_script:
+  - apt-get update -qq && apt-get install -y -qq libio-pty-perl
+  - TEST_OPTS=-v
+  - export TEST_OPTS
+  - DEFAULT_TEST_TARGET=prove
+  - export DEFAULT_TEST_TARGET
+  - make install prefix=$HOME/local
+
+make_test:
+  script:
+    - make test
+
+make_examples:
+  script:
+    - make -C $HOME/local/share/doc/sharness/examples
