@@ -9,7 +9,18 @@ before_script:
 make_test:
   script:
     - make test
+  tags:
+    - linux
 
 make_examples:
   script:
     - make -C $HOME/local/share/doc/sharness/examples
+  tags:
+    - linux
+
+windows_make_test:
+  before_script:
+  script:
+    - make test
+  tags:
+    - windows
