@@ -429,6 +429,8 @@ test_expect_success() {
 	echo >&3 ""
 }
 
+alias it="test_expect_success"
+
 # Public: Run test commands and expect them to fail. Used to demonstrate a known
 # breakage.
 #
@@ -467,6 +469,8 @@ test_expect_failure() {
 	fi
 	echo >&3 ""
 }
+
+alias xit="test_expect_failure"
 
 # Public: Run command and ensure that it fails in a controlled way.
 #
