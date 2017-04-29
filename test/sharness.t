@@ -291,7 +291,7 @@ test_expect_success 'tests clean up even on failures' "
 	EOF
 "
 
-test_expect_success 'cleanup functions tun at the end of the test' "
+test_expect_success 'cleanup functions run at the end of the test' "
 	run_sub_test_lib_test cleanup-function 'Empty test with cleanup function' <<-\\EOF &&
 	cleanup 'echo cleanup-function-called >&5'
 	test_done
