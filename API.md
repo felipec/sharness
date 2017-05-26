@@ -335,7 +335,7 @@
 ### SHARNESS_BUILD_DIRECTORY
 
     Public: Build directory that will be added to PATH. By default, it is set to
-    the parent directory of SHARNESS_TEST_DIRECTORY.
+    the parent directory of SHARNESS_TEST_SRCDIR.
 
 ### SHARNESS_TEST_FILE
 

@@ -772,8 +772,8 @@ export SHARNESS_TEST_DIRECTORY
 export SHARNESS_TEST_SRCDIR
 
 # Public: Build directory that will be added to PATH. By default, it is set to
-# the parent directory of SHARNESS_TEST_DIRECTORY.
-: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+# the parent directory of SHARNESS_TEST_SRCDIR.
+: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_SRCDIR/.."}
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH SHARNESS_BUILD_DIRECTORY
 
