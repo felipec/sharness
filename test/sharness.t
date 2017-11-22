@@ -446,7 +446,7 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 		test_description="sharness works"
 		. ./sharness.sh
 		test_expect_success "test success" "
-			/bin/true
+			true
 		"
 		test_done
 		EOF
