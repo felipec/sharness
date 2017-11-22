@@ -636,6 +636,36 @@ test_must_be_empty() {
 	fi
 }
 
+# debugging-friendly alternatives to "test [-f|-d|-e]"
+# The commands test the existence or non-existence of $1. $2 can be
+# given to provide a more precise diagnosis.
+test_path_is_file () {
+	if ! test -f "$1"
+	then
+		echo "File $1 doesn't exist. $2"
+		false
+	fi
+}
+
+test_path_is_dir () {
+	if ! test -d "$1"
+	then
+		echo "Directory $1 doesn't exist. $2"
+		false
+	fi
+}
+
+# Check if the directory exists and is empty as expected, barf otherwise.
+test_dir_is_empty () {
+	test_path_is_dir "$1" &&
+	if test -n "$(ls -a1 "$1" | egrep -v '^\.\.?$')"
+	then
+		echo "Directory '$1' is not empty, it contains:"
+		ls -la "$1"
+		return 1
+	fi
+}
+
 # Public: Schedule cleanup commands to be run unconditionally at the end of a
 # test.
 #
