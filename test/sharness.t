@@ -372,6 +372,7 @@ test_expect_success COLOR,PERL_AND_TTY 'sub-sharness still has color' "
 "
 
 test_expect_success 'EXPENSIVE prereq not activated by default' "
+	unset TEST_LONG &&
 	run_sub_test_lib_test no-long 'long test' <<-\\EOF &&
 	test_expect_success 'passing test' 'true'
 	test_expect_success EXPENSIVE 'passing suposedly long test' 'true'
