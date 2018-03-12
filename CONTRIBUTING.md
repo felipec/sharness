@@ -24,7 +24,7 @@ That's why we would like you to follow the following guidelines:
   frown upon, and the style we prefer.
 
 - If some similar changes can benefit Git, it is a good idea to first
-  send patchs to the
+  send patches to the
   [Git mailing list](http://vger.kernel.org/vger-lists.html#git).
   Please follow the
   [Git documentation](https://github.com/git/git/blob/master/Documentation/SubmittingPatches)
