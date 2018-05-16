@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# Shell library to test your Unix tools like Git does.
+#
 # Copyright (c) 2011-2012 Mathias Lafeldt
 # Copyright (c) 2005-2012 Git project
 # Copyright (c) 2005-2012 Junio C Hamano
@@ -22,33 +24,36 @@ SHARNESS_VERSION="1.0.0"
 export SHARNESS_VERSION
 
 # Public: The file extension for tests.  By default, it is set to "t".
-: ${SHARNESS_TEST_EXTENSION:=t}
+: "${SHARNESS_TEST_EXTENSION:=t}"
 export SHARNESS_TEST_EXTENSION
 
 #  Reset TERM to original terminal if found, otherwise save orignal TERM
-[ "x" = "x$SHARNESS_ORIG_TERM" ] &&
-		SHARNESS_ORIG_TERM="$TERM" ||
-		TERM="$SHARNESS_ORIG_TERM"
+if test -z "$SHARNESS_ORIG_TERM"; then
+	SHARNESS_ORIG_TERM="$TERM"
+else
+	TERM="$SHARNESS_ORIG_TERM"
+fi
 # Public: The unsanitized TERM under which sharness is originally run
 export SHARNESS_ORIG_TERM
 
 # Export SHELL_PATH
-: ${SHELL_PATH:=$SHELL}
+: "${SHELL_PATH:=$SHELL}"
 export SHELL_PATH
 
 # For repeatability, reset the environment to a known state.
 # TERM is sanitized below, after saving color control sequences.
-LANG=C
-LC_ALL=C
-PAGER=cat
-TZ=UTC
-EDITOR=:
+LANG="C"
+LC_ALL="C"
+PAGER="cat"
+TZ="UTC"
+EDITOR=":"
 export LANG LC_ALL PAGER TZ EDITOR
 unset VISUAL CDPATH GREP_OPTIONS
 
 # Line feed
-LF='
-'
+# shellcheck disable=SC2034
+LF="
+"
 
 [ "x$TERM" != "xdumb" ] && (
 		[ -t 1 ] &&
@@ -56,37 +61,63 @@ LF='
 		tput setaf 1 >/dev/null 2>&1 &&
 		tput sgr0 >/dev/null 2>&1
 	) &&
-	color=t
+	color="t"
 
 while test "$#" -ne 0; do
 	case "$1" in
 	-d|--d|--de|--deb|--debu|--debug)
-		debug=t; shift ;;
+		debug="t"
+		shift
+		;;
 	-i|--i|--im|--imm|--imme|--immed|--immedi|--immedia|--immediat|--immediate)
-		immediate=t; shift ;;
+		immediate="t"
+		shift
+		;;
 	-l|--l|--lo|--lon|--long|--long-|--long-t|--long-te|--long-tes|--long-test|--long-tests)
-		TEST_LONG=t; export TEST_LONG; shift ;;
+		TEST_LONG="t"
+		export TEST_LONG
+		shift
+		;;
 	--in|--int|--inte|--inter|--intera|--interac|--interact|--interacti|--interactiv|--interactive|--interactive-|--interactive-t|--interactive-te|--interactive-tes|--interactive-test|--interactive-tests):
-		TEST_INTERACTIVE=t; export TEST_INTERACTIVE; verbose=t; shift ;;
+		TEST_INTERACTIVE="t"
+		export TEST_INTERACTIVE
+		verbose="t"
+		shift
+		;;
 	-h|--h|--he|--hel|--help)
-		help=t; shift ;;
+		help="t"
+		shift
+		;;
 	-v|--v|--ve|--ver|--verb|--verbo|--verbos|--verbose)
-		verbose=t; shift ;;
+		verbose="t"
+		shift
+		;;
 	-q|--q|--qu|--qui|--quie|--quiet)
 		# Ignore --quiet under a TAP::Harness. Saying how many tests
 		# passed without the ok/not ok details is always an error.
-		test -z "$HARNESS_ACTIVE" && quiet=t; shift ;;
+		test -z "$HARNESS_ACTIVE" && quiet="t"
+		shift
+		;;
 	--chain-lint)
-		chain_lint=t; shift ;;
+		chain_lint="t"
+		shift
+		;;
 	--no-chain-lint)
-		chain_lint=; shift ;;
+		chain_lint=""
+		shift
+		;;
 	--no-color)
-		color=; shift ;;
+		color=""
+		shift
+		;;
 	--root=*)
-		root=$(expr "z$1" : 'z[^=]*=\(.*\)')
-		shift ;;
+		root="$(expr "z$1" : 'z[^=]*=\(.*\)')"
+		shift
+		;;
 	*)
-		echo "error: unknown test option '$1'" >&2; exit 1 ;;
+		echo "error: unknown test option '$1'" 1>&2
+		exit 1
+		;;
 	esac
 done
 
@@ -103,33 +134,41 @@ if test -n "$color"; then
 	# substitutions strip trailing newlines).  Given that most
 	# (all?) terminals in common use are related to ECMA-48, this
 	# shouldn't be a problem.
-	say_color_error=$(tput bold; tput setaf 1) # bold red
-	say_color_skip=$(tput setaf 4) # blue
-	say_color_warn=$(tput setaf 3) # brown/yellow
-	say_color_pass=$(tput setaf 2) # green
-	say_color_info=$(tput setaf 6) # cyan
-	say_color_reset=$(tput sgr0)
+	# shellcheck disable=SC2034
+	say_color_error="$(tput bold; tput setaf 1)" # bold red
+	# shellcheck disable=SC2034
+	say_color_skip="$(tput setaf 4)" # blue
+	# shellcheck disable=SC2034
+	say_color_warn="$(tput setaf 3)" # brown/yellow
+	# shellcheck disable=SC2034
+	say_color_pass="$(tput setaf 2)" # green
+	# shellcheck disable=SC2034
+	say_color_info="$(tput setaf 6)" # cyan
+	# shellcheck disable=SC2034
+	say_color_reset="$(tput sgr0)"
+	# shellcheck disable=SC2034
 	say_color_="" # no formatting for normal text
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
-		eval "say_color_color=\$say_color_$1"
+		eval "say_color_color=\$say_color_${1}"
 		shift
-		printf "%s\\n" "$say_color_color$*$say_color_reset"
+		# shellcheck disable=SC2154
+		printf "%s\\n" "${say_color_color}${*}${say_color_reset}"
 	}
 else
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
 		shift
-		printf "%s\n" "$*"
+		printf '%s\n' "$*"
 	}
 fi
 
-TERM=dumb
+TERM="dumb"
 export TERM
 
 error() {
 	say_color error "error: $*"
-	EXIT_OK=t
+	EXIT_OK="t"
 	exit 1
 }
 
@@ -137,6 +176,7 @@ say() {
 	say_color info "$*"
 }
 
+# shellcheck disable=SC2154
 test -n "$test_description" || error "Test script did not set test_description."
 
 if test "$help" = "t"; then
@@ -159,17 +199,17 @@ test_broken=0
 test_success=0
 
 die() {
-	code=$?
+	code="$?"
 	if test -n "$EXIT_OK"; then
 		exit $code
 	else
-		echo >&5 "FATAL: Unexpected exit with code $code"
+		echo 1>&5 "FATAL: Unexpected exit with code ${code}"
 		exit 1
 	fi
 }
 
-EXIT_OK=
-trap 'die' EXIT
+EXIT_OK=""
+trap "die" EXIT
 
 # Public: Define that a test prerequisite is available.
 #
@@ -189,7 +229,7 @@ trap 'die' EXIT
 #
 # Returns nothing.
 test_set_prereq() {
-	satisfied_prereq="$satisfied_prereq$1 "
+	satisfied_prereq="$satisfied_prereq${1} "
 }
 satisfied_prereq=" "
 
@@ -212,77 +252,81 @@ satisfied_prereq=" "
 # Returns 0 if all prerequisites are defined or 1 otherwise.
 test_have_prereq() {
 	# prerequisites can be concatenated with ','
-	save_IFS=$IFS
-	IFS=,
-	set -- $*
-	IFS=$save_IFS
+	save_IFS="$IFS"
+	IFS=","
+	# shellcheck disable=SC2068
+	set -- ${@}
+	IFS="$save_IFS"
 
-	total_prereq=0
-	ok_prereq=0
-	missing_prereq=
+	total_prereq="0"
+	ok_prereq="0"
+	missing_prereq=""
 
 	for prerequisite; do
 		case "$prerequisite" in
 		!*)
-			negative_prereq=t
-			prerequisite=${prerequisite#!}
+			negative_prereq="t"
+			prerequisite="${prerequisite#!}"
 			;;
 		*)
-			negative_prereq=
+			negative_prereq=""
+			;;
 		esac
 
-		total_prereq=$(($total_prereq + 1))
+		total_prereq="$((total_prereq + 1))"
 		case "$satisfied_prereq" in
 		*" $prerequisite "*)
-			satisfied_this_prereq=t
+			satisfied_this_prereq="t"
 			;;
 		*)
-			satisfied_this_prereq=
+			satisfied_this_prereq=""
+			;;
 		esac
 
 		case "$satisfied_this_prereq,$negative_prereq" in
 		t,|,t)
-			ok_prereq=$(($ok_prereq + 1))
+			ok_prereq="$((ok_prereq + 1))"
 			;;
 		*)
 			# Keep a list of missing prerequisites; restore
 			# the negative marker if necessary.
-			prerequisite=${negative_prereq:+!}$prerequisite
+			prerequisite="${negative_prereq:+!}${prerequisite}"
 			if test -z "$missing_prereq"; then
-				missing_prereq=$prerequisite
+				missing_prereq="$prerequisite"
 			else
 				missing_prereq="$prerequisite,$missing_prereq"
 			fi
+			;;
 		esac
 	done
 
-	test $total_prereq = $ok_prereq
+	test "$total_prereq" = "$ok_prereq"
 }
 
 # You are not expected to call test_ok_ and test_failure_ directly, use
 # the text_expect_* functions instead.
 
 test_ok_() {
-	test_success=$(($test_success + 1))
-	say_color "" "ok $test_count - $@"
+	test_success="$((test_success + 1))"
+	say_color "" "ok ${test_count} - ${*}"
 }
 
 test_failure_() {
-	test_failure=$(($test_failure + 1))
-	say_color error "not ok $test_count - $1"
+	test_failure="$((test_failure + 1))"
+	say_color error "not ok ${test_count} - ${1}"
 	shift
-	echo "$@" | sed -e 's/^/#	/'
-	test "$immediate" = "" || { EXIT_OK=t; exit 1; }
+	echo "$*" | sed -e 's/^/#	/'
+	test "$immediate" = "" || { EXIT_OK="t"; exit 1; }
 }
 
 test_known_broken_ok_() {
-	test_fixed=$(($test_fixed + 1))
-	say_color error "ok $test_count - $@ # TODO known breakage vanished"
+	test_fixed="$((test_fixed + 1))"
+	say_color error "ok ${test_count} - ${*} # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
-	test_broken=$(($test_broken + 1))
-	say_color warn "not ok $test_count - $@ # TODO known breakage"
+	test_broken=$((test_broken + 1))
+	say_color warn "not ok ${test_count} - ${*} # TODO known breakage"
 }
 
 # Public: Execute commands in debug mode.
@@ -309,9 +353,9 @@ test_debug() {
 # Be sure to remove all invocations of this command before submitting.
 test_pause() {
 	if test "$verbose" = t; then
-		"$SHELL_PATH" <&6 >&3 2>&4
+		"$SHELL_PATH" <&6 1>&3 2>&4
 	else
-		error >&5 "test_pause requires --verbose"
+		error 1>&5 "test_pause requires --verbose"
 	fi
 }
 
@@ -323,25 +367,25 @@ test_eval_() {
 		eval "$*"
 		;;
 	*)
-		eval </dev/null >&3 2>&4 "$*"
+		eval < /dev/null 1>&3 2>&4 "$*"
 		;;
 	esac
 }
 
 test_run_() {
-	test_cleanup=:
-	expecting_failure=$2
+	test_cleanup=":"
+	expecting_failure="$2"
 	test_eval_ "$1"
-	eval_ret=$?
+	eval_ret="$?"
 
 	if test "$chain_lint" = "t"; then
-		test_eval_ "(exit 117) && $1"
+		test_eval_ "(exit 117) && ${1}"
 		if test "$?" != 117; then
-			error "bug in the test script: broken &&-chain: $1"
+			error "bug in the test script: broken &&-chain: ${1}"
 		fi
 	fi
 
-	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"; then
+	if test -z "$immediate" || test "$eval_ret" = 0 || test -n "$expecting_failure"; then
 		test_eval_ "$test_cleanup"
 	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
@@ -351,28 +395,29 @@ test_run_() {
 }
 
 test_skip_() {
-	test_count=$(($test_count + 1))
-	to_skip=
+	test_count="$((test_count + 1))"
+	to_skip=""
 	for skp in $SKIP_TESTS; do
-		case $this_test.$test_count in
+		case "${this_test}.${test_count}" in
 		$skp)
-			to_skip=t
+			to_skip="t"
 			break
+			;;
 		esac
 	done
 	if test -z "$to_skip" && test -n "$test_prereq" && ! test_have_prereq "$test_prereq"; then
-		to_skip=t
+		to_skip="t"
 	fi
 	case "$to_skip" in
 	t)
-		of_prereq=
+		of_prereq=""
 		if test "$missing_prereq" != "$test_prereq"; then
-			of_prereq=" of $test_prereq"
+			of_prereq=" of ${test_prereq}"
 		fi
 
-		say_color skip >&3 "skipping test: $@"
-		say_color skip "ok $test_count # skip $1 (missing $missing_prereq${of_prereq})"
-		: true
+		say_color skip >&3 "skipping test: ${*}"
+		say_color skip "ok ${test_count} # skip ${1} (missing ${missing_prereq}${of_prereq})"
+		true
 		;;
 	*)
 		false
@@ -415,18 +460,18 @@ test_skip_() {
 #
 # Returns nothing.
 test_expect_success() {
-	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 3 && { test_prereq="$1"; shift; } || test_prereq=""
 	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_success"
 	export test_prereq
 	if ! test_skip_ "$@"; then
-		say >&3 "expecting success: $2"
+		say 1>&3 "expecting success: ${2}"
 		if test_run_ "$2"; then
 			test_ok_ "$1"
 		else
 			test_failure_ "$@"
 		fi
 	fi
-	echo >&3 ""
+	echo 1>&3
 }
 
 # Public: Run test commands and expect them to fail. Used to demonstrate a known
@@ -454,18 +499,18 @@ test_expect_success() {
 #
 # Returns nothing.
 test_expect_failure() {
-	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 3 && { test_prereq="$1"; shift; } || test_prereq=""
 	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
 	export test_prereq
 	if ! test_skip_ "$@"; then
-		say >&3 "checking known breakage: $2"
+		say 1>&3 "checking known breakage: ${2}"
 		if test_run_ "$2" expecting_failure; then
 			test_known_broken_ok_ "$1"
 		else
 			test_known_broken_failure_ "$1"
 		fi
 	fi
-	echo >&3 ""
+	echo 1>&3
 }
 
 # Public: Run command and ensure that it fails in a controlled way.
@@ -493,15 +538,15 @@ test_expect_failure() {
 # Returns 0 otherwise.
 test_must_fail() {
 	"$@"
-	exit_code=$?
-	if test $exit_code = 0; then
-		echo >&2 "test_must_fail: command succeeded: $*"
+	exit_code="$?"
+	if test "$exit_code" = 0; then
+		echo 1>&2 "test_must_fail: command succeeded: ${*}"
 		return 1
-	elif test $exit_code -gt 129 -a $exit_code -le 192; then
-		echo >&2 "test_must_fail: died by signal: $*"
+	elif test "$exit_code" -gt 129 -a "$exit_code" -le 192; then
+		echo 1>&2 "test_must_fail: died by signal: ${*}"
 		return 1
-	elif test $exit_code = 127; then
-		echo >&2 "test_must_fail: command not found: $*"
+	elif test "$exit_code" = 127; then
+		echo 1>&2 "test_must_fail: command not found: ${*}"
 		return 1
 	fi
 	return 0
@@ -529,12 +574,12 @@ test_must_fail() {
 # Returns 0 otherwise.
 test_might_fail() {
 	"$@"
-	exit_code=$?
-	if test $exit_code -gt 129 -a $exit_code -le 192; then
-		echo >&2 "test_might_fail: died by signal: $*"
+	exit_code="$?"
+	if test "$exit_code" -gt 129 -a "$exit_code" -le 192; then
+		echo 1>&2 "test_might_fail: died by signal: ${*}"
 		return 1
-	elif test $exit_code = 127; then
-		echo >&2 "test_might_fail: command not found: $*"
+	elif test "$exit_code" = 127; then
+		echo 1>&2 "test_might_fail: command not found: ${*}"
 		return 1
 	fi
 	return 0
@@ -556,15 +601,15 @@ test_might_fail() {
 #
 # Returns 0 if the expected exit code is returned or 1 otherwise.
 test_expect_code() {
-	want_code=$1
+	want_code="$1"
 	shift
 	"$@"
-	exit_code=$?
-	if test $exit_code = $want_code; then
+	exit_code="$?"
+	if test "$exit_code" = "$want_code"; then
 		return 0
 	fi
 
-	echo >&2 "test_expect_code: command exited with $exit_code, we wanted $want_code $*"
+	echo 1>&2 "test_expect_code: command exited with ${exit_code}, we wanted ${want_code} ${*}"
 	return 1
 }
 
@@ -614,10 +659,9 @@ test_cmp() {
 test_seq() {
 	i="$1"
 	j="$2"
-	while test "$i" -le "$j"
-	do
+	while test "$i" -le "$j"; do
 		echo "$i" || return
-		i=$(expr "$i" + 1)
+		i="$((i + 1))"
 	done
 }
 
@@ -642,7 +686,7 @@ test_must_be_empty() {
 test_path_is_file () {
 	if ! test -f "$1"
 	then
-		echo "File $1 doesn't exist. $2"
+		echo "File ${1} doesn't exist. ${2}"
 		false
 	fi
 }
@@ -650,16 +694,15 @@ test_path_is_file () {
 test_path_is_dir () {
 	if ! test -d "$1"
 	then
-		echo "Directory $1 doesn't exist. $2"
+		echo "Directory ${1} doesn't exist. ${2}"
 		false
 	fi
 }
 
 # Check if the directory exists and is empty as expected, barf otherwise.
 test_dir_is_empty () {
-	test_path_is_dir "$1" &&
-	if test -n "$(ls -a1 "$1" | egrep -v '^\.\.?$')"
-	then
+	test_path_is_dir "$1" \
+	&& if test -n "$(find "$1" -mindepth 1 -maxdepth 1 -printf '%P\n' | grep -Ev '^\.\.?$')"; then
 		echo "Directory '$1' is not empty, it contains:"
 		ls -la "$1"
 		return 1
@@ -687,8 +730,7 @@ test_dir_is_empty () {
 #
 # Returns the exit code of the last cleanup command executed.
 test_when_finished() {
-	test_cleanup="{ $*
-		} && (exit \"\$eval_ret\"); eval_ret=\$?; $test_cleanup"
+	test_cleanup="{ ${*}; } && (exit \"\$eval_ret\"); eval_ret=\"\$?\"; ${test_cleanup}"
 }
 
 # Public: Schedule cleanup commands to be run unconditionally when all tests
@@ -704,8 +746,7 @@ test_when_finished() {
 # Returns the exit code of the last cleanup command executed.
 final_cleanup=
 cleanup() {
-	final_cleanup="{ $*
-		} && (exit \"\$eval_ret\"); eval_ret=\$?; $final_cleanup"
+	final_cleanup="{ ${*}; } && (exit \"\$eval_ret\"); eval_ret=\"\$?\"; ${final_cleanup}"
 }
 
 # Public: Summarize test results and exit with an appropriate error code.
@@ -732,11 +773,11 @@ test_done() {
 	EXIT_OK=t
 
 	if test -z "$HARNESS_ACTIVE"; then
-		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
+		test_results_dir="${SHARNESS_TEST_DIRECTORY}/test-results"
 		mkdir -p "$test_results_dir"
-		test_results_path="$test_results_dir/$this_test.$$.counts"
+		test_results_path="${test_results_dir}/${this_test}.${$}.counts"
 
-		cat >>"$test_results_path" <<-EOF
+		cat >> "$test_results_path" <<-EOF
 		total $test_count
 		success $test_success
 		fixed $test_fixed
@@ -747,63 +788,65 @@ test_done() {
 	fi
 
 	if test "$test_fixed" != 0; then
-		say_color error "# $test_fixed known breakage(s) vanished; please update test(s)"
+		say_color error "# ${test_fixed} known breakage(s) vanished; please update test(s)"
 	fi
 	if test "$test_broken" != 0; then
-		say_color warn "# still have $test_broken known breakage(s)"
+		say_color warn "# still have ${test_broken} known breakage(s)"
 	fi
 	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
-		test_remaining=$(( $test_count - $test_broken - $test_fixed ))
-		msg="remaining $test_remaining test(s)"
+		test_remaining=$((test_count - test_broken - test_fixed))
+		msg="remaining ${test_remaining} test(s)"
 	else
-		test_remaining=$test_count
-		msg="$test_count test(s)"
+		test_remaining="$test_count"
+		msg="${test_count} test(s)"
 	fi
 
 	case "$test_failure" in
 	0)
 		# Maybe print SKIP message
-		if test -n "$skip_all" && test $test_count -gt 0; then
+		if test -n "$skip_all" && test "$test_count" -gt 0; then
 			error "Can't use skip_all after running some tests"
 		fi
-		[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
+		test -z "$skip_all" || skip_all=" # SKIP ${skip_all}"
 
-		if test $test_remaining -gt 0; then
-			say_color pass "# passed all $msg"
+		if test "$test_remaining" -gt 0; then
+			say_color pass "# passed all ${msg}"
 		fi
-		say "1..$test_count$skip_all"
+		say "1..${test_count}${skip_all}"
 
 		test_eval_ "$final_cleanup"
 
 		test -d "$remove_trash" &&
-		cd "$(dirname "$remove_trash")" &&
-		rm -rf "$(basename "$remove_trash")"
+		cd "$(dirname "$remove_trash")" \
+		&& rm -rf "$(basename "$remove_trash")"
 
-		exit 0 ;;
+		exit 0
+		;;
 
 	*)
-		say_color error "# failed $test_failure among $msg"
-		say "1..$test_count"
+		say_color error "# failed ${test_failure} among ${msg}"
+		say "1..${test_count}"
 
-		exit 1 ;;
+		exit 1
+		;;
 
 	esac
 }
 
 # Public: Root directory containing tests. Tests can override this variable,
 # e.g. for testing Sharness itself.
-: ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
+: "${SHARNESS_TEST_DIRECTORY:=$(pwd)}"
 export SHARNESS_TEST_DIRECTORY
 
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
-: ${SHARNESS_TEST_SRCDIR:=$(cd $(dirname $0) && pwd)}
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
 export SHARNESS_TEST_SRCDIR
 
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
-: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+: "${SHARNESS_BUILD_DIRECTORY:=$SHARNESS_TEST_DIRECTORY/..}"
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH SHARNESS_BUILD_DIRECTORY
 
@@ -812,16 +855,19 @@ SHARNESS_TEST_FILE="$0"
 export SHARNESS_TEST_FILE
 
 # Prepare test area.
-SHARNESS_TRASH_DIRECTORY="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
-test -n "$root" && SHARNESS_TRASH_DIRECTORY="$root/$SHARNESS_TRASH_DIRECTORY"
+SHARNESS_TRASH_DIRECTORY="trash directory.$(basename "$SHARNESS_TEST_FILE" ".${SHARNESS_TEST_EXTENSION}")"
+test -n "$root" && SHARNESS_TRASH_DIRECTORY="${root}/${SHARNESS_TRASH_DIRECTORY}"
 case "$SHARNESS_TRASH_DIRECTORY" in
-/*) ;; # absolute path is good
- *) SHARNESS_TRASH_DIRECTORY="$SHARNESS_TEST_DIRECTORY/$SHARNESS_TRASH_DIRECTORY" ;;
+	/*)
+		;; # absolute path is good
+	*)
+		SHARNESS_TRASH_DIRECTORY="${SHARNESS_TEST_DIRECTORY}/${SHARNESS_TRASH_DIRECTORY}"
+		;;
 esac
 test "$debug" = "t" || remove_trash="$SHARNESS_TRASH_DIRECTORY"
 rm -rf "$SHARNESS_TRASH_DIRECTORY" || {
-	EXIT_OK=t
-	echo >&5 "FATAL: Cannot prepare test area"
+	EXIT_OK="t"
+	echo 1>&5 "FATAL: Cannot prepare test area"
 	exit 1
 }
 
@@ -838,12 +884,13 @@ then
 
 		if test -n "$debug"
 		then
-			echo >&5 "sharness: loading extensions from ${file}"
+			echo 1>&5 "sharness: loading extensions from ${file}"
 		fi
+		# shellcheck disable=SC1090
 		. "${file}"
 		if test $? != 0
 		then
-			echo >&5 "sharness: Error loading ${file}. Aborting."
+			echo 1>&5 "sharness: Error loading ${file}. Aborting."
 			exit 1
 		fi
 	done
@@ -861,13 +908,13 @@ mkdir -p "$SHARNESS_TRASH_DIRECTORY" || exit 1
 # in subprocesses like git equals our $PWD (for pathname comparisons).
 cd -P "$SHARNESS_TRASH_DIRECTORY" || exit 1
 
-this_test=${SHARNESS_TEST_FILE##*/}
-this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
+this_test="${SHARNESS_TEST_FILE##*/}"
+this_test="${this_test%.$SHARNESS_TEST_EXTENSION}"
 for skp in $SKIP_TESTS; do
 	case "$this_test" in
-	$skp)
-		say_color info >&3 "skipping test $this_test altogether"
-		skip_all="skip all tests in $this_test"
+	"$skp")
+		say_color info 1>&3 "skipping test ${this_test} altogether"
+		skip_all="skip all tests in ${this_test}"
 		test_done
 	esac
 done
