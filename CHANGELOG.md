@@ -63,7 +63,7 @@ Maintainer and project changes:
   maintainership to Christian Couder. Thanks a lot, Mathias, for
   creating Sharness and maintaining it during all these years!
 
-* Following the above point, Mathias transfered the Sharness
+* Following the above point, Mathias transferred the Sharness
   GitHub repository to Christian, so the project can now be found on:
   https://github.com/chriscool/sharness and its web page is now:
   http://chriscool.github.io/sharness/

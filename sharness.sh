@@ -25,7 +25,7 @@ export SHARNESS_VERSION
 : ${SHARNESS_TEST_EXTENSION:=t}
 export SHARNESS_TEST_EXTENSION
 
-#  Reset TERM to original terminal if found, otherwise save orignal TERM
+#  Reset TERM to original terminal if found, otherwise save original TERM
 [ "x" = "x$SHARNESS_ORIG_TERM" ] &&
 		SHARNESS_ORIG_TERM="$TERM" ||
 		TERM="$SHARNESS_ORIG_TERM"
