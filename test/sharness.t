@@ -16,7 +16,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
+#
+# shellcheck disable=SC2016
 
+# shellcheck disable=SC2034
 test_description='Test Sharness itself'
 
 . ./sharness.sh
@@ -360,7 +363,7 @@ test_expect_success 'SHARNESS_ORIG_TERM propagated to sub-sharness' "
 	)
 "
 
-[ -z "$color" ] || test_set_prereq COLOR
+[ -z "${color:-}" ] || test_set_prereq COLOR
 test_expect_success COLOR,PERL_AND_TTY 'sub-sharness still has color' "
 	run_sub_test_lib_test \
 	  test-color \

@@ -22,31 +22,32 @@ SHARNESS_VERSION="1.0.0"
 export SHARNESS_VERSION
 
 # Public: The file extension for tests.  By default, it is set to "t".
-: ${SHARNESS_TEST_EXTENSION:=t}
+: "${SHARNESS_TEST_EXTENSION:=t}"
 export SHARNESS_TEST_EXTENSION
 
 #  Reset TERM to original terminal if found, otherwise save original TERM
-[ "x" = "x$SHARNESS_ORIG_TERM" ] &&
-		SHARNESS_ORIG_TERM="$TERM" ||
+[ "x" = "x${SHARNESS_ORIG_TERM:-}" ] &&
+		SHARNESS_ORIG_TERM="${TERM:-}" ||
 		TERM="$SHARNESS_ORIG_TERM"
 # Public: The unsanitized TERM under which sharness is originally run
 export SHARNESS_ORIG_TERM
 
 # Export SHELL_PATH
-: ${SHELL_PATH:=$SHELL}
+: "${SHELL_PATH:=${SHELL:-}}"
 export SHELL_PATH
 
 # For repeatability, reset the environment to a known state.
 # TERM is sanitized below, after saving color control sequences.
 LANG=C
 LC_ALL=C
-PAGER=cat
+PAGER="cat"
 TZ=UTC
 EDITOR=:
 export LANG LC_ALL PAGER TZ EDITOR
 unset VISUAL CDPATH GREP_OPTIONS
 
 # Line feed
+# shellcheck disable=SC2034
 LF='
 '
 
@@ -90,6 +91,8 @@ while test "$#" -ne 0; do
 	esac
 done
 
+# tolerate multiple indirectly used variables:
+#   shellcheck disable=SC2034
 if test -n "$color"; then
 	# Save the color control sequences now rather than run tput
 	# each time say_color() is called.  This is done for two
@@ -112,15 +115,17 @@ if test -n "$color"; then
 	say_color_="" # no formatting for normal text
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
+		# shellcheck disable=SC2154
 		eval "say_color_color=\$say_color_$1"
 		shift
+		# shellcheck disable=SC2154
 		printf "%s\\n" "$say_color_color$*$say_color_reset"
 	}
 else
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
 		shift
-		printf "%s\n" "$*"
+		printf "%s\\n" "$*"
 	}
 fi
 
@@ -137,10 +142,10 @@ say() {
 	say_color info "$*"
 }
 
-test -n "$test_description" || error "Test script did not set test_description."
+test -n "${test_description:-}" || error "Test script did not set test_description."
 
 if test "$help" = "t"; then
-	echo "$test_description"
+	echo "${test_description:-}"
 	exit 0
 fi
 
@@ -161,7 +166,7 @@ test_success=0
 die() {
 	code=$?
 	if test -n "$EXIT_OK"; then
-		exit $code
+		exit "$code"
 	else
 		echo >&5 "FATAL: Unexpected exit with code $code"
 		exit 1
@@ -212,8 +217,9 @@ satisfied_prereq=" "
 # Returns 0 if all prerequisites are defined or 1 otherwise.
 test_have_prereq() {
 	# prerequisites can be concatenated with ','
-	save_IFS=$IFS
+	save_IFS="${IFS:-}"
 	IFS=,
+	# shellcheck disable=SC2048,SC2086
 	set -- $*
 	IFS=$save_IFS
 
@@ -231,7 +237,7 @@ test_have_prereq() {
 			negative_prereq=
 		esac
 
-		total_prereq=$(($total_prereq + 1))
+		total_prereq=$((total_prereq + 1))
 		case "$satisfied_prereq" in
 		*" $prerequisite "*)
 			satisfied_this_prereq=t
@@ -242,7 +248,7 @@ test_have_prereq() {
 
 		case "$satisfied_this_prereq,$negative_prereq" in
 		t,|,t)
-			ok_prereq=$(($ok_prereq + 1))
+			ok_prereq=$((ok_prereq + 1))
 			;;
 		*)
 			# Keep a list of missing prerequisites; restore
@@ -256,19 +262,19 @@ test_have_prereq() {
 		esac
 	done
 
-	test $total_prereq = $ok_prereq
+	test "$total_prereq" = "$ok_prereq"
 }
 
 # You are not expected to call test_ok_ and test_failure_ directly, use
 # the text_expect_* functions instead.
 
 test_ok_() {
-	test_success=$(($test_success + 1))
-	say_color "" "ok $test_count - $@"
+	test_success=$((test_success + 1))
+	say_color "" "ok $test_count - $*"
 }
 
 test_failure_() {
-	test_failure=$(($test_failure + 1))
+	test_failure=$((test_failure + 1))
 	say_color error "not ok $test_count - $1"
 	shift
 	echo "$@" | sed -e 's/^/#	/'
@@ -276,13 +282,13 @@ test_failure_() {
 }
 
 test_known_broken_ok_() {
-	test_fixed=$(($test_fixed + 1))
-	say_color error "ok $test_count - $@ # TODO known breakage vanished"
+	test_fixed=$((test_fixed + 1))
+	say_color error "ok $test_count - $* # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
-	test_broken=$(($test_broken + 1))
-	say_color warn "not ok $test_count - $@ # TODO known breakage"
+	test_broken=$((test_broken + 1))
+	say_color warn "not ok $test_count - $* # TODO known breakage"
 }
 
 # Public: Execute commands in debug mode.
@@ -330,7 +336,7 @@ test_eval_() {
 
 test_run_() {
 	test_cleanup=:
-	expecting_failure=$2
+	expecting_failure="$2"
 	test_eval_ "$1"
 	eval_ret=$?
 
@@ -341,7 +347,7 @@ test_run_() {
 		fi
 	fi
 
-	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"; then
+	if test -z "$immediate" || test "$eval_ret" = 0 || test -n "$expecting_failure"; then
 		test_eval_ "$test_cleanup"
 	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
@@ -351,9 +357,9 @@ test_run_() {
 }
 
 test_skip_() {
-	test_count=$(($test_count + 1))
+	test_count=$((test_count + 1))
 	to_skip=
-	for skp in $SKIP_TESTS; do
+	for skp in ${SKIP_TESTS:-}; do
 		case $this_test.$test_count in
 		$skp)
 			to_skip=t
@@ -370,7 +376,7 @@ test_skip_() {
 			of_prereq=" of $test_prereq"
 		fi
 
-		say_color skip >&3 "skipping test: $@"
+		say_color skip >&3 "skipping test: $*"
 		say_color skip "ok $test_count # skip $1 (missing $missing_prereq${of_prereq})"
 		: true
 		;;
@@ -493,14 +499,14 @@ test_expect_failure() {
 # Returns 0 otherwise.
 test_must_fail() {
 	"$@"
-	exit_code=$?
-	if test $exit_code = 0; then
+	exit_code="$?"
+	if test "$exit_code" = 0; then
 		echo >&2 "test_must_fail: command succeeded: $*"
 		return 1
-	elif test $exit_code -gt 129 -a $exit_code -le 192; then
+	elif test "$exit_code" -gt 129 -a $exit_code -le 192; then
 		echo >&2 "test_must_fail: died by signal: $*"
 		return 1
-	elif test $exit_code = 127; then
+	elif test "$exit_code" = 127; then
 		echo >&2 "test_must_fail: command not found: $*"
 		return 1
 	fi
@@ -530,10 +536,10 @@ test_must_fail() {
 test_might_fail() {
 	"$@"
 	exit_code=$?
-	if test $exit_code -gt 129 -a $exit_code -le 192; then
+	if test "$exit_code" -gt 129 -a "$exit_code" -le 192; then
 		echo >&2 "test_might_fail: died by signal: $*"
 		return 1
-	elif test $exit_code = 127; then
+	elif test "$exit_code" = 127; then
 		echo >&2 "test_might_fail: command not found: $*"
 		return 1
 	fi
@@ -556,11 +562,11 @@ test_might_fail() {
 #
 # Returns 0 if the expected exit code is returned or 1 otherwise.
 test_expect_code() {
-	want_code=$1
+	want_code="$1"
 	shift
 	"$@"
-	exit_code=$?
-	if test $exit_code = $want_code; then
+	exit_code="$?"
+	if test "$exit_code" = "$want_code"; then
 		return 0
 	fi
 
@@ -617,7 +623,7 @@ test_seq() {
 	while test "$i" -le "$j"
 	do
 		echo "$i" || return
-		i=$(expr "$i" + 1)
+		i=$((i + 1))
 	done
 }
 
@@ -658,7 +664,7 @@ test_path_is_dir () {
 # Check if the directory exists and is empty as expected, barf otherwise.
 test_dir_is_empty () {
 	test_path_is_dir "$1" &&
-	if test -n "$(ls -a1 "$1" | egrep -v '^\.\.?$')"
+	if test -n "$(find "$1" -mindepth 1)"
 	then
 		echo "Directory '$1' is not empty, it contains:"
 		ls -la "$1"
@@ -753,7 +759,7 @@ test_done() {
 		say_color warn "# still have $test_broken known breakage(s)"
 	fi
 	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
-		test_remaining=$(( $test_count - $test_broken - $test_fixed ))
+		test_remaining=$(( test_count - test_broken - test_fixed ))
 		msg="remaining $test_remaining test(s)"
 	else
 		test_remaining=$test_count
@@ -763,12 +769,12 @@ test_done() {
 	case "$test_failure" in
 	0)
 		# Maybe print SKIP message
-		if test -n "$skip_all" && test $test_count -gt 0; then
+		if test -n "$skip_all" && test "$test_count" -gt 0; then
 			error "Can't use skip_all after running some tests"
 		fi
 		[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
 
-		if test $test_remaining -gt 0; then
+		if test "$test_remaining" -gt 0; then
 			say_color pass "# passed all $msg"
 		fi
 		say "1..$test_count$skip_all"
@@ -792,18 +798,18 @@ test_done() {
 
 # Public: Root directory containing tests. Tests can override this variable,
 # e.g. for testing Sharness itself.
-: ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
+: "${SHARNESS_TEST_DIRECTORY:=$(pwd)}"
 export SHARNESS_TEST_DIRECTORY
 
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
-: ${SHARNESS_TEST_SRCDIR:=$(cd $(dirname $0) && pwd)}
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
 export SHARNESS_TEST_SRCDIR
 
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
-: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+: "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH SHARNESS_BUILD_DIRECTORY
 
@@ -840,6 +846,7 @@ then
 		then
 			echo >&5 "sharness: loading extensions from ${file}"
 		fi
+		# shellcheck disable=SC1090
 		. "${file}"
 		if test $? != 0
 		then
@@ -863,7 +870,7 @@ cd -P "$SHARNESS_TRASH_DIRECTORY" || exit 1
 
 this_test=${SHARNESS_TEST_FILE##*/}
 this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
-for skp in $SKIP_TESTS; do
+for skp in ${SKIP_TESTS:-}; do
 	case "$this_test" in
 	$skp)
 		say_color info >&3 "skipping test $this_test altogether"
