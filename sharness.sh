@@ -51,6 +51,18 @@ unset VISUAL CDPATH GREP_OPTIONS
 LF='
 '
 
+# set defaults
+chain_lint=
+color=
+debug=
+immediate=
+help=
+quiet=
+root=
+verbose=
+TEST_LONG=
+TEST_INTERACTIVE=
+
 [ "x$TERM" != "xdumb" ] && (
 		[ -t 1 ] &&
 		tput bold >/dev/null 2>&1 &&
@@ -336,7 +348,7 @@ test_eval_() {
 
 test_run_() {
 	test_cleanup=:
-	expecting_failure="$2"
+	expecting_failure="${2:-}"
 	test_eval_ "$1"
 	eval_ret=$?
 
