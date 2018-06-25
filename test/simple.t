@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC2034
 test_description="Show basic features of Sharness"
 
 . ./sharness.sh

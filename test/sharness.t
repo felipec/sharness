@@ -16,7 +16,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
+#
+# shellcheck disable=SC2016
 
+# shellcheck disable=SC2034
 test_description='Test Sharness itself'
 
 . ./sharness.sh
