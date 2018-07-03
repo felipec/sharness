@@ -184,7 +184,7 @@ Contributions are welcome, see file [CONTRIBUTING] for details.
 
 Sharness was created in April 2011 and maintained until June 2016 by
 [Mathias Lafeldt][twitter]. The library is derived from the
-[Git project]'s test-lib.sh. It is currently maintained by
+[Git] project's test-lib.sh. It is currently maintained by
 [Christian Couder][chriscool].
 
 See [Github's "contributors" page][contributors] for a list of
