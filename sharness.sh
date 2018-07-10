@@ -25,6 +25,18 @@ export SHARNESS_VERSION
 : ${SHARNESS_TEST_EXTENSION:=t}
 export SHARNESS_TEST_EXTENSION
 
+# Public: Root directory containing tests. Tests can override this variable,
+# e.g. for testing Sharness itself.
+if test -z "$SHARNESS_TEST_DIRECTORY"
+then
+	SHARNESS_TEST_DIRECTORY=$(pwd)
+else
+	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
+	# is valid even if the current working directory is changed
+	SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
+fi
+export SHARNESS_TEST_DIRECTORY
+
 #  Reset TERM to original terminal if found, otherwise save original TERM
 [ "x" = "x$SHARNESS_ORIG_TERM" ] &&
 		SHARNESS_ORIG_TERM="$TERM" ||
@@ -827,11 +839,6 @@ test_done() {
 
 	esac
 }
-
-# Public: Root directory containing tests. Tests can override this variable,
-# e.g. for testing Sharness itself.
-: ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
-export SHARNESS_TEST_DIRECTORY
 
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
