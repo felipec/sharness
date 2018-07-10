@@ -214,6 +214,28 @@ test_expect_success 'pretend we have a mix of all possible results' "
 	EOF
 "
 
+test_expect_success 'pretend we have some unstable tests' "
+	run_sub_test_lib_test \
+		results3 'results #3' <<-\\EOF &&
+	test_expect_success 'passing test' 'true'
+	test_expect_success 'passing test' 'true'
+	test_expect_unstable 'unstable test passing' 'true'
+	test_expect_success 'passing test' 'true'
+	test_expect_unstable 'unstable test failing' 'false'
+	test_done
+	EOF
+	check_sub_test_lib_test results3 <<-\\EOF
+	> ok 1 - passing test
+	> ok 2 - passing test
+	> ok 3 - unstable test passing
+	> ok 4 - passing test
+	> not ok 5 - unstable test failing # TODO known breakage
+	> # still have 1 known breakage(s)
+	> # passed all remaining 4 test(s)
+	> 1..5
+	EOF
+"
+
 test_set_prereq HAVEIT
 haveit=no
 test_expect_success HAVEIT 'test runs if prerequisite is satisfied' '

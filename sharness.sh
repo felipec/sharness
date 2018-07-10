@@ -468,6 +468,44 @@ test_expect_failure() {
 	echo >&3 ""
 }
 
+# Public: Run test commands and expect anything from them. Used when a
+# test is not stable or not finished for some reason.
+#
+# When the test passed, an "ok" message is printed, but the number of
+# fixed tests is not incremented.
+#
+# When it failed, a "not ok ... # TODO known breakage" message is
+# printed, and the number of tests still broken is incremented.
+#
+# Failures from these tests won't cause --immediate to stop.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Returns nothing.
+test_expect_unstable() {
+	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_unstable"
+	export test_prereq
+	if ! test_skip_ "$@"; then
+		say >&3 "checking unstable test: $2"
+		if test_run_ "$2" unstable; then
+			test_ok_ "$1"
+		else
+			test_known_broken_failure_ "$1"
+		fi
+	fi
+	echo >&3 ""
+}
+
 # Public: Run command and ensure that it fails in a controlled way.
 #
 # Use it instead of "! <command>". For example, when <command> dies due to a
