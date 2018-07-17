@@ -159,6 +159,28 @@ test_expect_success 'pretend we have fixed one of two known breakages (run in su
 	EOF
 "
 
+test_expect_success 'pretend we have fixed one of two known breakages using --tee' "
+	run_sub_test_lib_test partially-passing-todos-tee \
+		'2 TODO tests, one passing' '' --tee <<-\\EOF &&
+	test_expect_failure 'pretend we have a known breakage' 'false'
+	test_expect_success 'pretend we have a passing test' 'true'
+	test_expect_failure 'pretend we have fixed another known breakage' 'true'
+	test_done
+	EOF
+	check_sub_test_lib_test partially-passing-todos-tee <<-\\EOF &&
+	> not ok 1 - pretend we have a known breakage # TODO known breakage
+	> ok 2 - pretend we have a passing test
+	> ok 3 - pretend we have fixed another known breakage # TODO known breakage vanished
+	> # 1 known breakage(s) vanished; please update test(s)
+	> # still have 1 known breakage(s)
+	> # passed all remaining 1 test(s)
+	> 1..3
+	EOF
+	echo 0 >expect &&
+	test_cmp expect ../test-results/.partially-passing-todos-tee.exit &&
+	test_cmp partially-passing-todos-tee/out ../test-results/.partially-passing-todos-tee.out
+"
+
 test_expect_success 'pretend we have a pass, fail, and known breakage' "
 	test_must_fail run_sub_test_lib_test \
 		mixed-results1 'mixed results #1' <<-\\EOF &&

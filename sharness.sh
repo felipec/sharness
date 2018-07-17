@@ -25,6 +25,18 @@ export SHARNESS_VERSION
 : ${SHARNESS_TEST_EXTENSION:=t}
 export SHARNESS_TEST_EXTENSION
 
+# Public: Root directory containing tests. Tests can override this variable,
+# e.g. for testing Sharness itself.
+if test -z "$SHARNESS_TEST_DIRECTORY"
+then
+	SHARNESS_TEST_DIRECTORY=$(pwd)
+else
+	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
+	# is valid even if the current working directory is changed
+	SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
+fi
+export SHARNESS_TEST_DIRECTORY
+
 #  Reset TERM to original terminal if found, otherwise save original TERM
 [ "x" = "x$SHARNESS_ORIG_TERM" ] &&
 		SHARNESS_ORIG_TERM="$TERM" ||
@@ -35,6 +47,23 @@ export SHARNESS_ORIG_TERM
 # Export SHELL_PATH
 : ${SHELL_PATH:=$SHELL}
 export SHELL_PATH
+
+# if --tee was passed, write the output not only to the terminal, but
+# additionally to the file test-results/$BASENAME.out, too.
+case "$SHARNESS_TEST_TEE_STARTED, $* " in
+done,*)
+	# do not redirect again
+	;;
+*' --tee '*)
+	mkdir -p "$SHARNESS_TEST_DIRECTORY/test-results"
+	BASE="$SHARNESS_TEST_DIRECTORY/test-results/$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
+
+	(SHARNESS_TEST_TEE_STARTED=done ${SHELL_PATH} "$0" "$@" 2>&1;
+	 echo $? >"$BASE.exit") | tee "$BASE.out"
+	test "$(cat "$BASE.exit")" = 0
+	exit
+	;;
+esac
 
 # For repeatability, reset the environment to a known state.
 # TERM is sanitized below, after saving color control sequences.
@@ -82,6 +111,8 @@ while test "$#" -ne 0; do
 		chain_lint=; shift ;;
 	--no-color)
 		color=; shift ;;
+	--tee)
+		shift ;; # was handled already
 	--root=*)
 		root=$(expr "z$1" : 'z[^=]*=\(.*\)')
 		shift ;;
@@ -827,11 +858,6 @@ test_done() {
 
 	esac
 }
-
-# Public: Root directory containing tests. Tests can override this variable,
-# e.g. for testing Sharness itself.
-: ${SHARNESS_TEST_DIRECTORY:=$(pwd)}
-export SHARNESS_TEST_DIRECTORY
 
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
