@@ -236,6 +236,46 @@ test_expect_success 'pretend we have a mix of all possible results' "
 	EOF
 "
 
+test_expect_success 'pretend we have a pass, fail, and known breakage using --verbose-log' "
+	test_must_fail run_sub_test_lib_test \
+		mixed-results3 'mixed results #3' '' --verbose-log <<-\\EOF &&
+	test_expect_success 'passing test' 'true'
+	test_expect_success 'failing test' 'false'
+	test_expect_failure 'pretend we have a known breakage' 'false'
+	test_done
+	EOF
+	check_sub_test_lib_test mixed-results3 <<-\\EOF &&
+	> ok 1 - passing test
+	> not ok 2 - failing test
+	> #	false
+	> not ok 3 - pretend we have a known breakage # TODO known breakage
+	> # still have 1 known breakage(s)
+	> # failed 1 among remaining 2 test(s)
+	> 1..3
+	EOF
+	echo 1 >expect &&
+	test_cmp expect ../test-results/.mixed-results3.exit &&
+	sed -e 's/^> //' >expect <<-\\EOF &&
+	> expecting success: true
+	> 
+	> ok 1 - passing test
+	> expecting success: false
+	> not ok 2 - failing test
+	> #	false
+	> 
+	> checking known breakage: false
+	> 
+	> not ok 3 - pretend we have a known breakage # TODO known breakage
+	> # still have 1 known breakage(s)
+	> # failed 1 among remaining 2 test(s)
+	> 1..3
+	EOF
+	# Output is not completely deterministic
+	sort expect >expect.sorted &&
+	sort ../test-results/.mixed-results3.out >actual.sorted &&
+	test_cmp expect.sorted actual.sorted
+"
+
 test_expect_success 'pretend we have some unstable tests' "
 	run_sub_test_lib_test \
 		results3 'results #3' <<-\\EOF &&

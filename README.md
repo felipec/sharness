@@ -135,6 +135,7 @@ The `*.t` test scripts have the following options (again, read
 * `--chain-lint`/`--no-chain-lint`: check &&-chains in scripts
 * `--no-color`: don't color the output
 * `--tee`: also write output to a file
+* `--verbose-log`: write output to a file, but not on stdout
 * `--root=<dir>`: create trash directories in `<dir>` instead of current directory.
 
 ## Projects using Sharness

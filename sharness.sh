@@ -54,12 +54,21 @@ case "$SHARNESS_TEST_TEE_STARTED, $* " in
 done,*)
 	# do not redirect again
 	;;
-*' --tee '*)
+*' --tee '*|*' --verbose-log '*)
 	mkdir -p "$SHARNESS_TEST_DIRECTORY/test-results"
 	BASE="$SHARNESS_TEST_DIRECTORY/test-results/$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
 
+	# Make this filename available to the sub-process in case it is using
+	# --verbose-log.
+	SHARNESS_TEST_TEE_OUTPUT_FILE="$BASE.out"
+	export SHARNESS_TEST_TEE_OUTPUT_FILE
+
+	# Truncate before calling "tee -a" to get rid of the results
+	# from any previous runs.
+	: >"$SHARNESS_TEST_TEE_OUTPUT_FILE"
+
 	(SHARNESS_TEST_TEE_STARTED="done" ${SHELL_PATH} "$0" "$@" 2>&1;
-	 echo $? >"$BASE.exit") | tee "$BASE.out"
+	 echo $? >"$BASE.exit") | tee -a "$SHARNESS_TEST_TEE_OUTPUT_FILE"
 	test "$(cat "$BASE.exit")" = 0
 	exit
 	;;
@@ -115,6 +124,9 @@ while test "$#" -ne 0; do
 		shift ;; # was handled already
 	--root=*)
 		root=$(expr "z$1" : 'z[^=]*=\(.*\)')
+		shift ;;
+	--verbose-log)
+		verbose_log=t
 		shift ;;
 	*)
 		echo "error: unknown test option '$1'" >&2; exit 1 ;;
@@ -177,7 +189,11 @@ fi
 
 exec 5>&1
 exec 6<&0
-if test "$verbose" = "t"; then
+if test "$verbose_log" = "t"
+then
+	exec 3>>"$SHARNESS_TEST_TEE_OUTPUT_FILE" 4>&3
+elif test "$verbose" = "t"
+then
 	exec 4>&2 3>&1
 else
 	exec 4>/dev/null 3>/dev/null
