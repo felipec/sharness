@@ -47,7 +47,7 @@ while read -r file; do
 done
 
 if test -n "$failed_tests"; then
-	printf "\nfailed test(s):$failed_tests\n\n"
+	printf "\nfailed test(s):%s\n\n" "$failed_tests"
 fi
 
 printf "%-8s%d\n" fixed $fixed
