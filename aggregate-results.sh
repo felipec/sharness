@@ -33,7 +33,7 @@ while read -r file; do
 			success=$((success + value)) ;;
 		failed)
 			failed=$((failed + value))
-			if test $value != 0; then
+			if test "$value" != 0; then
 				test_name=$(expr "$file" : 'test-results/\(.*\)\.[0-9]*\.counts')
 				failed_tests="$failed_tests $test_name"
 			fi
