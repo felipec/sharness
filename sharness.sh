@@ -262,7 +262,7 @@ test_have_prereq() {
 			negative_prereq=
 		esac
 
-		total_prereq=$(($total_prereq + 1))
+		total_prereq=$((total_prereq + 1))
 		case "$satisfied_prereq" in
 		*" $prerequisite "*)
 			satisfied_this_prereq=t
@@ -273,7 +273,7 @@ test_have_prereq() {
 
 		case "$satisfied_this_prereq,$negative_prereq" in
 		t,|,t)
-			ok_prereq=$(($ok_prereq + 1))
+			ok_prereq=$((ok_prereq + 1))
 			;;
 		*)
 			# Keep a list of missing prerequisites; restore
@@ -294,12 +294,12 @@ test_have_prereq() {
 # the text_expect_* functions instead.
 
 test_ok_() {
-	test_success=$(($test_success + 1))
+	test_success=$((test_success + 1))
 	say_color "" "ok $test_count - $@"
 }
 
 test_failure_() {
-	test_failure=$(($test_failure + 1))
+	test_failure=$((test_failure + 1))
 	say_color error "not ok $test_count - $1"
 	shift
 	echo "$@" | sed -e 's/^/#	/'
@@ -307,12 +307,12 @@ test_failure_() {
 }
 
 test_known_broken_ok_() {
-	test_fixed=$(($test_fixed + 1))
+	test_fixed=$((test_fixed + 1))
 	say_color error "ok $test_count - $@ # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
-	test_broken=$(($test_broken + 1))
+	test_broken=$((test_broken + 1))
 	say_color warn "not ok $test_count - $@ # TODO known breakage"
 }
 
@@ -382,7 +382,7 @@ test_run_() {
 }
 
 test_skip_() {
-	test_count=$(($test_count + 1))
+	test_count=$((test_count + 1))
 	to_skip=
 	for skp in $SKIP_TESTS; do
 		case $this_test.$test_count in
@@ -822,7 +822,7 @@ test_done() {
 		say_color warn "# still have $test_broken known breakage(s)"
 	fi
 	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
-		test_remaining=$(( $test_count - $test_broken - $test_fixed ))
+		test_remaining=$((test_count - test_broken - test_fixed))
 		msg="remaining $test_remaining test(s)"
 	else
 		test_remaining=$test_count
