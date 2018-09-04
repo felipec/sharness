@@ -58,7 +58,7 @@ done,*)
 	mkdir -p "$SHARNESS_TEST_DIRECTORY/test-results"
 	BASE="$SHARNESS_TEST_DIRECTORY/test-results/$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
 
-	(SHARNESS_TEST_TEE_STARTED=done ${SHELL_PATH} "$0" "$@" 2>&1;
+	(SHARNESS_TEST_TEE_STARTED="done" ${SHELL_PATH} "$0" "$@" 2>&1;
 	 echo $? >"$BASE.exit") | tee "$BASE.out"
 	test "$(cat "$BASE.exit")" = 0
 	exit
