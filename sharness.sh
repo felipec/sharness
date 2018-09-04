@@ -727,7 +727,7 @@ test_path_is_dir () {
 # Check if the directory exists and is empty as expected, barf otherwise.
 test_dir_is_empty () {
 	test_path_is_dir "$1" &&
-	if test -n "$(ls -a1 "$1" | egrep -v '^\.\.?$')"
+	if test -n "$(find "$1" -mindepth 1 -maxdepth 1)"
 	then
 		echo "Directory '$1' is not empty, it contains:"
 		ls -la "$1"
