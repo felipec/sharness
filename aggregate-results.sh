@@ -22,8 +22,8 @@ failed=0
 broken=0
 total=0
 
-while read file; do
-	while read type value; do
+while read -r file; do
+	while read -r type value; do
 		case $type in
 		'')
 			continue ;;
