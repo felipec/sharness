@@ -245,7 +245,7 @@ test_have_prereq() {
 	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
-	set -- $*
+	set -- $@
 	IFS=$save_IFS
 
 	total_prereq=0
