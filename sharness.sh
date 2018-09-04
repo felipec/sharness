@@ -22,7 +22,7 @@ SHARNESS_VERSION="1.0.0"
 export SHARNESS_VERSION
 
 # Public: The file extension for tests.  By default, it is set to "t".
-: ${SHARNESS_TEST_EXTENSION:=t}
+: "${SHARNESS_TEST_EXTENSION:=t}"
 export SHARNESS_TEST_EXTENSION
 
 # Public: Root directory containing tests. Tests can override this variable,
@@ -45,7 +45,7 @@ export SHARNESS_TEST_DIRECTORY
 export SHARNESS_ORIG_TERM
 
 # Export SHELL_PATH
-: ${SHELL_PATH:=$SHELL}
+: "${SHELL_PATH:=$SHELL}"
 export SHELL_PATH
 
 # if --tee was passed, write the output not only to the terminal, but
@@ -629,7 +629,7 @@ test_expect_code() {
 	shift
 	"$@"
 	exit_code=$?
-	if test $exit_code = $want_code; then
+	if test "$exit_code" = "$want_code"; then
 		return 0
 	fi
 
@@ -862,12 +862,12 @@ test_done() {
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
-: ${SHARNESS_TEST_SRCDIR:=$(cd $(dirname $0) && pwd)}
+: "${SHARNESS_TEST_SRCDIR:=$(cd $(dirname "$0") && pwd)}"
 export SHARNESS_TEST_SRCDIR
 
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
-: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+: "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH SHARNESS_BUILD_DIRECTORY
 
