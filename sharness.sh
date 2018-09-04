@@ -295,7 +295,7 @@ test_have_prereq() {
 
 test_ok_() {
 	test_success=$((test_success + 1))
-	say_color "" "ok $test_count - $@"
+	say_color "" "ok $test_count - $*"
 }
 
 test_failure_() {
@@ -308,12 +308,12 @@ test_failure_() {
 
 test_known_broken_ok_() {
 	test_fixed=$((test_fixed + 1))
-	say_color error "ok $test_count - $@ # TODO known breakage vanished"
+	say_color error "ok $test_count - $* # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
 	test_broken=$((test_broken + 1))
-	say_color warn "not ok $test_count - $@ # TODO known breakage"
+	say_color warn "not ok $test_count - $* # TODO known breakage"
 }
 
 # Public: Execute commands in debug mode.
@@ -401,7 +401,7 @@ test_skip_() {
 			of_prereq=" of $test_prereq"
 		fi
 
-		say_color skip >&3 "skipping test: $@"
+		say_color skip >&3 "skipping test: $*"
 		say_color skip "ok $test_count # skip $1 (missing $missing_prereq${of_prereq})"
 		: true
 		;;
