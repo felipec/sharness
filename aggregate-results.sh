@@ -28,20 +28,20 @@ while read -r file; do
 		'')
 			continue ;;
 		fixed)
-			fixed=$(($fixed + $value)) ;;
+			fixed=$((fixed + value)) ;;
 		success)
-			success=$(($success + $value)) ;;
+			success=$((success + value)) ;;
 		failed)
-			failed=$(($failed + $value))
+			failed=$((failed + value))
 			if test $value != 0; then
 				test_name=$(expr "$file" : 'test-results/\(.*\)\.[0-9]*\.counts')
 				failed_tests="$failed_tests $test_name"
 			fi
 			;;
 		broken)
-			broken=$(($broken + $value)) ;;
+			broken=$((broken + value)) ;;
 		total)
-			total=$(($total + $value)) ;;
+			total=$((total + value)) ;;
 		esac
 	done <"$file"
 done
