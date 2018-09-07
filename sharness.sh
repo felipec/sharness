@@ -22,7 +22,7 @@ SHARNESS_VERSION="1.0.0"
 export SHARNESS_VERSION
 
 # Public: The file extension for tests.  By default, it is set to "t".
-: ${SHARNESS_TEST_EXTENSION:=t}
+: "${SHARNESS_TEST_EXTENSION:=t}"
 export SHARNESS_TEST_EXTENSION
 
 # Public: Root directory containing tests. Tests can override this variable,
@@ -45,7 +45,7 @@ export SHARNESS_TEST_DIRECTORY
 export SHARNESS_ORIG_TERM
 
 # Export SHELL_PATH
-: ${SHELL_PATH:=$SHELL}
+: "${SHELL_PATH:=$SHELL}"
 export SHELL_PATH
 
 # if --tee was passed, write the output not only to the terminal, but
@@ -58,7 +58,7 @@ done,*)
 	mkdir -p "$SHARNESS_TEST_DIRECTORY/test-results"
 	BASE="$SHARNESS_TEST_DIRECTORY/test-results/$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
 
-	(SHARNESS_TEST_TEE_STARTED=done ${SHELL_PATH} "$0" "$@" 2>&1;
+	(SHARNESS_TEST_TEE_STARTED="done" ${SHELL_PATH} "$0" "$@" 2>&1;
 	 echo $? >"$BASE.exit") | tee "$BASE.out"
 	test "$(cat "$BASE.exit")" = 0
 	exit
@@ -245,7 +245,7 @@ test_have_prereq() {
 	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
-	set -- $*
+	set -- $@
 	IFS=$save_IFS
 
 	total_prereq=0
@@ -262,7 +262,7 @@ test_have_prereq() {
 			negative_prereq=
 		esac
 
-		total_prereq=$(($total_prereq + 1))
+		total_prereq=$((total_prereq + 1))
 		case "$satisfied_prereq" in
 		*" $prerequisite "*)
 			satisfied_this_prereq=t
@@ -273,7 +273,7 @@ test_have_prereq() {
 
 		case "$satisfied_this_prereq,$negative_prereq" in
 		t,|,t)
-			ok_prereq=$(($ok_prereq + 1))
+			ok_prereq=$((ok_prereq + 1))
 			;;
 		*)
 			# Keep a list of missing prerequisites; restore
@@ -294,12 +294,12 @@ test_have_prereq() {
 # the text_expect_* functions instead.
 
 test_ok_() {
-	test_success=$(($test_success + 1))
-	say_color "" "ok $test_count - $@"
+	test_success=$((test_success + 1))
+	say_color "" "ok $test_count - $*"
 }
 
 test_failure_() {
-	test_failure=$(($test_failure + 1))
+	test_failure=$((test_failure + 1))
 	say_color error "not ok $test_count - $1"
 	shift
 	echo "$@" | sed -e 's/^/#	/'
@@ -307,13 +307,13 @@ test_failure_() {
 }
 
 test_known_broken_ok_() {
-	test_fixed=$(($test_fixed + 1))
-	say_color error "ok $test_count - $@ # TODO known breakage vanished"
+	test_fixed=$((test_fixed + 1))
+	say_color error "ok $test_count - $* # TODO known breakage vanished"
 }
 
 test_known_broken_failure_() {
-	test_broken=$(($test_broken + 1))
-	say_color warn "not ok $test_count - $@ # TODO known breakage"
+	test_broken=$((test_broken + 1))
+	say_color warn "not ok $test_count - $* # TODO known breakage"
 }
 
 # Public: Execute commands in debug mode.
@@ -382,7 +382,7 @@ test_run_() {
 }
 
 test_skip_() {
-	test_count=$(($test_count + 1))
+	test_count=$((test_count + 1))
 	to_skip=
 	for skp in $SKIP_TESTS; do
 		case $this_test.$test_count in
@@ -401,7 +401,7 @@ test_skip_() {
 			of_prereq=" of $test_prereq"
 		fi
 
-		say_color skip >&3 "skipping test: $@"
+		say_color skip >&3 "skipping test: $*"
 		say_color skip "ok $test_count # skip $1 (missing $missing_prereq${of_prereq})"
 		: true
 		;;
@@ -629,7 +629,7 @@ test_expect_code() {
 	shift
 	"$@"
 	exit_code=$?
-	if test $exit_code = $want_code; then
+	if test "$exit_code" = "$want_code"; then
 		return 0
 	fi
 
@@ -686,7 +686,7 @@ test_seq() {
 	while test "$i" -le "$j"
 	do
 		echo "$i" || return
-		i=$(expr "$i" + 1)
+		i=$(("$i" + 1))
 	done
 }
 
@@ -727,7 +727,7 @@ test_path_is_dir () {
 # Check if the directory exists and is empty as expected, barf otherwise.
 test_dir_is_empty () {
 	test_path_is_dir "$1" &&
-	if test -n "$(ls -a1 "$1" | egrep -v '^\.\.?$')"
+	if test -n "$(find "$1" -mindepth 1 -maxdepth 1)"
 	then
 		echo "Directory '$1' is not empty, it contains:"
 		ls -la "$1"
@@ -822,7 +822,7 @@ test_done() {
 		say_color warn "# still have $test_broken known breakage(s)"
 	fi
 	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
-		test_remaining=$(( $test_count - $test_broken - $test_fixed ))
+		test_remaining=$((test_count - test_broken - test_fixed))
 		msg="remaining $test_remaining test(s)"
 	else
 		test_remaining=$test_count
@@ -862,12 +862,12 @@ test_done() {
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
-: ${SHARNESS_TEST_SRCDIR:=$(cd $(dirname $0) && pwd)}
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
 export SHARNESS_TEST_SRCDIR
 
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
-: ${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}
+: "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH SHARNESS_BUILD_DIRECTORY
 
