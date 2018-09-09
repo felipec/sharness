@@ -23,6 +23,8 @@ broken=0
 total=0
 
 while read -r file; do
+	# shellcheck disable=SC2094
+	# 'expr' does not change "$file"
 	while read -r type value; do
 		case $type in
 		'')
