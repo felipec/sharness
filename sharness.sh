@@ -912,6 +912,8 @@ then
 		then
 			echo >&5 "sharness: loading extensions from ${file}"
 		fi
+		# shellcheck source=/dev/null
+		# optional extension files are not required for tests
 		. "${file}"
 		if test $? != 0
 		then
