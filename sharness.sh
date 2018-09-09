@@ -78,7 +78,7 @@ esac
 # TERM is sanitized below, after saving color control sequences.
 LANG=C
 LC_ALL=C
-PAGER=cat
+PAGER="cat"
 TZ=UTC
 EDITOR=:
 export LANG LC_ALL PAGER TZ EDITOR
