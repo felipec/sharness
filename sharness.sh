@@ -174,7 +174,7 @@ say() {
 	say_color info "$*"
 }
 
-test -n "$test_description" || error "Test script did not set test_description."
+test -n "${test_description:-}" || error "Test script did not set test_description."
 
 if test "$help" = "t"; then
 	echo "$test_description"
