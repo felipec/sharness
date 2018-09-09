@@ -76,8 +76,7 @@ export LANG LC_ALL PAGER TZ EDITOR
 unset VISUAL CDPATH GREP_OPTIONS
 
 # Line feed
-LF='
-'
+LF='\n'
 
 [ "x$TERM" != "xdumb" ] && (
 		[ -t 1 ] &&
