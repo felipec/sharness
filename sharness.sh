@@ -139,12 +139,19 @@ if test -n "$color"; then
 	say_color_pass=$(tput setaf 2) # green
 	say_color_info=$(tput setaf 6) # cyan
 	say_color_reset=$(tput sgr0)
-	say_color_="" # no formatting for normal text
+	say_color_raw="" # no formatting for normal text
 	say_color() {
 		test -z "$1" && test -n "$quiet" && return
-		eval "say_color_color=\$say_color_$1"
+		case "$1" in
+			error) say_color_color=$say_color_error ;;
+			skip) say_color_color=$say_color_skip ;;
+			warn) say_color_color=$say_color_warn ;;
+			pass) say_color_color=$say_color_pass ;;
+			info) say_color_color=$say_color_info ;;
+			*) say_color_color=$say_color_raw ;;
+		esac
 		shift
-		printf '%s\n' "$say_color_color$*$say_color_reset"
+		printf '%s%s%s\n' "$say_color_color" "$*" "$say_color_reset"
 	}
 else
 	say_color() {
