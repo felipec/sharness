@@ -251,6 +251,8 @@ test_have_prereq() {
 	# prerequisites can be concatenated with ','
 	save_IFS=$IFS
 	IFS=,
+	# shellcheck disable=SC2086
+	# qouting would prevent comma-based splitting
 	set -- $1
 	IFS=$save_IFS
 
