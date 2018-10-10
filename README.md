@@ -188,7 +188,8 @@ Contributions are welcome, see file [CONTRIBUTING] for details.
 Sharness was created in April 2011 and maintained until June 2016 by
 [Mathias Lafeldt][twitter]. The library is derived from the
 [Git] project's test-lib.sh. It is currently maintained by
-[Christian Couder][chriscool].
+[Christian Couder][chriscool], thanks to sponsorship from
+[Protocol Labs][protocollabs].
 
 See [Github's "contributors" page][contributors] for a list of
 developers.
@@ -202,6 +203,7 @@ test-lib.sh too.
 [contributors]: https://github.com/chriscool/sharness/graphs/contributors
 [COPYING]: https://github.com/chriscool/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
+[protocollabs]: https://protocol.ai/
 [prove(1)]: http://linux.die.net/man/1/prove
 [README.git]: https://github.com/chriscool/sharness/blob/master/README.git
 [Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
