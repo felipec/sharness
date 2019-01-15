@@ -18,7 +18,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 # Public: Current version of Sharness.
-SHARNESS_VERSION="1.0.0"
+SHARNESS_VERSION="1.1.0"
 export SHARNESS_VERSION
 
 # Public: The file extension for tests.  By default, it is set to "t".
