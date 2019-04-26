@@ -400,6 +400,7 @@ test_expect_success 'We detect broken && chains' "
 test_expect_success 'tests can be run from an alternate directory' '
 	# Act as if we have an installation of sharness in current dir:
 	ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+	ln -sf $SHARNESS_TEST_SRCDIR/lib-sharness . &&
 	export working_path="$(pwd)" &&
 	cat >test.t <<-EOF &&
 	test_description="test run of script from alternate dir"
@@ -498,6 +499,7 @@ test_expect_success 'loading sharness extensions works' '
 		}
 		EOF
 		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+		ln -sf $SHARNESS_TEST_SRCDIR/lib-sharness . &&
 		cat >test-extension.t <<-\EOF &&
 		test_description="test sharness extensions"
 		. ./sharness.sh
@@ -527,6 +529,7 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 		cd nil-extensions &&
 		mkdir sharness.d  &&
 		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+		ln -sf $SHARNESS_TEST_SRCDIR/lib-sharness . &&
 		cat >test.t <<-\EOF &&
 		test_description="sharness works"
 		. ./sharness.sh
