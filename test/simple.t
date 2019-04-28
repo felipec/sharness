@@ -2,7 +2,9 @@
 
 test_description="Show basic features of Sharness"
 
-. ./sharness.sh
+: "${SHARNESS_TEST_SRCDIR:=.}"
+
+. "$SHARNESS_TEST_SRCDIR/sharness.sh"
 
 test_expect_success "Success is reported like this" "
     echo hello world | grep hello
