@@ -394,6 +394,13 @@ mkdir -p "$SHARNESS_TRASH_DIRECTORY" || exit 1
 # in subprocesses like git equals our $PWD (for pathname comparisons).
 cd -P "$SHARNESS_TRASH_DIRECTORY" || exit 1
 
+check_skip_all_() {
+	if test -n "$skip_all" && test $SHARNESS_TEST_NB -gt 0; then
+		error "Can't use skip_all after running some tests"
+	fi
+	[ -z "$skip_all" ] || skip_all=" # SKIP $skip_all"
+}
+
 this_test=${SHARNESS_TEST_FILE##*/}
 this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
 for skp in $SKIP_TESTS; do
