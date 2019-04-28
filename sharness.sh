@@ -21,12 +21,10 @@
 SHARNESS_VERSION="1.1.0"
 export SHARNESS_VERSION
 
-# Public: The file extension for tests.  By default, it is set to "t".
 : "${SHARNESS_TEST_EXTENSION:=t}"
+# Public: The file extension for tests.  By default, it is set to "t".
 export SHARNESS_TEST_EXTENSION
 
-# Public: Root directory containing tests. Tests can override this variable,
-# e.g. for testing Sharness itself.
 if test -z "$SHARNESS_TEST_DIRECTORY"
 then
 	SHARNESS_TEST_DIRECTORY=$(pwd)
@@ -35,13 +33,14 @@ else
 	# is valid even if the current working directory is changed
 	SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
 fi
+# Public: Root directory containing tests. Tests can override this variable,
+# e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
 
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
-
-: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
 export SHARNESS_TEST_SRCDIR
 
 #  Reset TERM to original terminal if found, otherwise save original TERM
@@ -327,11 +326,12 @@ test_skip_() {
 	esac
 }
 
+: "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
-: "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
+export SHARNESS_BUILD_DIRECTORY
 PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
-export PATH SHARNESS_BUILD_DIRECTORY
+export PATH
 
 # Public: Path to test script currently executed.
 SHARNESS_TEST_FILE="$0"
