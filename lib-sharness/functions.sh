@@ -571,9 +571,7 @@ test_done() {
 
 		test_eval_ "$final_cleanup"
 
-		test -d "$remove_trash" &&
-		cd "$(dirname "$remove_trash")" &&
-		rm -rf "$(basename "$remove_trash")"
+		remove_trash_
 
 		exit 0 ;;
 

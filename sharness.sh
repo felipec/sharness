@@ -337,6 +337,13 @@ export PATH SHARNESS_BUILD_DIRECTORY
 SHARNESS_TEST_FILE="$0"
 export SHARNESS_TEST_FILE
 
+remove_trash_() {
+	test -d "$remove_trash" && (
+		cd "$(dirname "$remove_trash")" &&
+			rm -rf "$(basename "$remove_trash")"
+	)
+}
+
 # Prepare test area.
 SHARNESS_TRASH_DIRECTORY="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
 test -n "$root" && SHARNESS_TRASH_DIRECTORY="$root/$SHARNESS_TRASH_DIRECTORY"
