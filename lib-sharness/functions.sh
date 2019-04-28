@@ -19,6 +19,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
+# These assignments are to make shellcheck happy. They should be
+# removed when we can use a new version of shellcheck that contains:
+# https://github.com/koalaman/shellcheck/pull/1553
+: "${debug:=}"
+: "${verbose:=}"
+: "${this_test:=}"
+: "${skip_all:=}"
+: "${EXIT_OK:=}"
+: "${test_failure:=0}"
+: "${test_fixed:=0}"
+: "${test_broken:=0}"
+: "${test_success:=0}"
 
 # Public: Define that a test prerequisite is available.
 #
