@@ -401,7 +401,9 @@ test_run_() {
 		fi
 	fi
 
-	if test -z "$immediate" || test $eval_ret = 0 || test -n "$expecting_failure"; then
+	if test -z "$immediate" || test $eval_ret = 0 ||
+	   test -n "$expecting_failure" && test "$test_cleanup" != ":"
+	then
 		test_eval_ "$test_cleanup"
 	fi
 	if test "$verbose" = "t" && test -n "$HARNESS_ACTIVE"; then
