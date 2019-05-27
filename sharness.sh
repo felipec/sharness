@@ -395,10 +395,17 @@ test_run_() {
 	eval_ret=$?
 
 	if test "$chain_lint" = "t"; then
+		# turn off tracing for this test-eval, as it simply creates
+		# confusing noise in the "-x" output
+		trace_tmp=$trace
+		trace=
+		# 117 is magic because it is unlikely to match the exit
+		# code of other programs
 		test_eval_ "(exit 117) && $1"
 		if test "$?" != 117; then
 			error "bug in the test script: broken &&-chain: $1"
 		fi
+		trace=$trace_tmp
 	fi
 
 	if test -z "$immediate" || test $eval_ret = 0 ||
