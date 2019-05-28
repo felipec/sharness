@@ -276,6 +276,43 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using --ve
 	test_cmp expect.sorted actual.sorted
 "
 
+test_expect_success 'pretend we have a pass, fail, and known breakage using -x' "
+	test_must_fail run_sub_test_lib_test \
+		mixed-results4 'mixed results #4' '' -x <<-\\EOF &&
+	test_expect_success 'passing test' 'true'
+	test_expect_success 'failing test' 'false'
+	test_expect_failure 'pretend we have a known breakage' 'false'
+	test_done
+	EOF
+	(
+		cd mixed-results4 &&
+		sed -e 's/^> //' -e 's/Z$//' >expect_out <<-\\EOF &&
+		> expecting success: true
+		> ok 1 - passing test
+		> 
+		> expecting success: false
+		> not ok 2 - failing test
+		> #	false
+		> 
+		> checking known breakage: false
+		> not ok 3 - pretend we have a known breakage # TODO known breakage
+		> 
+		> # still have 1 known breakage(s)
+		> # failed 1 among remaining 2 test(s)
+		> 1..3
+		EOF
+		test_cmp expect_out out &&
+		sed -e 's/^> //' -e 's/Z$//' >expect_err <<-\\EOF &&
+		> + true
+		> + false
+		> error: last command exited with \$?=1
+		> + false
+		> error: last command exited with \$?=1
+		EOF
+		test_cmp expect_err err
+	)
+"
+
 test_expect_success 'pretend we have some unstable tests' "
 	run_sub_test_lib_test \
 		results3 'results #3' <<-\\EOF &&
