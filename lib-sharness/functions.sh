@@ -540,7 +540,7 @@ test_done() {
 	EXIT_OK=t
 
 	if test -z "$HARNESS_ACTIVE"; then
-		test_results_dir="$SHARNESS_TEST_DIRECTORY/test-results"
+		test_results_dir="$SHARNESS_TEST_OUTDIR/test-results"
 		mkdir -p "$test_results_dir"
 		test_results_path="$test_results_dir/$this_test.$$.counts"
 
