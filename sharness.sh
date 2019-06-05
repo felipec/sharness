@@ -51,7 +51,7 @@ export SHARNESS_TEST_SRCDIR
 export SHARNESS_ORIG_TERM
 
 # Export SHELL_PATH
-: "${SHELL_PATH:=$SHELL}"
+: "${SHELL_PATH:=/bin/sh}"
 export SHELL_PATH
 
 # if --tee was passed, write the output not only to the terminal, but
