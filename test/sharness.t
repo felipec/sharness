@@ -415,7 +415,7 @@ test_expect_success 'tests can be run from an alternate directory' '
 	EOF
         (
           # unset SHARNESS variables before sub-test
-	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
 	  # unset HARNESS_ACTIVE so we get a test-results dir
 	  unset HARNESS_ACTIVE &&
 	  chmod +x test.t &&
