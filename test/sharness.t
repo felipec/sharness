@@ -276,6 +276,12 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using --ve
 	test_cmp expect.sorted actual.sorted
 "
 
+# Unfortunately it looks like set -x doesn't behave exactly the same
+# way everywhere. Sometimes in its output it adds blanklines or "+ "
+# before the commands that are run, and sometimes it doesn't add
+# blanklines and adds only "+" before commands. So we need to clean up
+# the output to be able to compare properly.
+
 test_expect_success 'pretend we have a pass, fail, and known breakage using -x' "
 	test_must_fail run_sub_test_lib_test \
 		mixed-results4 'mixed results #4' '' -x <<-\\EOF &&
@@ -289,27 +295,26 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using -x' 
 		sed -e 's/^> //' -e 's/Z$//' >expect_out <<-\\EOF &&
 		> expecting success: true
 		> ok 1 - passing test
-		> 
 		> expecting success: false
 		> not ok 2 - failing test
 		> #	false
-		> 
 		> checking known breakage: false
 		> not ok 3 - pretend we have a known breakage # TODO known breakage
-		> 
 		> # still have 1 known breakage(s)
 		> # failed 1 among remaining 2 test(s)
 		> 1..3
 		EOF
-		test_cmp expect_out out &&
-		sed -e 's/^> //' -e 's/Z$//' >expect_err <<-\\EOF &&
-		> + true
-		> + false
+		sed -e '/^ *$/d' >clean_out <out &&
+		test_cmp expect_out clean_out &&
+		sed -e 's/^> //' >expect_err <<-\\EOF &&
+		> +true
+		> +false
 		> error: last command exited with \$?=1
-		> + false
+		> +false
 		> error: last command exited with \$?=1
 		EOF
-		test_cmp expect_err err
+		sed -e 's/^+ /+/' >clean_err <err &&
+		test_cmp expect_err clean_err
 	)
 "
 
