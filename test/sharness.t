@@ -292,7 +292,7 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using -x' 
 	EOF
 	(
 		cd mixed-results4 &&
-		sed -e 's/^> //' -e 's/Z$//' >expect_out <<-\\EOF &&
+		sed -e 's/^> //' >expect_out <<-\\EOF &&
 		> expecting success: true
 		> ok 1 - passing test
 		> expecting success: false
