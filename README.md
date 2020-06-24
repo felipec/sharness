@@ -151,6 +151,7 @@ See how Sharness is used in real-world projects:
 * [git-svn-fast-import](https://github.com/satori/git-svn-fast-import/tree/master/t)
 * [go-ipfs](https://github.com/ipfs/go-ipfs/tree/master/test/sharness)
 * [go-multihash](https://github.com/jbenet/go-multihash/tree/master/test/sharness)
+* [inotify-tools](https://github.com/inotify-tools/inotify-tools)
 * [ipfs-update](https://github.com/ipfs/ipfs-update/tree/master/sharness)
 * [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
 * [Sharness itself](/test)
@@ -173,7 +174,6 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 * [shspec](https://github.com/shpec/shpec)
 * [testlib.sh](https://gist.github.com/3877539)
 * [ts](https://github.com/thinkerbot/ts)
-* [inotify-tools](https://github.com/inotify-tools/inotify-tools)
 
 ## License
 
