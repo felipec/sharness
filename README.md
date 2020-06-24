@@ -173,6 +173,7 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 * [shspec](https://github.com/shpec/shpec)
 * [testlib.sh](https://gist.github.com/3877539)
 * [ts](https://github.com/thinkerbot/ts)
+* [inotify-tools](https://github.com/inotify-tools/inotify-tools)
 
 ## License
 
