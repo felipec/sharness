@@ -164,6 +164,7 @@ number of tests.
 
 Here is a list of other shell testing libraries (sorted alphabetically):
 
+* [Bashtub](https://github.com/ueokande/bashtub)
 * [Bats](https://github.com/sstephenson/bats)
 * [Cram](https://bitheap.org/cram)
 * [rnt](https://github.com/roman-neuhauser/rnt)
