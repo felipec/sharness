@@ -67,14 +67,14 @@ sub copy_stdio {
 if ($#ARGV < 1) {
 	die "usage: test-terminal program args";
 }
-my $master_out = new IO::Pty;
-my $master_err = new IO::Pty;
-$master_out->set_raw();
-$master_err->set_raw();
-$master_out->slave->set_raw();
-$master_err->slave->set_raw();
-my $pid = start_child(\@ARGV, $master_out->slave, $master_err->slave);
-close $master_out->slave;
-close $master_err->slave;
-copy_stdio($master_out, $master_err);
+my $leader_out = new IO::Pty;
+my $leader_err = new IO::Pty;
+$leader_out->set_raw();
+$leader_err->set_raw();
+$leader_out->follower->set_raw();
+$leader_err->follower->set_raw();
+my $pid = start_child(\@ARGV, $leader_out->follower, $leader_err->follower);
+close $leader_out->follower;
+close $leader_err->follower;
+copy_stdio($leader_out, $leader_err);
 exit(finish_child($pid));
