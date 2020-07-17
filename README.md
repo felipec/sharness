@@ -71,9 +71,22 @@ Then choose an installation method that works best for you:
 
 ### Per-project installation
 
-If you like to add Sharness to the sources of a project you want to use it for,
-simply copy the files `sharness.sh`, `aggregate-results.sh`, and `test/Makefile`
-to a folder named `test` inside that project.
+If you like to add Sharness to the sources of a project you want to
+use it for, simply copy the files `sharness.sh`,
+`aggregate-results.sh`, and `test/Makefile` to a folder named `test`
+inside that project, and then set SHARNESS_TEST_SRCDIR to this folder
+somewhere, export it, and source $SHARNESS_TEST_SRCDIR/sharness.sh in
+your test files.
+
+See for example how setting SHARNESS_TEST_SRCDIR is done in
+[test/simple.t](../blob/lib-sharness-functions/test/simple.t)
+and in the `install` target of the
+[Makefile](../blob/lib-sharness-functions/Makefile).
+
+The requirement to set SHARNESS_TEST_SRCDIR is new in current
+master. It used to be possible to only copy files and source
+`sharness.sh`, but https://github.com/chriscool/sharness/pull/90
+changed that. 
 
 Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
 
