@@ -79,9 +79,8 @@ somewhere, export it, and source $SHARNESS_TEST_SRCDIR/sharness.sh in
 your test files.
 
 See for example how setting SHARNESS_TEST_SRCDIR is done in
-[test/simple.t](../blob/lib-sharness-functions/test/simple.t)
-and in the `install` target of the
-[Makefile](../blob/lib-sharness-functions/Makefile).
+[test/simple.t](test/simple.t#L5-L7)
+and in the `install` target of the [Makefile](Makefile#L26).
 
 The requirement to set SHARNESS_TEST_SRCDIR is new in current
 master. It used to be possible to only copy files and source
