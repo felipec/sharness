@@ -64,7 +64,8 @@ run_sub_test_lib_test () {
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_SRCDIR &&
-		$prefix ./".$name.t" $opt --chain-lint >out 2>err
+		# Setting PS4 simplifies properly testing set -x output
+		PS4=+ $prefix ./".$name.t" $opt --chain-lint >out 2>err
 	)
 }
 
@@ -279,8 +280,9 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using --ve
 # Unfortunately it looks like set -x doesn't behave exactly the same
 # way everywhere. Sometimes in its output it adds blanklines or "+ "
 # before the commands that are run, and sometimes it doesn't add
-# blanklines and adds only "+" before commands. So we need to clean up
-# the output to be able to compare properly.
+# blanklines and adds only one or more "+" before commands. This is
+# also influenced by PS4, which we set above. Let's anyway clean up
+# the output using sed to compare as properly as possible.
 
 test_expect_success 'pretend we have a pass, fail, and known breakage using -x' "
 	test_must_fail run_sub_test_lib_test \
@@ -313,7 +315,7 @@ test_expect_success 'pretend we have a pass, fail, and known breakage using -x' 
 		> +false
 		> error: last command exited with \$?=1
 		EOF
-		sed -e 's/^+ /+/' >clean_err <err &&
+		sed -e 's/^++* */+/' >clean_err <err &&
 		test_cmp expect_err clean_err
 	)
 "
