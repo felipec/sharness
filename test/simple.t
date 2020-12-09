@@ -31,4 +31,4 @@ test_expect_failure "We expect this to fail" "
 
 test_done
 
-# vi: set ft=sh :
+# vi: set ft=sh.sharness :

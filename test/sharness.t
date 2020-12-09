@@ -602,4 +602,4 @@ test_expect_success INTERACTIVE 'Interactive tests work' '
 
 test_done
 
-# vi: set ft=sh :
+# vi: set ft=sh.sharness :
