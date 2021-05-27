@@ -159,6 +159,7 @@ See how Sharness is used in real-world projects:
 * [dabba](https://github.com/eroullit/dabba/tree/master/dabba/test)
 * [git-integration](https://github.com/johnkeeping/git-integration/tree/master/t)
 * [git-multimail](https://github.com/git-multimail/git-multimail/tree/master/t)
+* [git-related](https://github.com/felipec/git-related/tree/master/test)
 * [git-spindle](https://github.com/seveas/git-spindle/tree/master/test)
 * [git-svn-fast-import](https://github.com/satori/git-svn-fast-import/tree/master/t)
 * [go-ipfs](https://github.com/ipfs/go-ipfs/tree/master/test/sharness)
