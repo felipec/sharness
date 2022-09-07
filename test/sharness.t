@@ -42,6 +42,8 @@ test_terminal () {
 # (PERL and TTY prereqs may later be split if needed separately)
 test_terminal sh -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
 
+[ -n "${BASH_VERSION-}" ] && test_set_prereq BASH
+
 run_sub_test_lib_test () {
 	name="$1" descr="$2" # stdin is the body of the test code
 	prefix="$3"          # optionally run sub-test under command
@@ -474,6 +476,30 @@ test_expect_success 'tests can be run from an alternate directory' '
 	EOF
 	  test_cmp expected output &&
 	  test -d test-results
+	)
+'
+
+test_expect_success BASH 'tests can be run with out-of-tree sharness' '
+	mkdir test-subdir &&
+	(
+	cd test-subdir &&
+	cat >test.t <<-EOF &&
+	test_description="test out-of-tree sharness"
+	. "$SHARNESS_TEST_SRCDIR"/sharness.sh
+	test_expect_success "success" "true"
+	test_done
+	EOF
+	chmod +x test.t &&
+	(
+	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
+	  ./test.t >output 2>err
+	) &&
+	cat >expected <<-EOF &&
+	ok 1 - success
+	# passed all 1 test(s)
+	1..1
+	EOF
+	test_cmp expected output
 	)
 '
 
