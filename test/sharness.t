@@ -620,6 +620,36 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 	)
 '
 
+test_expect_success 'loading sharness extensions out-of-tree works' '
+	mkdir extensions-outdir &&
+	(
+		cd extensions-outdir &&
+		mkdir sharness.d &&
+		cat >sharness.d/test.sh <<-EOF &&
+		this_is_a_test() {
+			return 0
+		}
+		EOF
+		cat >test-extension.t <<-EOF &&
+		test_description="test sharness extensions"
+		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
+		test_expect_success "extension function is present" "
+			this_is_a_test
+		"
+		test_done
+		EOF
+		unset SHARNESS_TEST_DIRECTORY &&
+		chmod +x ./test-extension.t &&
+		./test-extension.t >out 2>err &&
+		cat >expected <<-\EOF &&
+		ok 1 - extension function is present
+		# passed all 1 test(s)
+		1..1
+		EOF
+		test_cmp expected out
+	)
+'
+
 test_expect_success INTERACTIVE 'Interactive tests work' '
     echo -n "Please type yes and hit enter " &&
     read -r var &&
