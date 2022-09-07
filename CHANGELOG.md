@@ -1,3 +1,22 @@
+v1.2.0 (2023-03-20)
+-------------------
+
+* Moved functions into lib-sharness/functions.sh
+* Add simple example
+* Add support for zsh
+* Clarify the purpose of `aggregate-results.sh`
+* Add `SHARNESS_TEST_OUTDIR`
+* Add `SHARNESS_TEST_NB`
+* Add `-x` option for tracing commands
+* Add vim syntax file
+* Minor bugfixes
+
+* Christian Couder has decided to transfer the ownership of the
+  project to Felipe Contreras, so now it's on:
+  https://github.com/felipec/sharness/ and
+  https://felipec.github.io/sharness/. Thanks for keeping the project
+  afloat these years and your many contributions.
+
 v1.1.0 (2018-09-15)
 -------------------
 
@@ -77,10 +96,6 @@ Maintainer and project changes:
   GitHub repository to Christian, so the project can now be found on:
   https://github.com/chriscool/sharness and its web page is now:
   http://chriscool.github.io/sharness/
-
-* Subsequently, Christian transferred the ownership of the project to
-  Felipe Contreras, so now, it's: https://github.com/felipec/sharness and
-  http://felipec.github.io/sharness/
 
 v0.3.0 (2013-04-03)
 -------------------
