@@ -1,3 +1,10 @@
+v1.2.0 (2022-09-07)
+-------------------
+
+* Add `SHARNESS_TEST_OUTDIR`
+* Add `-x` option for tracing commands
+* Add vim syntax file
+
 v1.1.0 (2018-09-15)
 -------------------
 
