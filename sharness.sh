@@ -483,11 +483,11 @@ rm -rf "$SHARNESS_TRASH_DIRECTORY" || {
 
 
 #
-#  Load any extensions in $srcdir/sharness.d/*.sh
+#  Load any extensions in $testdir/sharness.d/*.sh
 #
-if test -d "${SHARNESS_TEST_SRCDIR}/sharness.d"
+if test -d "${SHARNESS_TEST_DIRECTORY}/sharness.d"
 then
-	for file in "${SHARNESS_TEST_SRCDIR}"/sharness.d/*.sh
+	for file in "${SHARNESS_TEST_DIRECTORY}"/sharness.d/*.sh
 	do
 		# Ensure glob was not an empty match:
 		test -e "${file}" || break
