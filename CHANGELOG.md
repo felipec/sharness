@@ -1,3 +1,19 @@
+v1.2.0 (2022-09-07)
+-------------------
+
+* Add `SHARNESS_TEST_OUTDIR`
+* Add `-x` option for tracing commands
+* Add vim syntax file
+
+v1.1.0 (2018-09-15)
+-------------------
+
+* Add `test_expect_unstable`
+* Add `--tee` option
+* Add `--verbose_log` option
+* Add missing `test_path_is_file()` `test_path_is_dir()` `test_dir_is_empty()`
+* Many bugfixes
+
 v1.0.0 (2016-06-14)
 -------------------
 

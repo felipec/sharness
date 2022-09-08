@@ -16,20 +16,21 @@ RM = rm -f
 SED = sed
 TOMDOCSH = tomdoc.sh
 CP = cp
+D = $(DESTDIR)
 
 all:
 
 install: all
-	$(INSTALL) -d -m 755 $(INSTALL_DIR) $(LIB_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
-	$(INSTALL) -m 644 $(INSTALL_FILES) $(INSTALL_DIR)
-	$(INSTALL) -m 644 $(LIB_FILES) $(LIB_DIR)
-	$(INSTALL) -m 644 $(DOC_FILES) $(DOC_DIR)
-	$(SED) -e "s!aggregate-results.sh!$(LIB_DIR)/aggregate-results.sh!" test/Makefile > $(EXAMPLE_DIR)/Makefile
-	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" test/simple.t > $(EXAMPLE_DIR)/simple.t
+	$(INSTALL) -d -m 755 $(D)$(INSTALL_DIR) $(D)$(LIB_DIR) $(D)$(DOC_DIR) $(D)$(EXAMPLE_DIR)
+	$(INSTALL) -m 644 $(INSTALL_FILES) $(D)$(INSTALL_DIR)
+	$(INSTALL) -m 644 $(LIB_FILES) $(D)$(LIB_DIR)
+	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
+	$(SED) -e "s!aggregate-results.sh!$(LIB_DIR)/aggregate-results.sh!" test/Makefile > $(D)$(EXAMPLE_DIR)/Makefile
+	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" test/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
 
 install-vim:
-	$(INSTALL) -d -m 755 $(VIM_DIR)
-	$(CP) -r vim/* $(VIM_DIR)
+	$(INSTALL) -d -m 755 $(D)$(VIM_DIR)
+	$(CP) -r vim/* $(D)$(VIM_DIR)
 
 uninstall:
 	$(RM) -r $(INSTALL_DIR) $(LIB_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
