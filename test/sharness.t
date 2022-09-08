@@ -455,7 +455,7 @@ test_expect_success 'tests can be run from an alternate directory' '
 		true
 	"
 	test_expect_success "trash dir is subdir of working path" "
-		test \"\$(cd .. && pwd)\" = \"\$working_path/test-rundir\"
+		test \"\$(cd .. && pwd)\" = \"\$working_path\"
 	"
 	test_done
 	EOF
@@ -474,9 +474,9 @@ test_expect_success 'tests can be run from an alternate directory' '
 	# passed all 2 test(s)
 	1..2
 	EOF
-	  test_cmp expected output &&
-	  test -d test-results
-	)
+	  test_cmp expected output
+	) &&
+	test -d test-results
 '
 
 test_expect_success BASH 'tests can be run with out-of-tree sharness' '
@@ -494,6 +494,32 @@ test_expect_success BASH 'tests can be run with out-of-tree sharness' '
 	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
 	  ./test.t >output 2>err
 	) &&
+	cat >expected <<-EOF &&
+	ok 1 - success
+	# passed all 1 test(s)
+	1..1
+	EOF
+	test_cmp expected output
+	)
+'
+
+test_expect_success 'tests can be run from another directory' '
+	mkdir test-subdir &&
+	(
+	cd test-subdir &&
+	mkdir subdir &&
+	(
+		cd subdir &&
+		cat >test.t <<-EOF &&
+		test_description="test from another directory"
+		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
+		test_expect_success "success" "test \"\$SHARNESS_TEST_DIRECTORY\" = \"$PWD\""
+		test_done
+		EOF
+		chmod +x test.t
+	) &&
+	unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR &&
+	./subdir/test.t >output 2>err &&
 	cat >expected <<-EOF &&
 	ok 1 - success
 	# passed all 1 test(s)

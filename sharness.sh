@@ -27,7 +27,7 @@ export SHARNESS_TEST_EXTENSION
 
 if test -z "$SHARNESS_TEST_DIRECTORY"
 then
-	SHARNESS_TEST_DIRECTORY=$(pwd)
+	SHARNESS_TEST_DIRECTORY=$(cd "$(dirname "$0")" && pwd)
 else
 	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
 	# is valid even if the current working directory is changed
