@@ -37,6 +37,7 @@ fi
 # e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
 
+# shellcheck disable=SC3028
 : "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "${BASH_SOURCE-$0}")" && pwd)}"
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
@@ -55,7 +56,7 @@ fi
 export SHARNESS_TEST_OUTDIR
 
 #  Reset TERM to original terminal if found, otherwise save original TERM
-[ "x" = "x$SHARNESS_ORIG_TERM" ] &&
+[ -z "$SHARNESS_ORIG_TERM" ] &&
 		SHARNESS_ORIG_TERM="$TERM" ||
 		TERM="$SHARNESS_ORIG_TERM"
 # Public: The unsanitized TERM under which sharness is originally run
@@ -423,6 +424,7 @@ test_skip_() {
 	SHARNESS_TEST_NB=$((SHARNESS_TEST_NB + 1))
 	to_skip=
 	for skp in $SKIP_TESTS; do
+		# shellcheck disable=SC2254
 		case $this_test.$SHARNESS_TEST_NB in
 		$skp)
 			to_skip=t
@@ -496,6 +498,7 @@ then
 		then
 			echo >&5 "sharness: loading extensions from ${file}"
 		fi
+		# shellcheck disable=SC1090
 		. "${file}"
 		if test $? != 0
 		then
@@ -525,8 +528,9 @@ check_skip_all_() {
 }
 
 this_test=${SHARNESS_TEST_FILE##*/}
-this_test=${this_test%.$SHARNESS_TEST_EXTENSION}
+this_test=${this_test%".$SHARNESS_TEST_EXTENSION"}
 for skp in $SKIP_TESTS; do
+	# shellcheck disable=SC2254
 	case "$this_test" in
 	$skp)
 		say_color info >&3 "skipping test $this_test altogether"

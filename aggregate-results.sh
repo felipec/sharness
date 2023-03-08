@@ -22,6 +22,8 @@ failed=0
 broken=0
 total=0
 
+# shellcheck disable=SC2094
+
 while read -r file; do
 	while read -r type value; do
 		case $type in
