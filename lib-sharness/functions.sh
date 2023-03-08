@@ -19,18 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-# These assignments are to make shellcheck happy. They should be
-# removed when we can use a new version of shellcheck that contains:
-# https://github.com/koalaman/shellcheck/pull/1553
-: "${debug:=}"
-: "${verbose:=}"
-: "${this_test:=}"
-: "${skip_all:=}"
-: "${EXIT_OK:=}"
-: "${test_failure:=0}"
-: "${test_fixed:=0}"
-: "${test_broken:=0}"
-: "${test_success:=0}"
 
 # Public: Define that a test prerequisite is available.
 #
@@ -136,6 +124,7 @@ test_have_prereq() {
 # Returns the exit code of the last command executed in debug mode or 0
 #   otherwise.
 test_debug() {
+	# shellcheck disable=SC2154
 	test "$debug" = "" || eval "$1"
 }
 
@@ -144,6 +133,7 @@ test_debug() {
 # This is useful for debugging tests and only makes sense together with "-v".
 # Be sure to remove all invocations of this command before submitting.
 test_pause() {
+	# shellcheck disable=SC2154
 	if test "$verbose" = t; then
 		"$SHELL_PATH" <&6 >&3 2>&4
 	else
@@ -537,6 +527,7 @@ cleanup() {
 #   fi
 #
 # Returns 0 if all tests passed or 1 if there was a failure.
+# shellcheck disable=SC2154,SC2034
 test_done() {
 	EXIT_OK=t
 
