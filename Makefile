@@ -42,13 +42,7 @@ doc: all
 lint:
 	shellcheck -s sh $(INSTALL_FILES) $(LIB_FILES)
 
-lint-extra:
-	shellcheck -s sh $(INSTALL_FILES) $(LIB_FILES)
-
-lint-extra-short:
-	shellcheck -s sh $(INSTALL_FILES) $(LIB_FILES) | grep -o -E 'SC[0-9]+' | sort | uniq
-
 test: all
 	$(MAKE) -C test
 
-.PHONY: all install uninstall doc lint test lint-extra lint-extra-short
+.PHONY: all install uninstall doc lint test
