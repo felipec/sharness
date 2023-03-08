@@ -22,3 +22,5 @@ jobs:
         TEST_OPTS: -v
         MSYS: winsymlinks:nativestrict
       run: make test
+    - name: Syntax checks
+      run: make lint
