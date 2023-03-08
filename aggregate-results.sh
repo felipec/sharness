@@ -24,7 +24,7 @@ total=0
 
 # shellcheck disable=SC2094
 
-while read -r file; do
+for file in test-results/*.counts; do
 	while read -r type value; do
 		case $type in
 		'')

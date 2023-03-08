@@ -52,9 +52,7 @@ aggregate-results-and-cleanup: $(T)
 	$(MAKE) clean
 
 aggregate-results:
-	for f in test-results/*.counts; do \
-		echo "$$f"; \
-	done | '$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
+	@'$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
 
 .PHONY: all test prove $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
