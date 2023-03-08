@@ -110,7 +110,7 @@ Other changes:
   to Git's test suite.
 * Let Travis only test the master branch (and pull requests).
 
-[GH-7]: https://github.com/mlafeldt/sharness/pull/7
+[GH-7]: https://github.com/felipec/sharness/pull/7
 [git-integration]: https://github.com/johnkeeping/git-integration
 
 v0.2.5 (2013-03-29)
@@ -129,8 +129,8 @@ v0.2.5 (2013-03-29)
 * Add Sharness alternatives to README.
 * Rename HISTORY.md to CHANGELOG.md.
 
-[GH-5]: https://github.com/mlafeldt/sharness/pull/5
-[GH-6]: https://github.com/mlafeldt/sharness/pull/6
+[GH-5]: https://github.com/felipec/sharness/pull/5
+[GH-6]: https://github.com/felipec/sharness/pull/6
 [timedb]: http://git.cryptoism.org/cgit.cgi/timedb.git
 
 v0.2.4 (2012-07-13)

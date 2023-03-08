@@ -225,4 +225,4 @@ test-lib.sh too.
 [README.git]: https://github.com/felipec/sharness/blob/master/README.git
 [Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
-[twitter]: https://twitter.com/mlafeldt
+[twitter]: https://twitter.com/felipec

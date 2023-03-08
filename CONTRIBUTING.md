@@ -3,7 +3,7 @@
 You want to contribute to Sharness, great!
 
 Now, before you start using the
-[Sharness GitHub repository](https://github.com/mlafeldt/sharness/)
+[Sharness GitHub repository](https://github.com/felipec/sharness/)
 to help us improve Sharness, please read on to know more about how to
 proceed.
 
