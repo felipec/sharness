@@ -68,6 +68,10 @@ Maintainer and project changes:
   https://github.com/chriscool/sharness and its web page is now:
   http://chriscool.github.io/sharness/
 
+* Subsequently, Christian transferred the ownership of the project to
+  Felipe Contreras, so now, it's: https://github.com/felipec/sharness and
+  http://felipec.github.io/sharness/
+
 v0.3.0 (2013-04-03)
 -------------------
 
