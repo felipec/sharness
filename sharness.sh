@@ -27,7 +27,7 @@ export SHARNESS_TEST_EXTENSION
 
 if test -z "$SHARNESS_TEST_DIRECTORY"
 then
-	SHARNESS_TEST_DIRECTORY=$(pwd)
+	SHARNESS_TEST_DIRECTORY=$(cd "$(dirname "$0")" && pwd)
 else
 	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
 	# is valid even if the current working directory is changed
@@ -37,7 +37,7 @@ fi
 # e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
 
-: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$0")" && pwd)}"
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "${BASH_SOURCE-$0}")" && pwd)}"
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
@@ -483,11 +483,11 @@ rm -rf "$SHARNESS_TRASH_DIRECTORY" || {
 
 
 #
-#  Load any extensions in $srcdir/sharness.d/*.sh
+#  Load any extensions in $testdir/sharness.d/*.sh
 #
-if test -d "${SHARNESS_TEST_SRCDIR}/sharness.d"
+if test -d "${SHARNESS_TEST_DIRECTORY}/sharness.d"
 then
-	for file in "${SHARNESS_TEST_SRCDIR}"/sharness.d/*.sh
+	for file in "${SHARNESS_TEST_DIRECTORY}"/sharness.d/*.sh
 	do
 		# Ensure glob was not an empty match:
 		test -e "${file}" || break
