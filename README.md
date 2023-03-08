@@ -214,11 +214,12 @@ A complete list of authors should include Git contributors to
 test-lib.sh too.
 
 [API documentation]: https://github.com/felipec/sharness/blob/master/API.md
+[felipec]: https://github.com/felipec
 [chriscool]: https://github.com/chriscool
+[mlafeldt]: https://github.com/mlafeldt
 [CONTRIBUTING]: https://github.com/felipec/sharness/blob/master/CONTRIBUTING.md
 [contributors]: https://github.com/felipec/sharness/graphs/contributors
 [COPYING]: https://github.com/felipec/sharness/blob/master/COPYING
-[felipec]: https://github.com/felipec
 [Git]: http://git-scm.com/
 [protocollabs]: https://protocol.ai/
 [prove(1)]: http://linux.die.net/man/1/prove
