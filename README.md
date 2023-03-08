@@ -65,7 +65,7 @@ documentation.
 
 First, clone the Git repository:
 
-    $ git clone git://github.com/chriscool/sharness.git
+    $ git clone git://github.com/felipec/sharness.git
 
 Then choose an installation method that works best for you:
 
@@ -84,7 +84,7 @@ and in the `install` target of the [Makefile](Makefile#L26).
 
 The requirement to set SHARNESS_TEST_SRCDIR is new in current
 master. It used to be possible to only copy files and source
-`sharness.sh`, but https://github.com/chriscool/sharness/pull/90
+`sharness.sh`, but https://github.com/felipec/sharness/pull/90
 changed that. 
 
 Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
@@ -201,9 +201,10 @@ Contributions are welcome, see file [CONTRIBUTING] for details.
 
 Sharness was created in April 2011 and maintained until June 2016 by
 [Mathias Lafeldt][twitter]. The library is derived from the
-[Git] project's test-lib.sh. It is currently maintained by
-[Christian Couder][chriscool], thanks to sponsorship from
-[Protocol Labs][protocollabs].
+[Git] project's test-lib.sh. It was maintained by
+[Christian Couder][chriscool] from June 2016 to August 2019, thanks
+to sponsorship from [Protocol Labs][protocollabs]. It is
+currently maintained by [Felipe Contreras][felipec].
 
 See [Github's "contributors" page][contributors] for a list of
 developers.
@@ -211,15 +212,16 @@ developers.
 A complete list of authors should include Git contributors to
 test-lib.sh too.
 
-[API documentation]: https://github.com/chriscool/sharness/blob/master/API.md
+[API documentation]: https://github.com/felipec/sharness/blob/master/API.md
 [chriscool]: https://github.com/chriscool
-[CONTRIBUTING]: https://github.com/chriscool/sharness/blob/master/CONTRIBUTING.md
-[contributors]: https://github.com/chriscool/sharness/graphs/contributors
-[COPYING]: https://github.com/chriscool/sharness/blob/master/COPYING
+[CONTRIBUTING]: https://github.com/felipec/sharness/blob/master/CONTRIBUTING.md
+[contributors]: https://github.com/felipec/sharness/graphs/contributors
+[COPYING]: https://github.com/felipec/sharness/blob/master/COPYING
+[felipec]: https://github.com/felipec
 [Git]: http://git-scm.com/
 [protocollabs]: https://protocol.ai/
 [prove(1)]: http://linux.die.net/man/1/prove
-[README.git]: https://github.com/chriscool/sharness/blob/master/README.git
+[README.git]: https://github.com/felipec/sharness/blob/master/README.git
 [Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
 [twitter]: https://twitter.com/mlafeldt
