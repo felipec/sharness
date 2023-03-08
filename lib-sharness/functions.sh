@@ -425,7 +425,7 @@ test_seq() {
 	while test "$i" -le "$j"
 	do
 		echo "$i" || return
-		i=$(("$i" + 1))
+		i=$((i + 1))
 	done
 }
 
