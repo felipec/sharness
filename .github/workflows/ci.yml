@@ -23,4 +23,5 @@ jobs:
         MSYS: winsymlinks:nativestrict
       run: make test
     - name: Syntax checks
+      if: matrix.os == 'ubuntu-latest'
       run: make lint
