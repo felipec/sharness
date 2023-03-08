@@ -21,6 +21,20 @@ syn region shsTestBody contained transparent excludenl matchgroup=shQuote start=
 syn region shsTestBody contained oneline transparent excludenl keepend matchgroup=shQuote start=+ '+hs=s+1 end=+'$+ contains=@shSubShList
 syn region shsTestBody contained oneline transparent excludenl keepend matchgroup=shQuote start=+ "+hs=s+1 end=+"$+ contains=@shSubShList
 
+" heredoc quotes
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\"\z(.\{-1,\}\)\\\"" matchgroup=shRedir end="^\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\"\z(.\{-1,\}\)\\\"" matchgroup=shRedir end="^\s*\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\\\z([^ \t|>]\+\)" matchgroup=shRedir end="^\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\\\z([^ \t|>]\+\)" matchgroup=shRedir end="^\s*\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\\\_$\_s*\z([^ \t|>]\+\)" matchgroup=shRedir end="^\z1\s*$" contains=@shDblQuoteList
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\\\_$\_s*\z([^ \t|>]\+\)" matchgroup=shRedir end="^\s*\z1\s*$" contains=@shDblQuoteList
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\\\_$\_s*\\\\\z([^ \t|>]\+\)" matchgroup=shRedir end="^\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\\\_$\_s*\\\\\z([^ \t|>]\+\)" matchgroup=shRedir end="^\s*\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\\\_$\_s*'\z(.\{-1,\}\)'" matchgroup=shRedir end="^\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\\\_$\_s*'\z(.\{-1,\}\)'" matchgroup=shRedir end="^\s*\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<\s*\\\\\_$\_s*\\\"\z(.\{-1,\}\)\\\"" matchgroup=shRedir end="^\z1\s*$"
+syn region shHereDoc matchgroup=shRedir start="<<-\s*\\\\\_$\_s*\\\"\z(.\{-1,\}\)\\\"" matchgroup=shRedir end="^\s*\z1\s*$"
+
 syn match shsPrereq contained "\<[A-Z_,]\+\>" nextgroup=shsTestTitle
 syn match shsPrereqLazy contained "\<[A-Z_,]\+\>" nextgroup=shsTestBody
 
