@@ -22,9 +22,9 @@ failed=0
 broken=0
 total=0
 
-# shellcheck disable=SC2094
-
-for file in test-results/*.counts; do
+dir="${SHARNESS_TEST_OUTDIR-.}"/test-results
+for file in "$dir"/*.counts; do
+	# shellcheck disable=SC2094
 	while read -r type value; do
 		case $type in
 		'')
@@ -36,7 +36,7 @@ for file in test-results/*.counts; do
 		failed)
 			failed=$((failed + value))
 			if test "$value" != 0; then
-				test_name=$(expr "$file" : 'test-results/\(.*\)\.[0-9]*\.counts')
+				test_name=$(expr "$file" : '.*/test-results/\(.*\)\.[0-9]*\.counts')
 				failed_tests="$failed_tests $test_name"
 			fi
 			;;
