@@ -39,10 +39,11 @@ $(T):
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
 
 pre-clean:
-	$(RM) -r test-results
+	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
 clean-except-prove-cache:
-	$(RM) -r 'trash directory'.* test-results
+	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
+	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
 clean: clean-except-prove-cache
 	$(RM) .prove
