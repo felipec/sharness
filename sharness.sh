@@ -515,6 +515,11 @@ export SHARNESS_TRASH_DIRECTORY
 HOME="$SHARNESS_TRASH_DIRECTORY"
 export HOME
 
+if [ "$OSTYPE" = msys ]; then
+	USERPROFILE="$SHARNESS_TRASH_DIRECTORY"
+	export USERPROFILE
+fi
+
 mkdir -p "$SHARNESS_TRASH_DIRECTORY" || exit 1
 # Use -P to resolve symlinks in our working directory so that the cwd
 # in subprocesses like git equals our $PWD (for pathname comparisons).
