@@ -17,6 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
+if test -n "${ZSH_VERSION-}"
+then
+	emulate sh
+	ARGZERO="$ZSH_ARGZERO"
+else
+	ARGZERO="$0"
+fi
+
 # Public: Current version of Sharness.
 SHARNESS_VERSION="1.1.0"
 export SHARNESS_VERSION
@@ -27,7 +35,7 @@ export SHARNESS_TEST_EXTENSION
 
 if test -z "$SHARNESS_TEST_DIRECTORY"
 then
-	SHARNESS_TEST_DIRECTORY=$(cd "$(dirname "$0")" && pwd)
+	SHARNESS_TEST_DIRECTORY=$(cd "$(dirname "$ARGZERO")" && pwd)
 else
 	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
 	# is valid even if the current working directory is changed
@@ -74,7 +82,7 @@ done,*)
 	;;
 *' --tee '*|*' --verbose-log '*)
 	mkdir -p "$SHARNESS_TEST_OUTDIR/test-results"
-	BASE="$SHARNESS_TEST_OUTDIR/test-results/$(basename "$0" ".$SHARNESS_TEST_EXTENSION")"
+	BASE="$SHARNESS_TEST_OUTDIR/test-results/$(basename "$ARGZERO" ".$SHARNESS_TEST_EXTENSION")"
 
 	# Make this filename available to the sub-process in case it is using
 	# --verbose-log.
@@ -85,7 +93,7 @@ done,*)
 	# from any previous runs.
 	: >"$SHARNESS_TEST_TEE_OUTPUT_FILE"
 
-	(SHARNESS_TEST_TEE_STARTED="done" ${SHELL_PATH} "$0" "$@" 2>&1;
+	(SHARNESS_TEST_TEE_STARTED="done" ${SHELL_PATH} "$ARGZERO" "$@" 2>&1;
 	 echo $? >"$BASE.exit") | tee -a "$SHARNESS_TEST_TEE_OUTPUT_FILE"
 	test "$(cat "$BASE.exit")" = 0
 	exit
@@ -459,7 +467,7 @@ PATH="$SHARNESS_BUILD_DIRECTORY:$PATH"
 export PATH
 
 # Public: Path to test script currently executed.
-SHARNESS_TEST_FILE="$0"
+SHARNESS_TEST_FILE="$ARGZERO"
 export SHARNESS_TEST_FILE
 
 remove_trash_() {
