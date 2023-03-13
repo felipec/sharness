@@ -82,11 +82,6 @@ See for example how setting SHARNESS_TEST_SRCDIR is done in
 [test/simple.t](test/simple.t#L5-L7)
 and in the `install` target of the [Makefile](Makefile#L26).
 
-The requirement to set SHARNESS_TEST_SRCDIR is new in current
-master. It used to be possible to only copy files and source
-`sharness.sh`, but https://github.com/felipec/sharness/pull/90
-changed that. 
-
 Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
 
 Alternatively, you can also add Sharness as a Git submodule to your project.

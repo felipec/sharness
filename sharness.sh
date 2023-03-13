@@ -293,7 +293,10 @@ test_fixed=0
 test_broken=0
 test_success=0
 
-. "$SHARNESS_TEST_SRCDIR/lib-sharness/functions.sh"
+if test -e "$SHARNESS_TEST_SRCDIR/lib-sharness/functions.sh"
+then
+	. "$SHARNESS_TEST_SRCDIR/lib-sharness/functions.sh"
+fi
 
 # You are not expected to call test_ok_ and test_failure_ directly, use
 # the text_expect_* functions instead.
