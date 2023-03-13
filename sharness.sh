@@ -33,14 +33,10 @@ export SHARNESS_VERSION
 # Public: The file extension for tests.  By default, it is set to "t".
 export SHARNESS_TEST_EXTENSION
 
-if test -z "$SHARNESS_TEST_DIRECTORY"
-then
-	SHARNESS_TEST_DIRECTORY=$(cd "$(dirname "$ARGZERO")" && pwd)
-else
-	# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
-	# is valid even if the current working directory is changed
-	SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
-fi
+: "${SHARNESS_TEST_DIRECTORY:=$(dirname "$ARGZERO")}"
+# ensure that SHARNESS_TEST_DIRECTORY is an absolute path so that it
+# is valid even if the current working directory is changed
+SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
 # Public: Root directory containing tests. Tests can override this variable,
 # e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
