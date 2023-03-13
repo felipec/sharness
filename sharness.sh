@@ -449,6 +449,209 @@ test_skip_() {
 	esac
 }
 
+# Public: Run test commands and expect them to succeed.
+#
+# When the test passed, an "ok" message is printed and the number of successful
+# tests is incremented. When it failed, a "not ok" message is printed and the
+# number of failed tests is incremented.
+#
+# With --immediate, exit test immediately upon the first failed test.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Examples
+#
+#   test_expect_success \
+#       'git-write-tree should be able to write an empty tree.' \
+#       'tree=$(git-write-tree)'
+#
+#   # Test depending on one prerequisite.
+#   test_expect_success TTY 'git --paginate rev-list uses a pager' \
+#       ' ... '
+#
+#   # Multiple prerequisites are separated by a comma.
+#   test_expect_success PERL,PYTHON 'yo dawg' \
+#       ' test $(perl -E 'print eval "1 +" . qx[python -c "print 2"]') == "4" '
+#
+# Returns nothing.
+test_expect_success() {
+	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_success"
+	export test_prereq
+	if ! test_skip_ "$@"; then
+		say >&3 "expecting success: $2"
+		if test_run_ "$2"; then
+			test_ok_ "$1"
+		else
+			test_failure_ "$@"
+		fi
+	fi
+	echo >&3 ""
+}
+
+# Public: Run test commands and expect them to fail. Used to demonstrate a known
+# breakage.
+#
+# This is NOT the opposite of test_expect_success, but rather used to mark a
+# test that demonstrates a known breakage.
+#
+# When the test passed, an "ok" message is printed and the number of fixed tests
+# is incremented. When it failed, a "not ok" message is printed and the number
+# of tests still broken is incremented.
+#
+# Failures from these tests won't cause --immediate to stop.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Returns nothing.
+test_expect_failure() {
+	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_failure"
+	export test_prereq
+	if ! test_skip_ "$@"; then
+		say >&3 "checking known breakage: $2"
+		if test_run_ "$2" expecting_failure; then
+			test_known_broken_ok_ "$1"
+		else
+			test_known_broken_failure_ "$1"
+		fi
+	fi
+	echo >&3 ""
+}
+
+# Public: Run test commands and expect anything from them. Used when a
+# test is not stable or not finished for some reason.
+#
+# When the test passed, an "ok" message is printed, but the number of
+# fixed tests is not incremented.
+#
+# When it failed, a "not ok ... # TODO known breakage" message is
+# printed, and the number of tests still broken is incremented.
+#
+# Failures from these tests won't cause --immediate to stop.
+#
+# Usually takes two arguments:
+# $1 - Test description
+# $2 - Commands to be executed.
+#
+# With three arguments, the first will be taken to be a prerequisite:
+# $1 - Comma-separated list of test prerequisites. The test will be skipped if
+#      not all of the given prerequisites are set. To negate a prerequisite,
+#      put a "!" in front of it.
+# $2 - Test description
+# $3 - Commands to be executed.
+#
+# Returns nothing.
+test_expect_unstable() {
+	test "$#" = 3 && { test_prereq=$1; shift; } || test_prereq=
+	test "$#" = 2 || error "bug in the test script: not 2 or 3 parameters to test_expect_unstable"
+	export test_prereq
+	if ! test_skip_ "$@"; then
+		say >&3 "checking unstable test: $2"
+		if test_run_ "$2" unstable; then
+			test_ok_ "$1"
+		else
+			test_known_broken_failure_ "$1"
+		fi
+	fi
+	echo >&3 ""
+}
+
+# Public: Summarize test results and exit with an appropriate error code.
+#
+# Must be called at the end of each test script.
+#
+# Can also be used to stop tests early and skip all remaining tests. For this,
+# set skip_all to a string explaining why the tests were skipped before calling
+# test_done.
+#
+# Examples
+#
+#   # Each test script must call test_done at the end.
+#   test_done
+#
+#   # Skip all remaining tests if prerequisite is not set.
+#   if ! test_have_prereq PERL; then
+#       skip_all='skipping perl interface tests, perl not available'
+#       test_done
+#   fi
+#
+# Returns 0 if all tests passed or 1 if there was a failure.
+# shellcheck disable=SC2154,SC2034
+test_done() {
+	EXIT_OK=t
+
+	if test -z "$HARNESS_ACTIVE"; then
+		test_results_dir="$SHARNESS_TEST_OUTDIR/test-results"
+		mkdir -p "$test_results_dir"
+		test_results_path="$test_results_dir/$this_test.$$.counts"
+
+		cat >>"$test_results_path" <<-EOF
+		total $SHARNESS_TEST_NB
+		success $test_success
+		fixed $test_fixed
+		broken $test_broken
+		failed $test_failure
+
+		EOF
+	fi
+
+	if test "$test_fixed" != 0; then
+		say_color error "# $test_fixed known breakage(s) vanished; please update test(s)"
+	fi
+	if test "$test_broken" != 0; then
+		say_color warn "# still have $test_broken known breakage(s)"
+	fi
+	if test "$test_broken" != 0 || test "$test_fixed" != 0; then
+		test_remaining=$((SHARNESS_TEST_NB - test_broken - test_fixed))
+		msg="remaining $test_remaining test(s)"
+	else
+		test_remaining=$SHARNESS_TEST_NB
+		msg="$SHARNESS_TEST_NB test(s)"
+	fi
+
+	case "$test_failure" in
+	0)
+		# Maybe print SKIP message
+		check_skip_all_
+		if test "$test_remaining" -gt 0; then
+			say_color pass "# passed all $msg"
+		fi
+		say "1..$SHARNESS_TEST_NB$skip_all"
+
+		test_eval_ "$final_cleanup"
+
+		remove_trash_
+
+		exit 0 ;;
+
+	*)
+		say_color error "# failed $test_failure among $msg"
+		say "1..$SHARNESS_TEST_NB"
+
+		exit 1 ;;
+
+	esac
+}
+
 : "${SHARNESS_BUILD_DIRECTORY:="$SHARNESS_TEST_DIRECTORY/.."}"
 # Public: Build directory that will be added to PATH. By default, it is set to
 # the parent directory of SHARNESS_TEST_DIRECTORY.
