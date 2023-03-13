@@ -52,13 +52,7 @@ export SHARNESS_TEST_DIRECTORY
 # being run.
 export SHARNESS_TEST_SRCDIR
 
-if test -z "$SHARNESS_TEST_OUTDIR"
-then
-	# Similarly, override this to store the test-results subdir
-	# elsewhere
-	SHARNESS_TEST_OUTDIR=$SHARNESS_TEST_DIRECTORY
-fi
-
+: "${SHARNESS_TEST_OUTDIR:=$SHARNESS_TEST_DIRECTORY}"
 # Public: Directory where the output of the tests should be stored (i.e.
 # trash directories).
 export SHARNESS_TEST_OUTDIR
