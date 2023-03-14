@@ -3,6 +3,7 @@
 # Copyright (c) 2011-2012 Mathias Lafeldt
 # Copyright (c) 2005-2012 Git project
 # Copyright (c) 2005-2012 Junio C Hamano
+# Copyright (c) 2019-2023 Felipe Contreras
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
