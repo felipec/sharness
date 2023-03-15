@@ -73,7 +73,7 @@ Then choose an installation method that works best for you:
 
 If you like to add Sharness to the sources of a project you want to
 use it for, simply copy the files `sharness.sh`,
-`aggregate-results.sh`, and `test/Makefile` to a folder named `test`
+`tools/aggregate-results.sh`, and `test/Makefile` to a folder named `test`
 inside that project, and then set SHARNESS_TEST_SRCDIR to this folder
 somewhere, export it, and source $SHARNESS_TEST_SRCDIR/sharness.sh in
 your test files.

@@ -1,1 +1,1 @@
-../aggregate-results.sh
+../tools/aggregate-results.sh
