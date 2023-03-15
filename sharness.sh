@@ -453,6 +453,13 @@ test_skip_() {
 	esac
 }
 
+remove_trash_() {
+	test -d "$remove_trash" && (
+		cd "$(dirname "$remove_trash")" &&
+			rm -rf "$(basename "$remove_trash")"
+	)
+}
+
 # Public: Run test commands and expect them to succeed.
 #
 # When the test passed, an "ok" message is printed and the number of successful
@@ -666,13 +673,6 @@ export PATH
 # Public: Path to test script currently executed.
 SHARNESS_TEST_FILE="$ARGZERO"
 export SHARNESS_TEST_FILE
-
-remove_trash_() {
-	test -d "$remove_trash" && (
-		cd "$(dirname "$remove_trash")" &&
-			rm -rf "$(basename "$remove_trash")"
-	)
-}
 
 # Prepare test area.
 SHARNESS_TRASH_DIRECTORY="trash directory.$(basename "$SHARNESS_TEST_FILE" ".$SHARNESS_TEST_EXTENSION")"
