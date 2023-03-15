@@ -48,6 +48,110 @@ Public: When set to a non-empty value, the current test will not be traced, unle
 Public: The current test number, starting at 0.
 
 
+`test_expect_success()`
+-----------------------
+
+Public: Run test commands and expect them to succeed.
+
+When the test passed, an "ok" message is printed and the number of successful tests is incremented. When it failed, a "not ok" message is printed and the number of failed tests is incremented.
+
+With --immediate, exit test immediately upon the first failed test.
+
+Usually takes two arguments:
+* $1 - Test description
+* $2 - Commands to be executed.
+
+With three arguments, the first will be taken to be a prerequisite:
+* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
+* $2 - Test description
+* $3 - Commands to be executed.
+
+Examples
+
+    test_expect_success \
+        'git-write-tree should be able to write an empty tree.' \
+        'tree=$(git-write-tree)'
+
+    # Test depending on one prerequisite.
+    test_expect_success TTY 'git --paginate rev-list uses a pager' \
+        ' ... '
+
+    # Multiple prerequisites are separated by a comma.
+    test_expect_success PERL,PYTHON 'yo dawg' \
+        ' test $(perl -E 'print eval "1 +" . qx[python -c "print 2"]') == "4" '
+
+Returns nothing.
+
+
+`test_expect_failure()`
+-----------------------
+
+Public: Run test commands and expect them to fail. Used to demonstrate a known breakage.
+
+This is NOT the opposite of test_expect_success, but rather used to mark a test that demonstrates a known breakage.
+
+When the test passed, an "ok" message is printed and the number of fixed tests is incremented. When it failed, a "not ok" message is printed and the number of tests still broken is incremented.
+
+Failures from these tests won't cause --immediate to stop.
+
+Usually takes two arguments:
+* $1 - Test description
+* $2 - Commands to be executed.
+
+With three arguments, the first will be taken to be a prerequisite:
+* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
+* $2 - Test description
+* $3 - Commands to be executed.
+
+Returns nothing.
+
+
+`test_expect_unstable()`
+------------------------
+
+Public: Run test commands and expect anything from them. Used when a test is not stable or not finished for some reason.
+
+When the test passed, an "ok" message is printed, but the number of fixed tests is not incremented.
+
+When it failed, a "not ok ... # TODO known breakage" message is printed, and the number of tests still broken is incremented.
+
+Failures from these tests won't cause --immediate to stop.
+
+Usually takes two arguments:
+* $1 - Test description
+* $2 - Commands to be executed.
+
+With three arguments, the first will be taken to be a prerequisite:
+* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
+* $2 - Test description
+* $3 - Commands to be executed.
+
+Returns nothing.
+
+
+`test_done()`
+-------------
+
+Public: Summarize test results and exit with an appropriate error code.
+
+Must be called at the end of each test script.
+
+Can also be used to stop tests early and skip all remaining tests. For this, set skip_all to a string explaining why the tests were skipped before calling test_done.
+
+Examples
+
+    # Each test script must call test_done at the end.
+    test_done
+
+    # Skip all remaining tests if prerequisite is not set.
+    if ! test_have_prereq PERL; then
+        skip_all='skipping perl interface tests, perl not available'
+        test_done
+    fi
+
+Returns 0 if all tests passed or 1 if there was a failure.
+
+
 `SHARNESS_BUILD_DIRECTORY`
 --------------------------
 
@@ -128,87 +232,6 @@ Returns the exit code of the last command executed in debug mode or 0    otherwi
 Public: Stop execution and start a shell.
 
 This is useful for debugging tests and only makes sense together with "-v". Be sure to remove all invocations of this command before submitting.
-
-
-`test_expect_success()`
------------------------
-
-Public: Run test commands and expect them to succeed.
-
-When the test passed, an "ok" message is printed and the number of successful tests is incremented. When it failed, a "not ok" message is printed and the number of failed tests is incremented.
-
-With --immediate, exit test immediately upon the first failed test.
-
-Usually takes two arguments:
-* $1 - Test description
-* $2 - Commands to be executed.
-
-With three arguments, the first will be taken to be a prerequisite:
-* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
-* $2 - Test description
-* $3 - Commands to be executed.
-
-Examples
-
-    test_expect_success \
-        'git-write-tree should be able to write an empty tree.' \
-        'tree=$(git-write-tree)'
-
-    # Test depending on one prerequisite.
-    test_expect_success TTY 'git --paginate rev-list uses a pager' \
-        ' ... '
-
-    # Multiple prerequisites are separated by a comma.
-    test_expect_success PERL,PYTHON 'yo dawg' \
-        ' test $(perl -E 'print eval "1 +" . qx[python -c "print 2"]') == "4" '
-
-Returns nothing.
-
-
-`test_expect_failure()`
------------------------
-
-Public: Run test commands and expect them to fail. Used to demonstrate a known breakage.
-
-This is NOT the opposite of test_expect_success, but rather used to mark a test that demonstrates a known breakage.
-
-When the test passed, an "ok" message is printed and the number of fixed tests is incremented. When it failed, a "not ok" message is printed and the number of tests still broken is incremented.
-
-Failures from these tests won't cause --immediate to stop.
-
-Usually takes two arguments:
-* $1 - Test description
-* $2 - Commands to be executed.
-
-With three arguments, the first will be taken to be a prerequisite:
-* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
-* $2 - Test description
-* $3 - Commands to be executed.
-
-Returns nothing.
-
-
-`test_expect_unstable()`
-------------------------
-
-Public: Run test commands and expect anything from them. Used when a test is not stable or not finished for some reason.
-
-When the test passed, an "ok" message is printed, but the number of fixed tests is not incremented.
-
-When it failed, a "not ok ... # TODO known breakage" message is printed, and the number of tests still broken is incremented.
-
-Failures from these tests won't cause --immediate to stop.
-
-Usually takes two arguments:
-* $1 - Test description
-* $2 - Commands to be executed.
-
-With three arguments, the first will be taken to be a prerequisite:
-* $1 - Comma-separated list of test prerequisites. The test will be skipped if not all of the given prerequisites are set. To negate a prerequisite, put a "!" in front of it.
-* $2 - Test description
-* $3 - Commands to be executed.
-
-Returns nothing.
 
 
 `test_must_fail()`
@@ -362,29 +385,6 @@ Examples:
     cleanup mysql -e "DROP DATABASE mytest"
 
 Returns the exit code of the last cleanup command executed.
-
-
-`test_done()`
--------------
-
-Public: Summarize test results and exit with an appropriate error code.
-
-Must be called at the end of each test script.
-
-Can also be used to stop tests early and skip all remaining tests. For this, set skip_all to a string explaining why the tests were skipped before calling test_done.
-
-Examples
-
-    # Each test script must call test_done at the end.
-    test_done
-
-    # Skip all remaining tests if prerequisite is not set.
-    if ! test_have_prereq PERL; then
-        skip_all='skipping perl interface tests, perl not available'
-        test_done
-    fi
-
-Returns 0 if all tests passed or 1 if there was a failure.
 
 
 Generated by tomdoc.sh version 0.1.10
