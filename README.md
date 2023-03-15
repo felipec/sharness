@@ -121,7 +121,6 @@ The following files are essential to using Sharness:
 
 * `sharness.sh` - core shell library providing test functionality, see separate
    [API documentation]. Meant to be sourced from test scripts, but not executed.
-* `aggregate-results.sh` - helper script to aggregate test results
 * `test/Makefile` - test driver. The default target runs the complete testsuite.
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
