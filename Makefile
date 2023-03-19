@@ -24,7 +24,7 @@ install: all
 	$(INSTALL) -m 644 lib-sharness/functions.sh $(D)$(INSTALL_DIR)/lib-sharness
 	$(INSTALL) -m 644 tools/aggregate-results.sh $(D)$(INSTALL_DIR)/tools
 	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
-	$(SED) -e "s!aggregate-results.sh!$(INSTALL_DIR)/tools/aggregate-results.sh!" example/Makefile > $(D)$(EXAMPLE_DIR)/Makefile
+	$(INSTALL) -m 644 example/Makefile $(D)$(EXAMPLE_DIR)
 	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" example/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
 
 install-vim:

@@ -20,12 +20,11 @@
 SHELL_PATH ?= $(SHELL)
 SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
-AGGREGATE_SCRIPT ?= aggregate-results.sh
 
 T = $(sort $(wildcard *.t))
 
 test: pre-clean
-	$(MAKE) aggregate-results-and-cleanup
+	$(MAKE) and-cleanup
 
 $(T):
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
@@ -37,12 +36,8 @@ clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
-aggregate-results-and-cleanup: $(T)
-	$(MAKE) aggregate-results
+and-cleanup: $(T)
 	$(MAKE) clean
 
-aggregate-results:
-	@'$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
-
 .PHONY: test $(T) pre-clean clean
-.PHONY: aggregate-results-and-cleanup aggregate-results
+.PHONY: and-cleanup
