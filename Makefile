@@ -1,7 +1,6 @@
 prefix = $(HOME)
 
 INSTALL_DIR = $(prefix)/share/sharness
-LIB_DIR=$(INSTALL_DIR)/lib-sharness
 DOC_DIR = $(prefix)/share/doc/sharness
 EXAMPLE_DIR = $(DOC_DIR)/examples
 VIM_DIR = $(prefix)/.vim/pack/filetypes/start/sharness
@@ -20,9 +19,9 @@ scripts = sharness.sh lib-sharness/functions.sh tools/aggregate-results.sh
 all:
 
 install: all
-	$(INSTALL) -d -m 755 $(D)$(INSTALL_DIR) $(D)$(LIB_DIR) $(D)$(INSTALL_DIR)/tools $(D)$(DOC_DIR) $(D)$(EXAMPLE_DIR)
+	$(INSTALL) -d -m 755 $(D)$(INSTALL_DIR) $(D)$(INSTALL_DIR)/lib-sharness $(D)$(INSTALL_DIR)/tools $(D)$(DOC_DIR) $(D)$(EXAMPLE_DIR)
 	$(INSTALL) -m 644 sharness.sh $(D)$(INSTALL_DIR)
-	$(INSTALL) -m 644 lib-sharness/functions.sh $(D)$(LIB_DIR)
+	$(INSTALL) -m 644 lib-sharness/functions.sh $(D)$(INSTALL_DIR)/lib-sharness
 	$(INSTALL) -m 644 tools/aggregate-results.sh $(D)$(INSTALL_DIR)/tools
 	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
 	$(SED) -e "s!aggregate-results.sh!$(INSTALL_DIR)/tools/aggregate-results.sh!" test/Makefile > $(D)$(EXAMPLE_DIR)/Makefile
@@ -33,7 +32,7 @@ install-vim:
 	$(CP) -r vim/* $(D)$(VIM_DIR)
 
 uninstall:
-	$(RM) -r $(INSTALL_DIR) $(LIB_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
+	$(RM) -r $(INSTALL_DIR) $(DOC_DIR) $(EXAMPLE_DIR)
 
 doc: all
 	{ printf "# Sharness API\n\n"; \
