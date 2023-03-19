@@ -22,11 +22,8 @@ SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
 PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results.sh
-DEFAULT_TEST_TARGET ?= test
 
 T = $(sort $(wildcard *.t))
-
-all: $(DEFAULT_TEST_TARGET)
 
 test: pre-clean
 	$(MAKE) aggregate-results-and-cleanup
@@ -55,5 +52,5 @@ aggregate-results-and-cleanup: $(T)
 aggregate-results:
 	@'$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
 
-.PHONY: all test prove $(T) pre-clean clean
+.PHONY: test prove $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
