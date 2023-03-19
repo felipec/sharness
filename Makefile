@@ -6,8 +6,6 @@ DOC_DIR = $(prefix)/share/doc/sharness
 EXAMPLE_DIR = $(DOC_DIR)/examples
 VIM_DIR = $(prefix)/.vim/pack/filetypes/start/sharness
 
-INSTALL_FILES = sharness.sh
-LIB_FILES = lib-sharness/functions.sh
 DOC_FILES = API.md CHANGELOG.md COPYING README.git README.md
 
 INSTALL = install
@@ -17,14 +15,14 @@ TOMDOCSH = tomdoc.sh
 CP = cp
 D = $(DESTDIR)
 
-scripts = $(INSTALL_FILES) $(LIB_FILES) tools/aggregate-results.sh
+scripts = sharness.sh lib-sharness/functions.sh tools/aggregate-results.sh
 
 all:
 
 install: all
 	$(INSTALL) -d -m 755 $(D)$(INSTALL_DIR) $(D)$(LIB_DIR) $(D)$(INSTALL_DIR)/tools $(D)$(DOC_DIR) $(D)$(EXAMPLE_DIR)
-	$(INSTALL) -m 644 $(INSTALL_FILES) $(D)$(INSTALL_DIR)
-	$(INSTALL) -m 644 $(LIB_FILES) $(D)$(LIB_DIR)
+	$(INSTALL) -m 644 sharness.sh $(D)$(INSTALL_DIR)
+	$(INSTALL) -m 644 lib-sharness/functions.sh $(D)$(LIB_DIR)
 	$(INSTALL) -m 644 tools/aggregate-results.sh $(D)$(INSTALL_DIR)/tools
 	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
 	$(SED) -e "s!aggregate-results.sh!$(INSTALL_DIR)/tools/aggregate-results.sh!" test/Makefile > $(D)$(EXAMPLE_DIR)/Makefile
