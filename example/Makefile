@@ -26,14 +26,11 @@ T = $(sort $(wildcard *.t))
 test: $(T)
 	$(MAKE) clean
 
-$(T): pre-clean
+$(T): clean
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
-
-pre-clean:
-	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
 clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
-.PHONY: test $(T) pre-clean clean
+.PHONY: test $(T) clean
