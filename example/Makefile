@@ -20,7 +20,6 @@
 SHELL_PATH ?= $(SHELL)
 SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
-PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results.sh
 
 T = $(sort $(wildcard *.t))
@@ -28,22 +27,15 @@ T = $(sort $(wildcard *.t))
 test: pre-clean
 	$(MAKE) aggregate-results-and-cleanup
 
-prove: pre-clean
-	@echo "*** prove ***"; $(PROVE) --exec '$(SHELL_PATH_SQ)' $(PROVE_OPTS) $(T) :: $(TEST_OPTS)
-	$(MAKE) clean-except-prove-cache
-
 $(T):
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
 
 pre-clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
-clean-except-prove-cache:
+clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
-
-clean: clean-except-prove-cache
-	$(RM) .prove
 
 aggregate-results-and-cleanup: $(T)
 	$(MAKE) aggregate-results
@@ -52,5 +44,5 @@ aggregate-results-and-cleanup: $(T)
 aggregate-results:
 	@'$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
 
-.PHONY: test prove $(T) pre-clean clean
+.PHONY: test $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
