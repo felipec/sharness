@@ -30,7 +30,6 @@ $(T): clean
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
 
 clean:
-	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
-	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
+	$(RM) -r 'trash directory'.* test-results
 
 .PHONY: test $(T) clean
