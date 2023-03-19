@@ -23,10 +23,10 @@ RM ?= rm -f
 
 T = $(sort $(wildcard *.t))
 
-test: pre-clean
-	$(MAKE) and-cleanup
+test: $(T)
+	$(MAKE) clean
 
-$(T):
+$(T): pre-clean
 	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
 
 pre-clean:
@@ -36,8 +36,4 @@ clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/'trash directory'.*
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
 
-and-cleanup: $(T)
-	$(MAKE) clean
-
 .PHONY: test $(T) pre-clean clean
-.PHONY: and-cleanup
