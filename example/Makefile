@@ -25,7 +25,7 @@ test: $(T)
 	$(MAKE) clean
 
 $(T): clean
-	@echo "*** $@ ***"; '$(SHELL)' $@ $(TEST_OPTS)
+	@echo "*** $@ ***"; ./$@ $(TEST_OPTS)
 
 clean:
 	$(RM) -r 'trash directory'.* test-results
