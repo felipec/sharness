@@ -17,8 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-SHELL_PATH ?= $(SHELL)
-SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
 
 T = $(sort $(wildcard *.t))
@@ -27,7 +25,7 @@ test: $(T)
 	$(MAKE) clean
 
 $(T): clean
-	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
+	@echo "*** $@ ***"; '$(SHELL)' $@ $(TEST_OPTS)
 
 clean:
 	$(RM) -r 'trash directory'.* test-results
