@@ -97,11 +97,20 @@ other location.
 
 ## Usage
 
-The following files are essential to using Sharness:
+The only essential file to Sharness is `sharness.sh`, which is the core shell
+library providing test functionality. It's meant to be sourced from test
+scripts, but not executed.
 
-* `sharness.sh` - core shell library providing test functionality, see separate
-   [API documentation]. Meant to be sourced from test scripts, but not executed.
+The following files are optional:
+
 * `example/Makefile` - test driver. The default target runs the complete testsuite.
+* `lib-sharness/functions.sh` - extra functions. These are functions that are
+  nice to have, but not necessary.
+* `tools/aggregate-results.sh` - tool to show results. Aggregates all the
+  results in `test-results`. It's meant to be called inside the `Makefile`
+  after all the tests finish.
+
+To see an explanation of all the functions, see the separate [API documentation].
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
 read [README.git] until I come up with more documentation myself.
