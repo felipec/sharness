@@ -25,7 +25,7 @@ install: all
 	$(INSTALL) -m 644 tools/aggregate-results.sh $(D)$(INSTALL_DIR)/tools
 	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
 	$(INSTALL) -m 644 example/Makefile $(D)$(EXAMPLE_DIR)
-	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" example/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
+	$(SED) -e "s!\. \./sharness.sh!\. $(INSTALL_DIR)/sharness.sh!" example/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
 	chmod 755 $(D)$(EXAMPLE_DIR)/simple.t
 
 install-test:
