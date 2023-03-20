@@ -2,7 +2,7 @@ prefix = $(HOME)
 
 INSTALL_DIR = $(prefix)/share/sharness
 DOC_DIR = $(prefix)/share/doc/sharness
-EXAMPLE_DIR = $(DOC_DIR)/examples
+EXAMPLE_DIR = $(DOC_DIR)/example
 VIM_DIR = $(prefix)/.vim/pack/filetypes/start/sharness
 
 DOC_FILES = API.md CHANGELOG.md COPYING README.git README.md
