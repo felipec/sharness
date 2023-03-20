@@ -2,7 +2,7 @@ prefix = $(HOME)
 
 INSTALL_DIR = $(prefix)/share/sharness
 DOC_DIR = $(prefix)/share/doc/sharness
-EXAMPLE_DIR = $(DOC_DIR)/examples
+EXAMPLE_DIR = $(DOC_DIR)/example
 VIM_DIR = $(prefix)/.vim/pack/filetypes/start/sharness
 
 DOC_FILES = API.md CHANGELOG.md COPYING README.git README.md
@@ -24,8 +24,12 @@ install: all
 	$(INSTALL) -m 644 lib-sharness/functions.sh $(D)$(INSTALL_DIR)/lib-sharness
 	$(INSTALL) -m 644 tools/aggregate-results.sh $(D)$(INSTALL_DIR)/tools
 	$(INSTALL) -m 644 $(DOC_FILES) $(D)$(DOC_DIR)
-	$(SED) -e "s!aggregate-results.sh!$(INSTALL_DIR)/tools/aggregate-results.sh!" test/Makefile > $(D)$(EXAMPLE_DIR)/Makefile
-	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" test/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
+	$(INSTALL) -m 644 example/Makefile $(D)$(EXAMPLE_DIR)
+	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" example/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
+	chmod 755 $(D)$(EXAMPLE_DIR)/simple.t
+
+install-test:
+	$(MAKE) -C $(D)$(EXAMPLE_DIR)
 
 install-vim:
 	$(INSTALL) -d -m 755 $(D)$(VIM_DIR)
