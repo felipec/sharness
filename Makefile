@@ -9,7 +9,6 @@ VIM_DIR = $(prefix)/.vim/pack/filetypes/start/sharness
 INSTALL_FILES = sharness.sh
 LIB_FILES = aggregate-results.sh lib-sharness/functions.sh
 DOC_FILES = API.md CHANGELOG.md COPYING README.git README.md
-EXAMPLE_FILES = test/Makefile test/simple.t
 
 INSTALL = install
 RM = rm -f
