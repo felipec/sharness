@@ -78,8 +78,7 @@ this folder somewhere, export it, and source $SHARNESS_TEST_SRCDIR/sharness.sh
 in your test files.
 
 See for example how setting SHARNESS_TEST_SRCDIR is done in
-[example/simple.t](example/simple.t#L5-L7)
-and in the `install` target of the [Makefile](Makefile#L26).
+[example/simple.t](example/simple.t#L5-L7).
 
 Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
 
