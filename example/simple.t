@@ -14,15 +14,6 @@ test_expect_success 'Commands are chained this way' '
     echo success
 '
 
-return_42() {
-    echo "Will return soon"
-    return 42
-}
-
-test_expect_success 'You can test for a specific exit code' '
-    test_expect_code 42 return_42
-'
-
 test_expect_failure 'We expect this to fail' '
     test 1 = 2
 '
