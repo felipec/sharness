@@ -109,11 +109,6 @@ and examples to `/usr/local/share/doc/sharness`.
 Of course, you can change the _prefix_ parameter to install Sharness to any
 other location.
 
-### Installation via Chef
-
-If you want to install Sharness with Opscode Chef, the [Sharness cookbook] is
-for you.
-
 ## Usage
 
 The following files are essential to using Sharness:
