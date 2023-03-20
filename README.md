@@ -69,7 +69,7 @@ Then choose an installation method that works best for you:
 
 If you like to add Sharness to the sources of a project you want to
 use it for, simply copy the files `sharness.sh` and `example/Makefile` to a
-folder named `test` inside that project, and source sharness.sh in your test
+folder named `test` inside that project, and source `sharness.sh` in your test
 files.
 
 Another way is to use [Sharnessify](https://github.com/chriscool/sharnessify).
