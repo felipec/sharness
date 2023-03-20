@@ -207,6 +207,5 @@ test-lib.sh too.
 [protocollabs]: https://protocol.ai/
 [prove(1)]: http://linux.die.net/man/1/prove
 [README.git]: https://github.com/felipec/sharness/blob/master/README.git
-[Sharness cookbook]: https://github.com/mlafeldt/sharness-cookbook
 [Test Anything Protocol]: http://testanything.org/
 [twitter]: https://twitter.com/felipec
