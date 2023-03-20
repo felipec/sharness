@@ -49,6 +49,11 @@ Alternatively, you can run the test through [prove(1)]:
     Files=1, Tests=4,  0 wallclock secs ( 0.02 usr +  0.00 sys =  0.02 CPU)
     Result: PASS
 
+Every test is run in a temporary trash directory, so you are free to create as
+many files as you want, even files in the home directory, because `$HOME` is set
+to that temporary trash directory. At the end of the test, that directory is
+removed (unless there's a failure).
+
 Sharness was derived from the [Git] project - see [README.git] for the original
 documentation.
 
