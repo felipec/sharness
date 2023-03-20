@@ -28,6 +28,9 @@ install: all
 	$(SED) -e "s!SHARNESS_TEST_SRCDIR:=.!SHARNESS_TEST_SRCDIR:=$(INSTALL_DIR)!" example/simple.t > $(D)$(EXAMPLE_DIR)/simple.t
 	chmod 755 $(D)$(EXAMPLE_DIR)/simple.t
 
+install-test:
+	$(MAKE) -C $(D)$(EXAMPLE_DIR)
+
 install-vim:
 	$(INSTALL) -d -m 755 $(D)$(VIM_DIR)
 	$(CP) -r vim/* $(D)$(VIM_DIR)
