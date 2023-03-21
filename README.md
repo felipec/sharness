@@ -100,6 +100,16 @@ and examples to `/usr/local/share/doc/sharness`.
 Of course, you can change the _prefix_ parameter to install Sharness to any
 other location.
 
+### Vim plugin installation
+
+If your are using [Vudle](https://github.com/VundleVim/Vundle.vim) plugin manager for Vim, installation is easy. Add this line to your ~/.vimrc:
+
+    Plugin 'felipec/sharness', {'rtp': 'vim/'}
+
+or install from your shell:
+
+    $ make install-vim
+
 ## Usage
 
 The only essential file to Sharness is `sharness.sh`, which is the core shell
