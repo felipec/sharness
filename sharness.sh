@@ -20,7 +20,11 @@
 
 if test -n "${ZSH_VERSION-}"
 then
+	SHARNESS_SOURCE=$0
 	emulate sh -o POSIX_ARGZERO
+else
+	# shellcheck disable=SC3028
+	SHARNESS_SOURCE=${BASH_SOURCE-$0}
 fi
 
 # Public: Current version of Sharness.
@@ -39,8 +43,7 @@ SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
 # e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
 
-# shellcheck disable=SC3028
-: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "${BASH_SOURCE-$0}")" && pwd)}"
+: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$SHARNESS_SOURCE")" && pwd)}"
 # Public: Source directory of test code and sharness library.
 # This directory may be different from the directory in which tests are
 # being run.
