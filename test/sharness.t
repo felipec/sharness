@@ -677,6 +677,44 @@ test_expect_success INTERACTIVE 'Interactive tests work' '
     test "$var" = "yes"
 '
 
+test_expect_success 'loading of library functions works' '
+	# Act as if we have a new installation of sharness with a library of
+	# functions, then test that those functions are automatically loaded.
+	# Also check that the srcdir is automatically obtained in bash and zsh.
+	mkdir lib &&
+	(
+		cd lib &&
+		mkdir -p sharness/lib-sharness &&
+		cat >sharness/lib-sharness/functions.sh <<-EOF &&
+		test_true() {
+			true
+		}
+		EOF
+		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh sharness &&
+		cat >test-lib.t <<-\EOF &&
+		test_description="test sharness library"
+		. ./sharness/sharness.sh
+		test_expect_success "library functions are present" "
+			test_true
+		"
+		test_done
+		EOF
+		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+		if test -z "${BASH_VERSION-}" -a -z "${ZSH_VERSION-}"; then
+			SHARNESS_TEST_SRCDIR=sharness &&
+			export SHARNESS_TEST_SRCDIR
+		fi &&
+		chmod +x ./test-lib.t &&
+		$SHELL_PATH ./test-lib.t >out 2>err &&
+		cat >expected <<-\EOF &&
+		ok 1 - library functions are present
+		# passed all 1 test(s)
+		1..1
+		EOF
+		test_cmp expected out
+	)
+'
+
 test_done
 
 # vi: set ft=sh.sharness :
