@@ -20,7 +20,8 @@
 
 if test -n "${ZSH_VERSION-}"
 then
-	SHARNESS_SOURCE=$0
+	# shellcheck disable=SC2296
+	SHARNESS_SOURCE=${(%):-%x}
 	emulate sh -o POSIX_ARGZERO
 else
 	# shellcheck disable=SC3028
