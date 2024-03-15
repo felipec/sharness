@@ -40,7 +40,7 @@ test_terminal () {
 
 # If test_terminal works, then set a PERL_AND_TTY prereq for future tests:
 # (PERL and TTY prereqs may later be split if needed separately)
-test_terminal sh -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
+test_terminal $SHELL_PATH -c "test -t 1 && test -t 2" && test_set_prereq PERL_AND_TTY
 
 [ -n "${BASH_VERSION-}" ] && test_set_prereq BASH
 
@@ -52,8 +52,6 @@ run_sub_test_lib_test () {
 	(
 		cd "$name" &&
 		cat >".$name.t" <<-EOF &&
-		#!$SHELL_PATH
-
 		test_description='$descr (run in sub sharness)
 
 		This is run in a sub sharness so that we do not get incorrect
@@ -67,7 +65,7 @@ run_sub_test_lib_test () {
 		chmod +x ".$name.t" &&
 		export SHARNESS_TEST_SRCDIR &&
 		# Setting PS4 simplifies properly testing set -x output
-		PS4=+ $prefix ./".$name.t" $opt --chain-lint >out 2>err
+		PS4=+ $prefix $SHELL_PATH ./".$name.t" $opt --chain-lint >out 2>err
 	)
 }
 
@@ -466,7 +464,7 @@ test_expect_success 'tests can be run from an alternate directory' '
 	  chmod +x test.t &&
 	  mkdir test-rundir &&
 	  cd test-rundir &&
-	  ../test.t >output 2>err &&
+	  $SHELL_PATH ../test.t >output 2>err &&
 	  cat >expected <<-EOF &&
 	ok 1 - success
 	ok 2 - trash dir is subdir of working path
@@ -491,7 +489,7 @@ test_expect_success BASH 'tests can be run with out-of-tree sharness' '
 	chmod +x test.t &&
 	(
 	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
-	  ./test.t >output 2>err
+	  $SHELL_PATH ./test.t >output 2>err
 	) &&
 	cat >expected <<-EOF &&
 	ok 1 - success
@@ -518,7 +516,7 @@ test_expect_success 'tests can be run from another directory' '
 		chmod +x test.t
 	) &&
 	unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR &&
-	./subdir/test.t >output 2>err &&
+	$SHELL_PATH ./subdir/test.t >output 2>err &&
 	cat >expected <<-EOF &&
 	ok 1 - success
 	# passed all 1 test(s)
@@ -604,7 +602,7 @@ test_expect_success 'loading sharness extensions works' '
 		EOF
 		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
 		chmod +x ./test-extension.t &&
-		./test-extension.t >out 2>err &&
+		$SHELL_PATH ./test-extension.t >out 2>err &&
 		cat >expected <<-\EOF &&
 		ok 1 - extension function is present
 		# passed all 1 test(s)
@@ -633,7 +631,7 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 		EOF
 		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
 		chmod +x ./test.t &&
-		./test.t >out 2>err &&
+		$SHELL_PATH ./test.t >out 2>err &&
 		cat >expected <<-\EOF &&
 		ok 1 - test success
 		# passed all 1 test(s)
@@ -663,7 +661,7 @@ test_expect_success 'loading sharness extensions out-of-tree works' '
 		EOF
 		unset SHARNESS_TEST_DIRECTORY &&
 		chmod +x ./test-extension.t &&
-		./test-extension.t >out 2>err &&
+		$SHELL_PATH ./test-extension.t >out 2>err &&
 		cat >expected <<-\EOF &&
 		ok 1 - extension function is present
 		# passed all 1 test(s)
