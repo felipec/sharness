@@ -115,6 +115,10 @@ The following files are optional:
   results in `test-results`. It's meant to be called inside the `Makefile`
   after all the tests finish.
 
+Sharness loads the extra functions automatically if you are using bash or zsh,
+but otherwise you need to set SHARNESS_TEST_SRCDIR to the directory where
+`sharness.sh` is.
+
 To see an explanation of all the functions, see the separate [API documentation].
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
