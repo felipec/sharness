@@ -32,6 +32,9 @@ fi
 SHARNESS_VERSION="1.2.1"
 export SHARNESS_VERSION
 
+# Backwards compatibility
+: "${SHARNESS_SRCDIR:=${SHARNESS_TEST_SRCDIR-}}"
+
 : "${SHARNESS_TEST_EXTENSION:=t}"
 # Public: The file extension for tests.  By default, it is set to "t".
 export SHARNESS_TEST_EXTENSION
@@ -44,11 +47,9 @@ SHARNESS_TEST_DIRECTORY=$(cd "$SHARNESS_TEST_DIRECTORY" && pwd) || exit 1
 # e.g. for testing Sharness itself.
 export SHARNESS_TEST_DIRECTORY
 
-: "${SHARNESS_TEST_SRCDIR:=$(cd "$(dirname "$SHARNESS_SOURCE")" && pwd)}"
-# Public: Source directory of test code and sharness library.
-# This directory may be different from the directory in which tests are
-# being run.
-export SHARNESS_TEST_SRCDIR
+: "${SHARNESS_SRCDIR:=$(cd "$(dirname "$SHARNESS_SOURCE")" && pwd)}"
+# Public: Source directory of the sharness library.
+export SHARNESS_SRCDIR
 
 : "${SHARNESS_TEST_OUTDIR:=$SHARNESS_TEST_DIRECTORY}"
 # Public: Directory where the output of the tests should be stored (i.e.
@@ -298,9 +299,9 @@ test_fixed=0
 test_broken=0
 test_success=0
 
-if test -e "$SHARNESS_TEST_SRCDIR/lib-sharness/functions.sh"
+if test -e "$SHARNESS_SRCDIR/lib-sharness/functions.sh"
 then
-	. "$SHARNESS_TEST_SRCDIR/lib-sharness/functions.sh"
+	. "$SHARNESS_SRCDIR/lib-sharness/functions.sh"
 fi
 
 # You are not expected to call test_ok_ and test_failure_ directly, use

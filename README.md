@@ -116,7 +116,7 @@ The following files are optional:
   after all the tests finish.
 
 Sharness loads the extra functions automatically if you are using bash or zsh,
-but otherwise you need to set SHARNESS_TEST_SRCDIR to the directory where
+but otherwise you need to set SHARNESS_SRCDIR to the directory where
 `sharness.sh` is.
 
 To see an explanation of all the functions, see the separate [API documentation].

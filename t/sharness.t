@@ -59,11 +59,11 @@ run_sub_test_lib_test () {
 		'
 
 		# Point to the test/sharness.sh, which isn't in ../ as usual
-		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
+		. "\$SHARNESS_SRCDIR"/sharness.sh
 		EOF
 		cat >>".$name.t" &&
 		chmod +x ".$name.t" &&
-		export SHARNESS_TEST_SRCDIR &&
+		export SHARNESS_SRCDIR &&
 		# Setting PS4 simplifies properly testing set -x output
 		PS4=+ $prefix $SHELL_PATH ./".$name.t" $opt --chain-lint >out 2>err
 	)
@@ -463,7 +463,7 @@ test_expect_success 'We detect broken && chains' "
 
 test_expect_success 'tests can be run from an alternate directory' '
 	# Act as if we have an installation of sharness in current dir:
-	ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+	ln -sf $SHARNESS_SRCDIR/sharness.sh . &&
 	export working_path="$(pwd)" &&
 	cat >test.t <<-EOF &&
 	test_description="test run of script from alternate dir"
@@ -478,7 +478,7 @@ test_expect_success 'tests can be run from an alternate directory' '
 	EOF
         (
           # unset SHARNESS variables before sub-test
-	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
+	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_SRCDIR &&
 	  # unset HARNESS_ACTIVE so we get a test-results dir
 	  unset HARNESS_ACTIVE &&
 	  chmod +x test.t &&
@@ -502,13 +502,13 @@ test_expect_success BASH 'tests can be run with out-of-tree sharness' '
 	cd test-outdir &&
 	cat >test.t <<-EOF &&
 	test_description="test out-of-tree sharness"
-	. "$SHARNESS_TEST_SRCDIR"/sharness.sh
+	. "$SHARNESS_SRCDIR"/sharness.sh
 	test_expect_success "success" "true"
 	test_done
 	EOF
 	chmod +x test.t &&
 	(
-	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_TEST_SRCDIR &&
+	  unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_OUTDIR SHARNESS_SRCDIR &&
 	  $SHELL_PATH ./test.t >output 2>err
 	) &&
 	cat >expected <<-EOF &&
@@ -529,7 +529,7 @@ test_expect_success 'tests can be run from another directory' '
 		cd subdir &&
 		cat >test.t <<-EOF &&
 		test_description="test from another directory"
-		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
+		. "\$SHARNESS_SRCDIR"/sharness.sh
 		test_expect_success "success" "test \"\$SHARNESS_TEST_DIRECTORY\" = \"$PWD\""
 		test_done
 		EOF
@@ -611,7 +611,7 @@ test_expect_success 'loading sharness extensions works' '
 			return 0
 		}
 		EOF
-		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+		ln -sf $SHARNESS_SRCDIR/sharness.sh . &&
 		cat >test-extension.t <<-\EOF &&
 		test_description="test sharness extensions"
 		. ./sharness.sh
@@ -620,7 +620,7 @@ test_expect_success 'loading sharness extensions works' '
 		"
 		test_done
 		EOF
-		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+		unset SHARNESS_TEST_DIRECTORY SHARNESS_SRCDIR &&
 		chmod +x ./test-extension.t &&
 		$SHELL_PATH ./test-extension.t >out 2>err &&
 		cat >expected <<-\EOF &&
@@ -640,7 +640,7 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 	(
 		cd nil-extensions &&
 		mkdir sharness.d  &&
-		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh . &&
+		ln -sf $SHARNESS_SRCDIR/sharness.sh . &&
 		cat >test.t <<-\EOF &&
 		test_description="sharness works"
 		. ./sharness.sh
@@ -649,7 +649,7 @@ test_expect_success 'empty sharness.d directory does not cause failure' '
 		"
 		test_done
 		EOF
-		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+		unset SHARNESS_TEST_DIRECTORY SHARNESS_SRCDIR &&
 		chmod +x ./test.t &&
 		$SHELL_PATH ./test.t >out 2>err &&
 		cat >expected <<-\EOF &&
@@ -673,7 +673,7 @@ test_expect_success 'loading sharness extensions out-of-tree works' '
 		EOF
 		cat >test-extension.t <<-EOF &&
 		test_description="test sharness extensions"
-		. "\$SHARNESS_TEST_SRCDIR"/sharness.sh
+		. "\$SHARNESS_SRCDIR"/sharness.sh
 		test_expect_success "extension function is present" "
 			this_is_a_test
 		"
@@ -710,7 +710,7 @@ test_expect_success 'loading of library functions works' '
 			true
 		}
 		EOF
-		ln -sf $SHARNESS_TEST_SRCDIR/sharness.sh sharness &&
+		ln -sf $SHARNESS_SRCDIR/sharness.sh sharness &&
 		cat >test-lib.t <<-\EOF &&
 		test_description="test sharness library"
 		. ./sharness/sharness.sh
@@ -719,10 +719,10 @@ test_expect_success 'loading of library functions works' '
 		"
 		test_done
 		EOF
-		unset SHARNESS_TEST_DIRECTORY SHARNESS_TEST_SRCDIR &&
+		unset SHARNESS_TEST_DIRECTORY SHARNESS_SRCDIR &&
 		if test -z "${BASH_VERSION-}" -a -z "${ZSH_VERSION-}"; then
-			SHARNESS_TEST_SRCDIR=sharness &&
-			export SHARNESS_TEST_SRCDIR
+			SHARNESS_SRCDIR=sharness &&
+			export SHARNESS_SRCDIR
 		fi &&
 		chmod +x ./test-lib.t &&
 		$SHELL_PATH ./test-lib.t >out 2>err &&

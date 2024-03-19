@@ -18,10 +18,10 @@ Public: The file extension for tests.  By default, it is set to "t".
 Public: Root directory containing tests. Tests can override this variable, e.g. for testing Sharness itself.
 
 
-`SHARNESS_TEST_SRCDIR`
-----------------------
+`SHARNESS_SRCDIR`
+-----------------
 
-Public: Source directory of test code and sharness library. This directory may be different from the directory in which tests are being run.
+Public: Source directory of the sharness library.
 
 
 `SHARNESS_TEST_OUTDIR`
