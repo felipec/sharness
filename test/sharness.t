@@ -398,6 +398,10 @@ test_expect_success 'tests clean up even on failures' "
 		test_when_finished rm clean-after-failure &&
 		(exit 1)
 	'
+	if test -e clean-after-failure; then
+		say 'bug in test framework'
+		exit 1
+	fi
 	test_expect_success 'failure to clean up causes the test to fail' '
 		test_when_finished \"(exit 2)\"
 	'
