@@ -115,6 +115,10 @@ The following files are optional:
   results in `test-results`. It's meant to be called inside the `Makefile`
   after all the tests finish.
 
+Sharness loads the extra functions automatically if you are using bash or zsh,
+but otherwise you need to set SHARNESS_TEST_SRCDIR to the directory where
+`sharness.sh` is.
+
 To see an explanation of all the functions, see the separate [API documentation].
 
 To learn how to write and run actual test scripts based on `sharness.sh`, please
@@ -145,6 +149,7 @@ See how Sharness is used in real-world projects:
 * [azuki](https://github.com/seveas/azuki/tree/master/test)
 * [cb2util](https://github.com/mlafeldt/cb2util/tree/master/test)
 * [dabba](https://github.com/eroullit/dabba/tree/master/dabba/test)
+* [genimage](https://github.com/pengutronix/genimage)
 * [git-integration](https://github.com/johnkeeping/git-integration/tree/master/t)
 * [git-multimail](https://github.com/git-multimail/git-multimail/tree/master/t)
 * [git-related](https://github.com/felipec/git-related/tree/master/test)
@@ -154,6 +159,8 @@ See how Sharness is used in real-world projects:
 * [go-multihash](https://github.com/jbenet/go-multihash/tree/master/test/sharness)
 * [inotify-tools](https://github.com/inotify-tools/inotify-tools)
 * [ipfs-update](https://github.com/ipfs/ipfs-update/tree/master/sharness)
+* [pass](https://www.passwordstore.org/)
+* [RAUC](https://www.rauc.io/)
 * [rdd.py](https://github.com/mlafeldt/rdd.py/tree/master/test/integration)
 * [Sharness itself](/test)
 * [tomdoc.sh](https://github.com/mlafeldt/tomdoc.sh/tree/master/test)
