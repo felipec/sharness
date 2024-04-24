@@ -276,6 +276,7 @@ export SHARNESS_TEST_NB
 
 die() {
 	code=$?
+	test_eval_ "$final_cleanup"
 	if test -n "$EXIT_OK"; then
 		exit $code
 	else
@@ -649,8 +650,6 @@ test_done() {
 		fi
 		say "1..$SHARNESS_TEST_NB$skip_all"
 
-		test_eval_ "$final_cleanup"
-
 		remove_trash_
 
 		exit 0 ;;
@@ -658,8 +657,6 @@ test_done() {
 	*)
 		say_color error "# failed $test_failure among $msg"
 		say "1..$SHARNESS_TEST_NB"
-
-		test_eval_ "$final_cleanup"
 
 		exit 1 ;;
 

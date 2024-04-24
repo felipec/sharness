@@ -443,6 +443,7 @@ test_expect_success 'cleanup functions run even on failure' "
 		> \"$HOME\"/dont-clean-final &&
 		(exit 1)
 	'
+	exit 1
 	test_done
 	EOF
 	test -e dont-clean-final &&
