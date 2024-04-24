@@ -47,6 +47,6 @@ lint:
 	shellcheck -s sh $(scripts)
 
 test: all
-	$(MAKE) -C test
+	$(MAKE) -C t
 
 .PHONY: all install uninstall doc lint test
