@@ -3,5 +3,5 @@ theme: jekyll-theme-dinky
 show_downloads: true
 
 github:
-  tar_url: https://github.com/felipec/sharness/archive/refs/tags/v1.2.0.tar.gz
-  zip_url: https://github.com/felipec/sharness/archive/refs/tags/v1.2.0.zip
+  tar_url: https://github.com/felipec/sharness/archive/refs/tags/v1.2.1.tar.gz
+  zip_url: https://github.com/felipec/sharness/archive/refs/tags/v1.2.1.zip
