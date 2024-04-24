@@ -217,7 +217,7 @@ test-lib.sh too.
 [COPYING]: https://github.com/felipec/sharness/blob/master/COPYING
 [Git]: http://git-scm.com/
 [protocollabs]: https://protocol.ai/
-[prove(1)]: http://linux.die.net/man/1/prove
+[prove(1)]: https://perldoc.perl.org/prove
 [README.git]: https://github.com/felipec/sharness/blob/master/README.git
 [Test Anything Protocol]: http://testanything.org/
 [twitter]: https://twitter.com/felipec
