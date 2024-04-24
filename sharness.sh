@@ -659,6 +659,8 @@ test_done() {
 		say_color error "# failed $test_failure among $msg"
 		say "1..$SHARNESS_TEST_NB"
 
+		test_eval_ "$final_cleanup"
+
 		exit 1 ;;
 
 	esac

@@ -434,6 +434,21 @@ test_expect_success 'cleanup functions run at the end of the test' "
 	EOF
 "
 
+test_expect_success 'cleanup functions run even on failure' "
+	test_must_fail run_sub_test_lib_test cleanup-function-fail 'Test final cleanup on failure' <<-EOF &&
+	my_cleanup() { rm \"$HOME\"/clean-final; }
+	test_expect_success 'tests clean up even after a failure' '
+		> \"$HOME\"/clean-final &&
+		cleanup my_cleanup &&
+		> \"$HOME\"/dont-clean-final &&
+		(exit 1)
+	'
+	test_done
+	EOF
+	test -e dont-clean-final &&
+	! test -e clean-final
+"
+
 test_expect_success 'We detect broken && chains' "
 	test_must_fail run_sub_test_lib_test \
 		broken-chain 'Broken && chain' <<-\\EOF
