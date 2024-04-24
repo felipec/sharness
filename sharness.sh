@@ -29,7 +29,7 @@ else
 fi
 
 # Public: Current version of Sharness.
-SHARNESS_VERSION="1.2.0"
+SHARNESS_VERSION="1.2.1"
 export SHARNESS_VERSION
 
 : "${SHARNESS_TEST_EXTENSION:=t}"
