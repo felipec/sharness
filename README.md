@@ -175,6 +175,7 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 
 * [Bashtub](https://github.com/ueokande/bashtub)
 * [bats-core](https://github.com/bats-core/bats-core) (former [Bats](https://github.com/sstephenson/bats))
+* [lunchtoast](https://github.com/kamchatka-volcano/lunchtoast)
 * [Prysk](https://github.com/prysk/prysk) (former [Cram](https://bitheap.org/cram))
 * [rnt](https://github.com/roman-neuhauser/rnt)
 * [roundup](https://github.com/bmizerany/roundup)
