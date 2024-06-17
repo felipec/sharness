@@ -179,7 +179,7 @@ Here is a list of other shell testing libraries (sorted alphabetically):
 * [rnt](https://github.com/roman-neuhauser/rnt)
 * [roundup](https://github.com/bmizerany/roundup)
 * [shove](https://github.com/progrhyme/shove)
-* [shUnit2](https://code.google.com/p/shunit2/)
+* [shUnit2](https://github.com/kward/shunit2)
 * [shspec](https://github.com/shpec/shpec)
 * [testlib.sh](https://gist.github.com/3877539)
 * [ts](https://github.com/thinkerbot/ts)
