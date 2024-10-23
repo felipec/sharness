@@ -1,4 +1,4 @@
-prefix = $(HOME)
+prefix ?= $(HOME)
 
 INSTALL_DIR = $(prefix)/share/sharness
 DOC_DIR = $(prefix)/share/doc/sharness
