@@ -173,6 +173,7 @@ number of tests.
 
 Here is a list of other shell testing libraries (sorted alphabetically):
 
+* [Bach](https://bach.sh)
 * [Bashtub](https://github.com/ueokande/bashtub)
 * [Bats](https://bats-core.readthedocs.io)
 * [Prysk](https://prysk.net)
