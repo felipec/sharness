@@ -61,7 +61,7 @@ documentation.
 
 First, clone the Git repository:
 
-    $ git clone git://github.com/felipec/sharness.git
+    $ git clone https://github.com/felipec/sharness.git
 
 Then choose an installation method that works best for you:
 
@@ -173,13 +173,14 @@ number of tests.
 
 Here is a list of other shell testing libraries (sorted alphabetically):
 
+* [Bach](https://bach.sh)
 * [Bashtub](https://github.com/ueokande/bashtub)
-* [Bats](https://github.com/sstephenson/bats)
-* [Cram](https://bitheap.org/cram)
+* [Bats](https://bats-core.readthedocs.io)
+* [Prysk](https://prysk.net)
 * [rnt](https://github.com/roman-neuhauser/rnt)
 * [roundup](https://github.com/bmizerany/roundup)
 * [shove](https://github.com/progrhyme/shove)
-* [shUnit2](https://code.google.com/p/shunit2/)
+* [shUnit2](https://github.com/kward/shunit2)
 * [shspec](https://github.com/shpec/shpec)
 * [testlib.sh](https://gist.github.com/3877539)
 * [ts](https://github.com/thinkerbot/ts)
