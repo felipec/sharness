@@ -241,7 +241,9 @@ say() {
 test -n "${test_description:-}" || error "Test script did not set test_description."
 
 if test "$help" = "t"; then
-	echo "$test_description"
+	echo "usage: $0 [-v|--verbose] [-i|--immediate] [-q|--quiet]"
+	echo ""
+	echo "$test_description."
 	exit 0
 fi
 
