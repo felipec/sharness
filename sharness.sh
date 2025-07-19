@@ -205,7 +205,7 @@ then
 	# BASH_XTRACEFD (introduced in Bash v4.1).
 	#
 	# Perform this version check _after_ the test script was
-	# potentially re-executed with $TEST_SHELL_PATH for '--tee' or
+	# potentially re-executed with $SHELL_PATH for '--tee' or
 	# '--verbose-log', so the right shell is checked and the
 	# warning is issued only once.
 	if test -n "$BASH_VERSION" && eval '
