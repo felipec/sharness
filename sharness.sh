@@ -62,9 +62,18 @@ export SHARNESS_TEST_OUTDIR
 # Public: The unsanitized TERM under which sharness is originally run
 export SHARNESS_ORIG_TERM
 
-# Export SHELL_PATH
-: "${SHELL_PATH:=/bin/sh}"
-export SHELL_PATH
+if test -z "${SHELL_PATH-}"
+then
+	# Figure out the running shell
+	if test -n "${BASH_VERSION-}"; then
+		SHELL_PATH=$BASH
+	elif test -n "${ZSH_VERSION-}"; then
+		SHELL_PATH=$ZSH_NAME
+	else
+		SHELL_PATH=/bin/sh
+	fi
+	export SHELL_PATH
+fi
 
 # if --tee was passed, write the output not only to the terminal, but
 # additionally to the file test-results/$BASENAME.out, too.
