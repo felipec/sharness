@@ -23,8 +23,6 @@ RM = rm -f
 PROVE = prove
 AGGREGATE_SCRIPT = aggregate-results.sh
 
-export SHELL_PATH
-
 T = $(sort $(wildcard *.t))
 
 test: pre-clean
