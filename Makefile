@@ -47,6 +47,7 @@ lint:
 	shellcheck -s sh $(scripts)
 
 test: all
+	echo 'shell:$(SHELL)Z'
 	$(MAKE) -C t
 
 .PHONY: all install uninstall doc lint test
