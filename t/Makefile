@@ -24,6 +24,8 @@ PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results.sh
 DEFAULT_TEST_TARGET ?= test
 
+export SHELL_PATH
+
 T = $(sort $(wildcard *.t))
 
 all: $(DEFAULT_TEST_TARGET)
