@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec "$(dirname "$0")"/../example/simple.t "$@"
+exec "${SHELL_PATH:-/bin/sh}" "$(dirname "$0")"/../example/simple.t "$@"

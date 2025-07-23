@@ -22,7 +22,7 @@ jobs:
     - name: Run Tests
       env:
         MSYS: winsymlinks:nativestrict
-      run: make -j1 test
+      run: make -j1 SHELL_PATH=sh.exe test
   test-macos:
     runs-on: macos-latest
     steps:
