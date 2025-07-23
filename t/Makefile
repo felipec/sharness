@@ -17,10 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-SHELL_PATH ?= $(SHELL)
-RM ?= rm -f
-PROVE ?= prove
-AGGREGATE_SCRIPT ?= aggregate-results.sh
+SHELL_PATH = $(SHELL)
+RM = rm -f
+PROVE = prove
+AGGREGATE_SCRIPT = aggregate-results.sh
 
 T = $(sort $(wildcard *.t))
 
