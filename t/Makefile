@@ -18,7 +18,6 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
 SHELL_PATH ?= $(SHELL)
-SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
 RM ?= rm -f
 PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results.sh
@@ -32,11 +31,11 @@ test: pre-clean
 	$(MAKE) aggregate-results-and-cleanup
 
 prove: pre-clean
-	@echo "*** prove ***"; $(PROVE) --exec '$(SHELL_PATH_SQ)' $(PROVE_OPTS) $(T) :: $(TEST_OPTS)
+	@echo "*** prove ***"; $(PROVE) --exec '$(SHELL_PATH)' $(PROVE_OPTS) $(T) :: $(TEST_OPTS)
 	$(MAKE) clean-except-prove-cache
 
 $(T):
-	@echo "*** $@ ***"; '$(SHELL_PATH_SQ)' $@ $(TEST_OPTS)
+	@echo "*** $@ ***"; '$(SHELL_PATH)' $@ $(TEST_OPTS)
 
 pre-clean:
 	$(RM) -r "$${SHARNESS_TEST_OUTDIR-.}"/test-results
@@ -53,7 +52,7 @@ aggregate-results-and-cleanup: $(T)
 	$(MAKE) clean
 
 aggregate-results:
-	@'$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
+	@'$(SHELL_PATH)' '$(AGGREGATE_SCRIPT)'
 
 .PHONY: all test prove $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
