@@ -8,7 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install IO::Pty
-      run: sudo apt-get update -y && sudo apt-get install -y libio-pty-perl
+      run: |
+        sudo apt-get update
+        sudo apt-get install libio-pty-perl
     - name: Run Tests
       run: make -j1 test
     - name: Syntax checks
