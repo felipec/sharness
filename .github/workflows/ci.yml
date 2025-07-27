@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   test:
     strategy:
-      fail-fast: false
       matrix:
         os:
         - windows-latest
@@ -19,9 +18,8 @@ jobs:
       run: sudo apt-get update -y && sudo apt-get install -y libio-pty-perl
     - name: Run Tests
       env:
-        TEST_OPTS: -v
         MSYS: winsymlinks:nativestrict
-      run: make test
+      run: make -j1 test
     - name: Syntax checks
       if: matrix.os == 'ubuntu-latest'
       run: make lint
