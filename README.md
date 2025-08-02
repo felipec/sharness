@@ -222,3 +222,7 @@ test-lib.sh too.
 [README.git]: https://github.com/felipec/sharness/blob/master/README.git
 [Test Anything Protocol]: http://testanything.org/
 [twitter]: https://twitter.com/felipec
+
+## Contact
+
+* [Telegram group](https://t.me/sharness_sh)
